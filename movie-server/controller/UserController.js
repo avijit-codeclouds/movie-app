@@ -6,6 +6,7 @@ const jwt=require('jsonwebtoken');
 
 exports.register_user=(req,res,next)=>{
 
+
     if (req.body.email=='' && req.body.name=='' || req.body.password==''){
         res.status(201).json({
             message:'All Fields are required'
@@ -18,6 +19,15 @@ exports.register_user=(req,res,next)=>{
                 message:'email already exists'
             })
         }
+        var emailToValidate = req.body.email;
+        var emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        var check=emailRegexp.test(emailToValidate);
+        //  console.log(check);
+         if(check===false){
+             res.status(201).json({
+                message:'Please provide valid email'
+            })
+         }
 
 else{
 
