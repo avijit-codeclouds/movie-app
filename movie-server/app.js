@@ -13,6 +13,7 @@ const connectDB = require('./config/db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var genereRouter= require('./routes/genere');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/generes', genereRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
