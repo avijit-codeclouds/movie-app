@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,9 +12,13 @@ export class RegisterComponent implements OnInit {
 
   form: FormGroup;
   submitted = false;
+  className : any = ''
+  msg : any = ''
+  enableMessage: boolean = false
 
   constructor(
     public formBuilder: FormBuilder,
+    public authService: AuthService,
     public router: Router,
   ) { 
     this.form = this.formBuilder.group({
@@ -37,6 +42,23 @@ export class RegisterComponent implements OnInit {
       return;
     }
     console.log(this.form.value)
+    this.authService.registerUser(this.form.value).subscribe(result => {
+      if(result.success == true){
+        this.msg = 'Successfully registered!'
+        this.enableMessage = true
+        this.className = 'alert-success'
+        // this.form.controls['name'].setValue('');
+        // this.form.reset()
+        setTimeout( ()=>{
+          // console.log('works')
+          this.enableMessage = false
+          // console.log(`enableMessage :: ${this.enableMessage}`)
+          this.router.navigate(['/login']);
+        }, 3000)
+      }
+    }, err => {
+      console.log(err)
+    })
   }
 
 }
