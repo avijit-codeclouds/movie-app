@@ -8,26 +8,27 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
-  },
+    unique: true,
+},
   password: {
     type: String,
     required: true
   },
-  // street_address: {
-  //   type: String,
-  //   required: true
+  role: {
+    type:String,
+    enum:['user','admin'],
+    default:'user'
+  },
+  // avatar: {
+  //   type: String
   // },
-  avatar: {
-    type: String
-  },
-  token:{
-    type: String
-  },
+  // token:{
+  //   type: String
+  // },
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = mongoose.model('user', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
