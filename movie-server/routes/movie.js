@@ -9,7 +9,7 @@ router.post('/add',checkauth,movieValidator.validate('createMovie'),movieControl
 
 router.post('/edit/:movie_id',checkauth,movieValidator.validate('createMovie'),movieController.updateMovie);
 
-router.get('/list',checkauth,movieController.movieList);
+router.get('/list',movieController.movieList);
 
 router.get('/:movie_id',checkauth,movieController.getSingleMovie);
 
