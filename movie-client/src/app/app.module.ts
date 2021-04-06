@@ -4,6 +4,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { JwtInterceptor } from './guards/jwt.interceptor'
+import { MatProgressSpinnerModule, MatProgressBarModule,
+  MatSnackBarModule } from '@angular/material'
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,7 +35,8 @@ import { LogoutComponent } from './logout/logout.component'
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, FormsModule,
+    MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

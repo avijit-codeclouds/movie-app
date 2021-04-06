@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     }
     // console.log(this.form.value)
     this.authService.login(this.form.value).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       if(res.success == false){
         this.msg = res.message
         this.enableMessage = true
