@@ -25,12 +25,12 @@ exports.create_genere=(req,res,next)=>{
             });
         }).catch((err) => {
             console.log(err)
-            res.status(500).json({ message: "something went wrong", success: false });
+            res.status(500).json({ message: "name and details field is required", success: false });
         })
 }
     
     catch(e){
-        res.status(500).json({ message: "something went wrong", success: false });
+        res.status(500).json({ message: "something went wrong ", success: false });
     }
     }
 }
