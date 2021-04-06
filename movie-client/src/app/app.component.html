@@ -6,10 +6,10 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!user">
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!user">
         <a class="nav-link" routerLink="/register">Register</a>
       </li>
       <li class="nav-item">
@@ -17,6 +17,9 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/rentals">Rentals</a>
+      </li>
+      <li class="nav-item" *ngIf="user">
+        <a class="nav-link" routerLink="/logout">Logout</a>
       </li>
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>

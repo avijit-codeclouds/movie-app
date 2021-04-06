@@ -16,7 +16,10 @@ export class AuthService {
   private userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
 
-  constructor(private httpClient: HttpClient,public router: Router) { }
+  constructor(private httpClient: HttpClient,public router: Router) { 
+    this.userSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
+    this.user = this.userSubject.asObservable();
+  }
 
   registerUser(user: any) : Observable<any> {
     return this.httpClient.post(`${this.API_URL}/users/register`, user)
@@ -27,6 +30,25 @@ export class AuthService {
     // return this.request("post", "login", user);
     return this.httpClient.post(`${this.API_URL}/users/login`, user)
     .pipe(retry(3), catchError(this.handleError));
+  }
+
+  genreAdd(data : any) : Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/generes/add`, data)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public get currentUserValue(): any {
+    return this.userSubject.value;
+  }
+
+  logout(): void {
+    this.token = "";
+    // window.localStorage.removeItem("mean-token");
+
+    // remove user from local storage and set current user to null
+    localStorage.removeItem('user');
+    this.userSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
   saveToken(token: string): void {
