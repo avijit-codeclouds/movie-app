@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.register_user = (req, res, next) => {
-    if (req.body.email == '' && req.body.name == '' || req.body.password == '') {
+    
+    if (req.body.email == '' || req.body.name == '' || req.body.password == '') {
         res.status(201).json({
             message: 'All Fields are required',
             success: false
@@ -19,6 +20,12 @@ exports.register_user = (req, res, next) => {
                 success: false
             })
         }
+        if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
+            res.status(201).json({
+                message: 'Name , Email and Password are required',
+                success: false
+          })
+        }
         var emailToValidate = req.body.email;
         var emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
         var check = emailRegexp.test(emailToValidate);
@@ -28,6 +35,7 @@ exports.register_user = (req, res, next) => {
                 message: 'Please provide valid email',
                 success: false
             })
+
         }
 
         else {
@@ -63,6 +71,12 @@ exports.login_user = (req, res, next) => {
             message: 'Email and Password Fields are required',
             success: false
         })
+    }
+    if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
+        res.status(201).json({
+            message: 'Email and Password are required',
+            success: false
+      })
     }
     User.find({ email: req.body.email }).then((user) => {
         if (user.length < 1) {
