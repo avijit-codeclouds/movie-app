@@ -20,6 +20,9 @@ export class LoginComponent implements OnInit {
     public router: Router,public formBuilder: FormBuilder,
     public authService: AuthService,
   ) { 
+    if(localStorage.getItem("user")!=null){
+      this.router.navigate(['/']);
+    }
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -49,7 +52,10 @@ export class LoginComponent implements OnInit {
           this.enableMessage = false
         }, 3000)
       }else{
-        console.log('login successfull')
+        // console.log(res)
+        this.authService.saveToken(res.token)
+        // this.redirect.emit(this.loggedInText);//emits the data to the parent
+        this.router.navigateByUrl("/");
       }
     },err => {
       console.log(err)
