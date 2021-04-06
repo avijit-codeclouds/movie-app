@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent implements OnInit {
-
+  token:any;
   constructor() { }
 
   ngOnInit() {
+    if (localStorage.getItem("user") === null) {
+     this.token='token';
+    }
+    else{
+      console.log('Unauthorized');
+    }
   }
 
 }
