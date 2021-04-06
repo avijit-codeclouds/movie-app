@@ -1,33 +1,52 @@
 <br><br>
 <div class="container">
-    <form>
+    <form [formGroup]="form" (ngSubmit)="addMovie()">
         <fieldset>
               <div class="form-group row">
                 <h2>Movie Form</h2>
             </div>
+            <div class="alert alert-dismissible {{ className }}" *ngIf="enableMessage">
+              {{ msg }}
+            </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Title">
+            <input type="text" class="form-control"  formControlName="title" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Title"
+            [ngClass]="{ 'is-invalid': submitted && fc.title.errors }">
+            <div *ngIf="submitted && fc.title.errors" class="alert alert-dismissible alert-danger">
+                <div *ngIf="fc.title.errors.required">Title is required</div>
+            </div>
             
           </div>
           <div class="form-group">
             <label for="exampleSelect1">Select Genere</label>
-            <select class="form-control" id="exampleSelect1">
+            <select class="form-control" id="exampleSelect1" formControlName="genre" [ngClass]="{ 'is-invalid': submitted && fc.genre.errors }">
+             
+              <option value="" disabled>Select Genere</option>
               <option>1</option>
               <option>2</option>
               <option>3</option>
               <option>4</option>
               <option>5</option>
             </select>
+            <div *ngIf="submitted && fc.genre.errors" class="alert alert-dismissible alert-danger">
+              <div *ngIf="fc.genre.errors.required">Genere is required</div>
+            </div>
+           
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Number in stock</label>
-            <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Stock">
-            
+            <input type="number" class="form-control" formControlName="stock" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Stock"
+            [ngClass]="{ 'is-invalid': submitted && fc.stock.errors }">
+            <div *ngIf="submitted && fc.stock.errors" class="alert alert-dismissible alert-danger">
+                <div *ngIf="fc.stock.errors.required">Stock is required</div>
+            </div>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Movie Rate</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Movie Rate">
+            <input type="text" class="form-control" formControl="rate" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Movie Rate" [ngClass]="{ 'is-invalid': submitted && fc.rate.errors }">
+            <div *ngIf="submitted && fc.rate.errors" class="alert alert-dismissible alert-danger">
+                <div *ngIf="fc.rate.errors.required">Movie rate is required</div>
+            </div>
             
           </div>
           <button type="submit" class="btn btn-primary">Save</button>

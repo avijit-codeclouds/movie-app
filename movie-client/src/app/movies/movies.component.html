@@ -23,7 +23,7 @@
         </div>
         <div class="col">
             <div *ngIf="!token">
-            <a class="btn btn-primary" href="/movies/new" style="margin-bottom: 20px;">New Movie</a>
+            <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px;">New Movie</a>
             </div>
             <p>Showing 4 movies in the database.</p>
             <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="">
@@ -38,29 +38,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">Active</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Active</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Active</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Active</th>
-                        <td>Column content</td>
-                        <td>Column content</td>
-                        <td>Column content</td>
+                    <tr *ngFor="let movie of movies">
+                        <th scope="row">{{movie.title}}</th>
+                        <td>{{movie.genre.name}}</td>
+                        <td>{{movie.stock}}</td>
+                        <td>{{movie.rate}}</td>
                     </tr>
                 </tbody>
             </table>

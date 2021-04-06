@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-movies',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviesComponent implements OnInit {
   token:any;
-  constructor() { }
+  movies:[];
+  constructor(private movieservice:MovieService) { }
 
   ngOnInit() {
     if (localStorage.getItem("user") === null) {
@@ -16,6 +18,17 @@ export class MoviesComponent implements OnInit {
     else{
       console.log('Unauthorized');
     }
+    this.getMovies()
+  }
+
+  getMovies(){
+    console.log('movie list');
+    this.movieservice.movieList().subscribe((data)=>{
+      this.movies=data['result']
+      // console.log(data['result']);
+    })
   }
 
 }
+
+
