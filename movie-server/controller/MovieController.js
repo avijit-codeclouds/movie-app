@@ -21,8 +21,8 @@ exports.createMovie = async(req,res,next) => {
             stock,
             rate
         });
-        await movie.save();
-        return res.status(status.OK).json({ success: true, result: 'successfully movie saved' })
+        const newMovie = await movie.save();
+        return res.status(status.OK).json({ success: true, result: 'successfully movie saved',result: newMovie })
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
     }
@@ -58,8 +58,8 @@ exports.updateMovie = async(req,res,next) => {
             stock,
             rate
         }
-        await Movie.findByIdAndUpdate(req.params.movie_id, payload);
-        return res.status(status.OK).json({ success: true, msg: 'movie updated' })
+        const updateMovie = await Movie.findByIdAndUpdate(req.params.movie_id, payload,{ new: true });
+        return res.status(status.OK).json({ success: true, msg: 'movie updated', result: updateMovie })
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
     }
