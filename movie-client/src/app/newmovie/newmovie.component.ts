@@ -17,6 +17,8 @@ export class NewmovieComponent implements OnInit {
   msg : any = ''
   enableMessage: boolean = false
   genreList : string
+  showProgress : boolean = false
+
 
   constructor( public formBuilder: FormBuilder,
     public authService: AuthService,public movieservice:MovieService,
@@ -45,8 +47,10 @@ export class NewmovieComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.showProgress = true
     this.movieservice.addMovie(this.form.value).subscribe(res => {
       if(res.success == true){
+        this.showProgress = false
         this.msg = 'Movie saved successfully'
         this.enableMessage = true
         this.className = 'alert-success'
@@ -60,6 +64,7 @@ export class NewmovieComponent implements OnInit {
         },1000)
       }
     },err => {
+      this.showProgress = false
       console.log(err)
     })
   }

@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   className : any = ''
   msg : any = ''
   enableMessage: boolean = false
+  showProgress : boolean = false
+
 
   constructor(
     public router: Router,public formBuilder: FormBuilder,
@@ -40,9 +42,11 @@ export class LoginComponent implements OnInit {
       return;
     }
     // console.log(this.form.value)
+    this.showProgress = true
     this.authService.login(this.form.value).subscribe(res => {
       // console.log(res)
       if(res.success == false){
+        this.showProgress = false
         this.msg = res.message
         this.enableMessage = true
         this.className = 'alert-danger'
@@ -52,12 +56,14 @@ export class LoginComponent implements OnInit {
           this.enableMessage = false
         }, 3000)
       }else{
+        this.showProgress = false
         // console.log(res)
         this.authService.saveToken(res.token)
         // this.redirect.emit(this.loggedInText);//emits the data to the parent
         this.router.navigateByUrl("/");
       }
     },err => {
+      this.showProgress = false
       console.log(err)
     })
   }

@@ -37,6 +37,7 @@
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
             </div>
           </div>
+          <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar><br>
           <button type="submit" class="btn btn-primary">Register</button>
         </fieldset>
       </form>
