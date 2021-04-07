@@ -18,4 +18,28 @@ export class MovieService {
   movieList():Observable<Movie[]>{
     return this.httpClient.get<Movie[]>(`${this.API_URL}/movie/list/`);
   }
+
+  genreList() : Observable<any> {
+    return this.httpClient.get(`${this.API_URL}/generes`)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
+  addMovie(payload: any) : Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/movie/add`, payload)
+    .pipe(retry(3), catchError(this.handleError)); 
+  }
+
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(error)
+    window.alert(errorMessage);
+    return throwError(errorMessage);
+  }
 }

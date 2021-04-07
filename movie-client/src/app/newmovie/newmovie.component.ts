@@ -16,6 +16,7 @@ export class NewmovieComponent implements OnInit {
   className : any = ''
   msg : any = ''
   enableMessage: boolean = false
+  genreList : string
 
   constructor( public formBuilder: FormBuilder,
     public authService: AuthService,public movieservice:MovieService,
@@ -26,17 +27,41 @@ export class NewmovieComponent implements OnInit {
         stock: ['',Validators.required],
         rate:['',Validators.required]
       });
-    }
-
-    get fc() { return this.form.controls; }
-  ngOnInit() {
   }
+
+  get fc() { return this.form.controls; }
+  
+  ngOnInit() {
+    this.movieservice.genreList().subscribe(res => {
+      this.genreList = res.genere
+    },err => {
+      console.log(err)
+    })
+  }
+  
   addMovie(){
     this.submitted = true;
     // stop here if form is invalid
     if (this.form.invalid) {
       return;
     }
+    this.movieservice.addMovie(this.form.value).subscribe(res => {
+      if(res.success == true){
+        this.msg = 'Movie saved successfully'
+        this.enableMessage = true
+        this.className = 'alert-success'
+        // this.form.controls['name'].setValue('');
+        // this.form.reset()
+        setTimeout( () => {
+          this.enableMessage = false
+        }, 3000)
+        setTimeout(()=>{
+          this.router.navigateByUrl("/");
+        },1000)
+      }
+    },err => {
+      console.log(err)
+    })
   }
 
 }
