@@ -13,6 +13,13 @@ import { GenerService } from '../services/gener.service';
 export class UpdatemovieComponent implements OnInit {
 
   movie_id: any
+  getMovie: any
+  genreList : string
+  form: FormGroup;
+  submitted = false;
+  className : any = ''
+  msg : any = ''
+  enableMessage: boolean = false
 
   constructor(
     private router: Router,
@@ -20,11 +27,44 @@ export class UpdatemovieComponent implements OnInit {
     private _snackBar: MatSnackBar,
     public formBuilder: FormBuilder,
     private movieservice:MovieService , private genereservice:GenerService
-  ) { }
+  ) { 
+    this.form = this.formBuilder.group({
+      title: ['', Validators.required],
+      genre : ['', Validators.required],
+      stock: ['',Validators.required],
+      rate:['',Validators.required]
+    });
+  }
+
+  get fc() { return this.form.controls; }
 
   ngOnInit() {
     this.movie_id = this.activatedRoute.snapshot.params['movie_id']
     console.log(this.movie_id)
+    this.movieservice.getSingleMovie(this.movie_id).subscribe(res => {
+      if(res.success == false){
+        this.router.navigateByUrl("/404");      
+      }else{
+        this.movieservice.genreList().subscribe(res => {
+          this.genreList = res.genere
+        },err => {
+          console.log(err)
+        })
+        this.getMovie = res.result
+      }
+    },err => {
+      if(err.error.success == false){
+        this.router.navigateByUrl("/404");      
+      }
+    })
+  }
+
+  updateMovie(){
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.form.invalid) {
+      return;
+    }
   }
 
 }
