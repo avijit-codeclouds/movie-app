@@ -11,7 +11,7 @@ var checkauth=require('../config/checkauth');
 router.post('/add',checkauth,generecontroller.create_genere);
 
 // /* GET genere listing. */
-router.get('/', checkauth,generecontroller.get_genere);
+router.get('/',generecontroller.get_genere);
 
 
 
