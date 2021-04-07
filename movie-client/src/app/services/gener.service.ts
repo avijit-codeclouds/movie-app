@@ -30,7 +30,7 @@ export class GenerService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(error)
-    window.alert(errorMessage);
+    // window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }
