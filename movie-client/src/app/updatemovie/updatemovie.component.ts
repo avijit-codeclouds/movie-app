@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, NgForm, FormArray, FormControl } fr
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { MovieService } from '../services/movie.service';
 import { GenerService } from '../services/gener.service';
+import { title } from 'process';
 
 @Component({
   selector: 'app-updatemovie',
@@ -20,6 +21,13 @@ export class UpdatemovieComponent implements OnInit {
   className : any = ''
   msg : any = ''
   enableMessage: boolean = false
+  showProgress : boolean = false
+
+  reactiveForm = new FormGroup({
+    title: new FormControl(),
+    stock: new FormControl(),
+    rate: new FormControl()
+  })
 
   constructor(
     private router: Router,
@@ -45,6 +53,14 @@ export class UpdatemovieComponent implements OnInit {
       if(res.success == false){
         this.router.navigateByUrl("/404");      
       }else{
+        const { title, genre, stock, rate } = res.result
+        let movieData = {
+          title,
+          genre,
+          stock,
+          rate
+        };
+        this.form.patchValue(movieData)
         this.movieservice.genreList().subscribe(res => {
           this.genreList = res.genere
         },err => {
@@ -59,12 +75,32 @@ export class UpdatemovieComponent implements OnInit {
     })
   }
 
+  openSnackBar(message: string, action: string = 'Done') { 
+    // openSnackBar('GAME ONE','HURRAH !!!!!')
+    this._snackBar.open(message, action, { 
+      duration: 2000, 
+    }); 
+  } 
+
   updateMovie(){
     this.submitted = true;
     // stop here if form is invalid
     if (this.form.invalid) {
       return;
     }
+    this.showProgress = true
+    this.movieservice.updateMovie(this.form.value,this.movie_id).subscribe(res => {
+      if(res.success == true){
+        this.showProgress = false
+        this.openSnackBar('Movie updated')
+        setTimeout(()=>{
+          this.router.navigateByUrl("/");
+        },1000)
+      }
+    },err => {
+      this.showProgress = false
+      console.log(err)
+    })
   }
 
 }

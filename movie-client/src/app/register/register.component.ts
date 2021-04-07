@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
   className : any = ''
   msg : any = ''
   enableMessage: boolean = false
+  showProgress : boolean = false
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -42,8 +44,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
     // console.log(this.form.value)
+    this.showProgress = true
     this.authService.registerUser(this.form.value).subscribe(result => {
       if(result.success == true){
+        this.showProgress = false
         this.msg = 'Successfully registered!'
         this.enableMessage = true
         this.className = 'alert-success'
@@ -55,8 +59,18 @@ export class RegisterComponent implements OnInit {
           // console.log(`enableMessage :: ${this.enableMessage}`)
           this.router.navigate(['/login']);
         }, 3000)
+      }else{
+        this.showProgress = false
+        this.msg = result.message
+        this.enableMessage = true
+        this.className = 'alert-danger'
+        setTimeout( ()=>{
+          // console.log('works')
+          this.enableMessage = false
+        }, 3000)
       }
     }, err => {
+      this.showProgress = false
       console.log(err)
     })
   }
