@@ -1,8 +1,8 @@
 export class Movie {
-    constructor(_id = '', title = '', stocks = null, genere_id = '', rate = null, date = null) {
+    constructor(_id = '', title = '', stocks = '', genre = '', rate = ' ', date = null) {
         this._id = _id;
         this.title = title;
-        this.genere_id = genere_id;
+        this.genre = genre;
         this.stocks = stocks
         this.rate = rate;
         this.date = date;
@@ -11,9 +11,9 @@ export class Movie {
 
     _id: string;
     title: string;
-    stocks: number;
-    rate: number;
-    genere_id: string;
+    stocks: string;
+    rate: string;
+    genre: string;
     date: Date;
 }
 
