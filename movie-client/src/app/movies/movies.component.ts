@@ -7,13 +7,13 @@ import { MovieService } from '../services/movie.service';
   styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent implements OnInit {
-  token:any;
+  token:boolean;
   movies:[];
   constructor(private movieservice:MovieService) { }
 
   ngOnInit() {
     if (localStorage.getItem("user") === null) {
-     this.token='token';
+     this.token=true;
     }
     else{
       console.log('Unauthorized');
