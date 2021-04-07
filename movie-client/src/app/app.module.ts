@@ -19,7 +19,7 @@ import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
 import { AuthService } from './services/auth.service';
 import { LogoutComponent } from './logout/logout.component';
 import { GenerComponent } from './gener/gener.component'
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     BrowserAnimationsModule,
     ReactiveFormsModule, FormsModule,
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
-    Ng2SearchPipeModule
+    // Ng2SearchPipeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
