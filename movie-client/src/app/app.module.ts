@@ -18,7 +18,8 @@ import { NewmovieComponent } from './newmovie/newmovie.component';
 import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
 import { AuthService } from './services/auth.service';
 import { LogoutComponent } from './logout/logout.component';
-import { GenerComponent } from './gener/gener.component'
+import { GenerComponent } from './gener/gener.component';
+import { NotfoundComponent } from './notfound/notfound.component'
 // import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
@@ -31,7 +32,8 @@ import { GenerComponent } from './gener/gener.component'
     NewmovieComponent,
     UpdatemovieComponent,
     LogoutComponent,
-    GenerComponent
+    GenerComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

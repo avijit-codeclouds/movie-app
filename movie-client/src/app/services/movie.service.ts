@@ -30,8 +30,13 @@ export class MovieService {
   }
 
   updateMovie(payload: any,movie_id: string) : Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/movie/edit/{movie_id}`, payload)
+    return this.httpClient.post(`${this.API_URL}/movie/edit/`+movie_id, payload)
     .pipe(retry(3), catchError(this.handleError)); 
+  }
+
+  getSingleMovie(movie_id: string) : Observable<any> {
+    return this.httpClient.get(`${this.API_URL}/movie/`+movie_id)
+    .pipe(retry(3), catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {
@@ -44,7 +49,7 @@ export class MovieService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(error)
-    window.alert(errorMessage);
-    return throwError(errorMessage);
+    // window.alert(errorMessage);
+    return throwError(error);
   }
 }

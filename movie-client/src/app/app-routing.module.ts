@@ -8,6 +8,7 @@ import { RentalsComponent } from './rentals/rentals.component';
 import { NewmovieComponent } from './newmovie/newmovie.component';
 import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
 import { LogoutComponent } from './logout/logout.component'
+import { NotfoundComponent } from './notfound/notfound.component'
 
 const routes: Routes = [
   // { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'movies/new', component: NewmovieComponent, canActivate: [AuthGuard] },
   { path: 'movies/:movie_id',component: UpdatemovieComponent, canActivate: [AuthGuard] },
   { path: 'logout', component: LogoutComponent },
+  { path: '404', component: NotfoundComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
