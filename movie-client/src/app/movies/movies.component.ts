@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
+import {GenerService} from '../services/gener.service';
 
 @Component({
   selector: 'app-movies',
@@ -9,7 +10,8 @@ import { MovieService } from '../services/movie.service';
 export class MoviesComponent implements OnInit {
   token:boolean;
   movies:[];
-  constructor(private movieservice:MovieService) { }
+  generes:[];
+  constructor(private movieservice:MovieService , private genereservice:GenerService) { }
 
   ngOnInit() {
     if (localStorage.getItem("user") === null) {
@@ -18,14 +20,20 @@ export class MoviesComponent implements OnInit {
     else{
       console.log('Unauthorized');
     }
+    this.getGenere();
     this.getMovies()
   }
 
   getMovies(){
-    console.log('movie list');
     this.movieservice.movieList().subscribe((data)=>{
       this.movies=data['result']
       // console.log(data['result']);
+    })
+  }
+  getGenere(){
+    this.genereservice.generList().subscribe((data)=>{
+      this.generes=data['genere']
+       console.log(data);
     })
   }
 

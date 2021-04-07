@@ -7,10 +7,10 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="#">All Genres</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Action</a>
+                <li   *ngFor="let gener of generes" class="nav-item">
+                    <a class="nav-link" href="#">{{gener.name}}</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="#">Comedy</a>
                 </li>
                 <li class="nav-item">
@@ -18,15 +18,15 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Thriller</a>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="col">
             <div *ngIf="!token">
             <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px;">New Movie</a>
             </div>
-            <p>Showing 4 movies in the database.</p>
-            <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="">
+            <p>Showing {{movies!=='undefined' ? (movies|filter:query).length : ''}} in the database.</p>
+            <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query" value="">
             <table class="table table-hover">
                 <thead>
                     <tr class="table-primary">
@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let movie of movies">
+                    <tr *ngFor="let movie of movies |filter:query">
                         <th scope="row">{{movie.title}}</th>
                         <td>{{movie.genre.name}}</td>
                         <td>{{movie.stock}}</td>
