@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let movie of movies |filter:query">
-                        <th scope="row">{{movie.title}}</th>
+                        <th scope="row" class="pn" routerLink="/movies/{{movie._id}}">{{movie.title}}</th>
                         <td>{{movie.genre.name}}</td>
                         <td>{{movie.stock}}</td>
                         <td>{{movie.rate}}</td>
