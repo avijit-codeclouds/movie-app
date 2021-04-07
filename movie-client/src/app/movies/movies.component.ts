@@ -12,6 +12,7 @@ export class MoviesComponent implements OnInit {
   movies:[];
   generes:[];
   query;
+  p;
   constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
   ngOnInit() {
