@@ -29,6 +29,11 @@ export class MovieService {
     .pipe(retry(3), catchError(this.handleError)); 
   }
 
+  updateMovie(payload: any,movie_id: string) : Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/movie/edit/{movie_id}`, payload)
+    .pipe(retry(3), catchError(this.handleError)); 
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
