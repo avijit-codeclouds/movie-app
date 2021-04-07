@@ -17,6 +17,20 @@ export class GenerService {
    
   }
   generList():Observable<Genere[]>{
-    return this.httpClient.get<Genere[]>(`${this.API_URL}/generes/`);
+    return this.httpClient.get<Genere[]>(`${this.API_URL}/generes/`).pipe(retry(3), catchError(this.handleError));;
+  }
+
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(error)
+    window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 }
