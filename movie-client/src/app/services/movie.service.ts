@@ -16,7 +16,7 @@ export class MovieService {
   constructor(private httpClient: HttpClient,public router: Router) { }
 
   movieList():Observable<Movie[]>{
-    return this.httpClient.get<Movie[]>(`${this.API_URL}/movie/list/`);
+    return this.httpClient.get<Movie[]>(`${this.API_URL}/movie/list/`).pipe(retry(3), catchError(this.handleError));;
   }
 
   genreList() : Observable<any> {

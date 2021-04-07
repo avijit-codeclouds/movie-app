@@ -12,13 +12,14 @@ export class MoviesComponent implements OnInit {
   movies:[];
   generes:[];
   query;
-  constructor(private movieservice:MovieService , private genereservice:GenerService) { }
+  constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
   ngOnInit() {
     if (localStorage.getItem("user") === null) {
      this.token=true;
     }
     else{
+      
       console.log('Unauthorized');
     }
     this.getGenere();

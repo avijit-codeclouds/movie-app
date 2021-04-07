@@ -25,7 +25,7 @@
             <div *ngIf="!token">
             <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px;">New Movie</a>
             </div>
-            <p>Showing {{(movies|filter:query).length}} in the database.</p>
+            <p *ngIf="movies.length">Showing {{(movies|filter:query).length}} in the database.</p>
             <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query" value="">
             <table class="table table-hover">
                 <thead>
@@ -38,24 +38,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let movie of movies |filter:query">
+                    <tr *ngFor="let movie of movies |filter:query| paginate: { itemsPerPage: 5, currentPage: p }">
                         <th scope="row" class="pn" routerLink="/movies/{{movie._id}}">{{movie.title}}</th>
                         <td>{{movie.genre.name}}</td>
                         <td>{{movie.stock}}</td>
                         <td>{{movie.rate}}</td>
                     </tr>
                 </tbody>
+               
             </table>
 
             <div>
+
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
-                    </li>
                     <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </li>
-                    <li class="page-item">
+                    <!-- <li class="page-item">
                         <a class="page-link" href="#">2</a>
                     </li>
                     <li class="page-item">
@@ -69,7 +68,7 @@
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="#">&raquo;</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
