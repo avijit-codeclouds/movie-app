@@ -16,8 +16,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
   { path: 'rentals', component: RentalsComponent, canActivate: [AuthGuard] },
-  { path: 'movies/new', component: NewmovieComponent },
-  { path: 'movies/:movie_id',component: UpdatemovieComponent },
+  { path: 'movies/new', component: NewmovieComponent, canActivate: [AuthGuard] },
+  { path: 'movies/:movie_id',component: UpdatemovieComponent, canActivate: [AuthGuard] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
