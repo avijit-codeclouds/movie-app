@@ -13,6 +13,8 @@ export class MoviesComponent implements OnInit {
   generes:[];
   query;
   p;
+  storeMovies : []
+
   constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
   ngOnInit() {
@@ -27,9 +29,25 @@ export class MoviesComponent implements OnInit {
     this.getMovies()
   }
 
+  getGenre(genreType){
+    if(genreType == 'all'){
+      this.movies = this.storeMovies
+    }else{
+      this.p = 1;
+      this.movies = this.filterData(genreType,this.storeMovies)
+    }
+  }
+
+  filterData(type,movieList) {
+    return movieList.filter(object => {
+      return object['genre']['name'] == type;
+    });
+  }
+
   getMovies(){
     this.movieservice.movieList().subscribe((data)=>{
       this.movies=data['result']
+      this.storeMovies = this.movies
       // console.log(data['result']);
     })
   }
