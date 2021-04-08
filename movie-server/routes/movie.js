@@ -13,5 +13,6 @@ router.get('/list',movieController.movieList);
 
 router.get('/:movie_id',checkauth,movieController.getSingleMovie);
 
+router.post('/wishlist',movieValidator.validate('wishList'),movieController.wishList);
 
 module.exports = router;

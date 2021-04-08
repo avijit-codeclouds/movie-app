@@ -7,6 +7,7 @@ const $ = require( "jquery" )( window );
 const Movie = require('../models/Movie');
 const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
+const Wishlist = require('../models/Wishlist');
 
 exports.createMovie = async(req,res,next) => {
     try {
@@ -72,4 +73,26 @@ exports.movieList = async(req,res,next) => {
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
     }
+}
+
+exports.wishList=async(req,res,next)=>{
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(status.OK).json({ errors: errors.array() });
+        }
+        
+        const { user, movie } = req.body;
+        wishlist = new Wishlist({
+            user,
+            movie,
+        });
+        // console.log(req.body);
+        const newWishlist = await wishlist.save();
+        // console.log(newWishlist);
+        return res.status(status.OK).json({ success: true, result: 'successfully movie wishlist saved',result: newWishlist })
+    } catch (err) {
+        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false,msg:'invalid credentials',result: err })
+    }
+
 }
