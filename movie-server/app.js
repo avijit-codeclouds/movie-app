@@ -2,10 +2,11 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var morgan = require('morgan');
 var debug = require('debug')('movie-server:server');
 var http = require('http');
 require('dotenv').config();
+const winston = require('./config/winston');
 const bodyParser =  require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
@@ -25,7 +26,7 @@ connectDB();
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-app.use(logger('dev'));
+app.use(morgan('combined', { stream: winston.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -45,15 +46,19 @@ app.use('/api/v1/movie',require('./routes/movie'))
 // });
 
 // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+  // add this line to include winston logging
+  winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 
 // module.exports = app;
 
