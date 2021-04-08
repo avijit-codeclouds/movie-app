@@ -9,6 +9,7 @@ require('dotenv').config();
 const bodyParser =  require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
+const helmet = require('helmet')
 const connectDB = require('./config/db');
 
 var indexRouter = require('./routes/index');
@@ -28,6 +29,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(helmet())
+app.disable('x-powered-by')
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
