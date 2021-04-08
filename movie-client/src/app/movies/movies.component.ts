@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import {GenerService} from '../services/gener.service';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-movies',
@@ -14,6 +15,14 @@ export class MoviesComponent implements OnInit {
   query;
   p;
   storeMovies : []
+  isShowDivIf = false;
+  status=false;
+  icon:boolean;
+  isActive = true;
+
+  faUser = ['fas', 'square'];
+  faUserDefault = ['fas', 'square'];
+  faUserCheck = ['fas', 'check-square'];
 
   constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
@@ -58,6 +67,58 @@ export class MoviesComponent implements OnInit {
     })
   }
 
+  toggle(): boolean {
+    return this.isActive = !this.isActive;
+  }
+
+  onClickBtn(e) {
+    this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
+  }
+
+  // changeStatus(e){
+  
+  //   console.log('wishlist not added');
+  //   console.log(e.target.className)
+  //   console.log(e.target.classList);
+  //   // e.target.addClass(e.target,"bi bi-heart-fill");
+  //   // e.target.className.baseVal='bi bi-heart-fill'
+  //   // e.target.classList.remove(e.target.className.baseVal);
+  //   this.status = !this.status;
+  //   this.icon=true;
+  //   console.log('wishlist  added');
+  //       e.target.classList.value='bi bi-heart-fill'
+  //       e.target.className.baseVal='bi bi-heart-fill'
+  //       e.target.className.animVal='bi bi-heart-fill'
+
+  //   console.log(e.target.className)
+  //   this.status=false;
+  //   e.target.className.baseVal='bi bi-heart'
+  //   // e.target.classList.value='bi bi-heart'
+  //   // e.target.className.animVal='bi bi-heart'
+  //   // console.log(e.target.classList);
+  //   // e.target.classList.remove('bibi-heart');
+  //   // e.target.classList.add(e.target.className.baseVal);
+  
+  // }
+  // changewishList(e){
+  //   console.log('wishlist added');
+  //   console.log(e.target.classList);
+  //   // e.target.addClass(e.target,"bi bi-heart-fill");
+  //   // e.target.className.baseVal='bi bi-heart-fill'
+  //   // e.target.classList.remove(e.target.className.baseVal);
+  //   this.status = !this.status;
+  //   console.log('wishlist not added');
+  //       e.target.classList.value='bi bi-heart'
+  //       e.target.className.animVal='bi bi-heart'
+
+  //   console.log(e.target.className)
+  //   this.status=false;
+  //   e.target.className.baseVal='bi bi-heart-fill'
+  //   // e.target.className.animVal='bi bi-heart'
+  //   // console.log(e.target.classList);
+  //   // e.target.classList.remove('bibi-heart');
+  //   // e.target.classList.add(e.target.className.baseVal);
+  // }
 }
 
 
