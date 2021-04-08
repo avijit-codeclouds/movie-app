@@ -10,5 +10,11 @@ exports.validate = (method) => {
             body('rate', 'Rate is required').notEmpty(),
          ]   
       }
+      case 'wishList': {
+        return [ 
+             body('user', 'User is required').notEmpty(),
+             body('movie', 'Movie is required').notEmpty(),
+          ]   
+       }
     }
 }
