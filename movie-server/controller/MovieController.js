@@ -75,6 +75,19 @@ exports.movieList = async(req,res,next) => {
     }
 }
 
+exports.deleteMovie = async(req,res,next) => {
+    try {
+        let movie = await Movie.findById(req.params.movie_id)
+        if(!movie){
+            return res.status(status.NOT_FOUND).json({ success : false, msg : 'invalid movie' })
+        }
+        const delMovie = await Movie.findByIdAndDelete(req.params.movie_id)
+        return res.status(status.OK).json({ success: true, msg: 'movie deleted', result: delMovie })
+    } catch (err) {
+        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+    }
+}
+
 exports.wishList=async(req,res,next)=>{
     try {
         const errors = validationResult(req);
