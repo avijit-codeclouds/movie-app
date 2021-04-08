@@ -11,6 +11,8 @@ router.post('/edit/:movie_id',checkauth,movieValidator.validate('createMovie'),m
 
 router.get('/list',movieController.movieList);
 
+router.get('/delete/:movie_id',checkauth,movieController.deleteMovie)
+
 router.get('/:movie_id',checkauth,movieController.getSingleMovie);
 
 router.post('/wishlist',movieValidator.validate('wishList'),movieController.wishList);
