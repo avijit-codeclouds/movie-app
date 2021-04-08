@@ -81,8 +81,8 @@ exports.deleteMovie = async(req,res,next) => {
         if(!movie){
             return res.status(status.NOT_FOUND).json({ success : false, msg : 'invalid movie' })
         }
-        const delMovie = await Movie.findByIdAndDelete(req.params.movie_id)
-        return res.status(status.OK).json({ success: true, msg: 'movie deleted', result: delMovie })
+        await Movie.findByIdAndDelete(req.params.movie_id)
+        return res.status(status.OK).json({ success: true, msg: 'movie deleted'})
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
     }
