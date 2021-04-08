@@ -16,13 +16,14 @@ export class MoviesComponent implements OnInit {
   p;
   storeMovies : []
   isShowDivIf = false;
-  status=false;
+  status:any;
   icon:boolean;
   isActive = true;
+  SelectedIDs:any=[];
 
-  faUser = ['fas', 'square'];
-  faUserDefault = ['fas', 'square'];
-  faUserCheck = ['fas', 'check-square'];
+  // faUser = ['fas', 'square'];
+  // faUserDefault = ['fas', 'square'];
+  // faUserCheck = ['fas', 'check-square'];
 
   constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
@@ -67,13 +68,25 @@ export class MoviesComponent implements OnInit {
     })
   }
 
-  toggle(): boolean {
-    return this.isActive = !this.isActive;
-  }
+  // toggle(): boolean {
+  //   return this.isActive = !this.isActive;
+  // }
 
-  onClickBtn(e) {
-    this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
-  }
+  // onClickBtn(e) {
+  //   this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
+     
+  // }
+
+  selectID(_id, event){
+    console.log(_id);
+  
+    this.SelectedIDs.push(_id);
+    console.log(this.SelectedIDs);
+    this.movieservice.movieWishlist('606aca63e8c38424cc2b5363',this.SelectedIDs).subscribe((data)=>{
+      console.log(data);
+    })
+}
+
 
   // changeStatus(e){
   
