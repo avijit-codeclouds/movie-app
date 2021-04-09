@@ -46,7 +46,7 @@
                         <td>{{movie.rate}}</td>
                         <td>
                             
-                            <input type="checkbox" checked="{{movie.isChecked}}" data-md-icheck  #checkdelet id="{{movie._id}}" name="movie" value="{{movie._id}}" (click)="selectID(movie._id,$event)"></td>
+                            <input type="checkbox" checked="{{movie.isChecked==='true'?'checked':''}}" data-md-icheck  #checkdelet id="{{movie._id}}" name="movie" value="{{movie._id}}" (click)="selectID(movie._id,$event)"></td>
                         <!-- <td ><fa-icon
                             [icon]="faUserDefault"
                             (click)="onClickBtn($event)"
