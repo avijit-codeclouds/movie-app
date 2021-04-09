@@ -1,11 +1,11 @@
 const express           = require('express');
 const router            = express.Router();
 const movieController   = require('../controller/MovieController');
-const movieValidator    = require('../validator/movieValidate');
+const validator    = require('../validator/validate');
 const wishlistController = require ('../controller/WishlistController');
 
 
 
-router.post('/',movieValidator.validate('wishList'),wishlistController.wishList);
+router.post('/',validator.validate('wishList'),wishlistController.wishList);
 
 module.exports=router;

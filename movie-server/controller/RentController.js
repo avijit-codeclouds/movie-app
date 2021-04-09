@@ -11,6 +11,17 @@ const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
 const moment = require('moment');
 
+exports.pauseRentMovie = async(req,res,next) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(status.OK).json({ errors: errors.array() });
+        }
+    } catch (err) {
+        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+    }
+}
+
 exports.rentDelete = async(req,res,next) => {
     try {
         const errors = validationResult(req);
@@ -73,7 +84,6 @@ exports.rentMovie = async(req,res,next) => {
                 user: user,
                 movies : payload
             });
-            // user.password = await bcrypt.hash(password, salt);
             const newRent = await rent.save();
             return res.status(status.OK).json({ success: true, result: 'successfully rent saved',result: newRent })
         }else{
