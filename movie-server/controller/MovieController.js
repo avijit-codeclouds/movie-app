@@ -155,35 +155,3 @@ exports.deleteMovie = async (req, res, next) => {
         })
     }
 }
-
-exports.wishList = async (req, res, next) => {
-    // console.log(req.body.user);
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(status.OK).json({
-                errors: errors.array()
-            });
-        }
-
-        var wishlist = new Wishlist({
-            user: req.body.user,
-            movie: req.body.movie,
-        });
-        // console.log(req.body);
-        const newWishlist = await wishlist.save();
-        // console.log(newWishlist);
-        return res.status(status.OK).json({
-            success: true,
-            result: 'successfully movie wishlist saved',
-            result: newWishlist
-        })
-    } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            msg: 'invalid credentials',
-            result: err
-        })
-    }
-
-}

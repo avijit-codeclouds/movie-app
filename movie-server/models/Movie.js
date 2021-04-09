@@ -17,6 +17,11 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isChecked: {
+  type:String,
+  enum:['false','true'],
+  default:'false'
+},
   date: {
     type: Date,
     default: Date.now
