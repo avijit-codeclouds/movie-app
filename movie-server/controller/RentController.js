@@ -10,6 +10,8 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
 const moment = require('moment');
+const _ = require('lodash');
+
 
 exports.pauseRentMovie = async(req,res,next) => {
     try {
@@ -17,7 +19,29 @@ exports.pauseRentMovie = async(req,res,next) => {
         if (!errors.isEmpty()) {
             return res.status(status.OK).json({ errors: errors.array() });
         }
+        const { user, movie } = req.body;
+        
+        const getUser = await Rent.findOne({ user: user })
+        if(!getUser){
+            return res.status(status.OK).json({ success : false, msg : 'no one movie is found with this user' })
+        }
+        const updateRentlist = await Rent.findById(getUser._id)
+        const anyMovieExists = updateRentlist.movies.filter(e => e.movie.toString() === movie);
+        if(anyMovieExists.length <= 0){
+            return res.status(status.OK).json({ success : false, msg : 'invalid movie' })
+        }else{
+            const newPayload = anyMovieExists[0]
+            newPayload.paused = true
+            updateRentlist.movies = updateRentlist.movies.filter(e => e.movie.toString() !== movie);
+            updateRentlist.movies.unshift(newPayload)
+            await updateRentlist.save();
+            return res.status(status.OK).json({ 
+                success: true, result: updateRentlist, msg: 'rent paused' 
+            })
+        }
+        return res.status(status.OK).json({ success: true, result: req.body })
     } catch (err) {
+        console.log(err)
         return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
     }
 }
