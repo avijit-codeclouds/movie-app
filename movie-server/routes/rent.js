@@ -12,4 +12,6 @@ router.delete('/',Validator.validate('wishList'),rentController.rentDelete);
 
 router.get('/movies',rentController.rentList);
 
+router.patch('/pause',Validator.validate('wishList'),rentController.pauseRentMovie)
+
 module.exports = router;
