@@ -1,8 +1,12 @@
-const { check, validationResult, body } = require('express-validator');
+const {
+   check,
+   validationResult,
+   body
+} = require('express-validator');
 
 exports.validate = (method) => {
-      switch (method) {
-         case 'createMovie': {
+   switch (method) {
+      case 'createMovie': {
          return [
             body('title', 'Title is required').notEmpty(),
             body('genre', 'Genre is required').notEmpty(),
