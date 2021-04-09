@@ -1,12 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const customercontroller=require('../controller/CustomerController.js');
-const checkauth=require('../config/checkauth');
+const express               = require('express');
+const router                = express.Router();
+const customerController    = require('../controller/CustomerController.js');
 
-// /* GET customer listing. */
-router.get('/',checkauth, customercontroller.get_customers);
-
-
-
+/* GET customer listing. */
+router.get('/', customerController.get_customers);
 
 module.exports = router;

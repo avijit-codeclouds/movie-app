@@ -1,21 +1,16 @@
 require('dotenv').config();
 
 const createError   = require('http-errors');
+const bodyParser    =  require('body-parser');
+const passport      = require('passport');
+
 const express       = require('express');
 const path          = require('path');
 const cookieParser  = require('cookie-parser');
 const morgan        = require('morgan');
 const winston       = require('./config/winston');
-const bodyParser    =  require('body-parser');
-const passport      = require('passport');
 const cors          = require('cors');
 const helmet        = require('helmet');
-const indexRouter   = require('./routes/index');
-const usersRouter   = require('./routes/users');
-const genereRouter  = require('./routes/genere');
-const customerRoute = require('./routes/customers');
-const movieRoute    = require('./routes/movie');
-const rentRoute     = require('./routes/rent');
 const routes        = require('./routes');
 const app           = express();
 

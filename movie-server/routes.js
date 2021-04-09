@@ -5,7 +5,7 @@ const genereRouter  = require('./routes/genere');
 const customerRoute = require('./routes/customers');
 const movieRoute    = require('./routes/movie');
 const rentRoute     = require('./routes/rent');
-var checkauth       = require('./config/checkauth');
+const checkauth     = require('./config/checkauth');
 const router        = express.Router();
 
 
@@ -13,16 +13,16 @@ const router        = express.Router();
 module.exports = router.use('/', indexRouter);
 
 /* User Routes */
-module.exports = router.use('/api/v1/users' ,usersRouter);
+module.exports = router.use('/api/v1/users', usersRouter);
 
 /*Generes Routes */
-module.exports = router.use('/api/v1/generes', genereRouter);
+module.exports = router.use('/api/v1/generes',checkauth ,genereRouter);
 
 /*Movie Routes */
-module.exports = router.use('/api/v1/movie', checkauth, movieRoute);
+module.exports = router.use('/api/v1/movie',checkauth , movieRoute);
 
 /*Rent Routes */
-module.exports = router.use('/api/v1/rent', rentRoute);
+module.exports = router.use('/api/v1/rent',checkauth ,rentRoute);
 
 /*Customer Routes */
-module.exports = router.use('/api/v1/rent', customerRoute);
+module.exports = router.use('/api/v1/customer',checkauth ,customerRoute);
