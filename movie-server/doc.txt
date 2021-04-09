@@ -1,0 +1,49 @@
+--------------------------------------------------
+
+Sign in & Logout
+
+Admin:
+
+Movies:
+GET: will list movies
+POST: can add movies
+Delete: can delete movies
+PUT: Edit movie ( Title, rate, stock )
+POST: Add movie to favourites
+
+Customers:
+GET: Can view total active customers
+PUT: Can delete/lock customers ( Locked customers will not able to rental any further, but current rental won't be affected)
+Delete: Can delete customer
+
+Rental:
+GET: View movies currently at rental with customer info
+POST: Cancel a rental
+DELETE: Delete a rental
+PATCH: Pause a rental
+
+Favourites:
+GET: List favourites movies
+PUT: Edit movie ( Title, rate, stock )
+
+--------------------------------------------------
+
+Signup, Signin & Logout
+
+Client:
+
+Movies:
+GET: List movies
+POST: Add to favourites
+
+Rental:
+GET: View movies currently at rental with customer info
+POST: Cancel a rental
+
+Favourites:
+GET: List favourites movies
+( A rent button will redirect to rental screen with this movie as first option )
+
+------------------------------------------------------
+
+Future Scope: Staff & Payment ( Due for future, no need to work on them )

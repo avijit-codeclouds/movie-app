@@ -15,6 +15,6 @@ exports.validate = (method) => {
              body('user', 'User is required').notEmpty(),
              body('movie', 'Movie is required').notEmpty(),
           ]   
-       }
+      }
     }
 }
