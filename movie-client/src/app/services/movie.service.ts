@@ -40,7 +40,7 @@ export class MovieService {
   }
 
   movieWishlist(data:any) : Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/movie/wishlist`,data)
+    return this.httpClient.post(`${this.API_URL}/wishlist`,data)
     .pipe(retry(3), catchError(this.handleError));
   }
 

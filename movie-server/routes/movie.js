@@ -2,7 +2,7 @@ const express           = require('express');
 const router            = express.Router();
 const movieController   = require('../controller/MovieController');
 const movieValidator    = require('../validator/movieValidate');
-
+// const wishlistController = require ('../controller/WishlistController');
 
 router.post('/add', movieValidator.validate('createMovie'),movieController.createMovie);
 
@@ -14,6 +14,5 @@ router.get('/delete/:movie_id',movieController.deleteMovie);
 
 router.get('/:movie_id',movieController.getSingleMovie);
 
-router.post('/wishlist',movieValidator.validate('wishList'),movieController.wishList);
 
 module.exports = router;

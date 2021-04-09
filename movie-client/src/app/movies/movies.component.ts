@@ -102,15 +102,15 @@ export class MoviesComponent implements OnInit {
 
 
   selectID(_id, event){
-    this.SelectedIDs.push(_id);
+    // this.SelectedIDs.push(_id);
     // console.log(this.SelectedIDs);
     let data={
       user:'606aca63e8c38424cc2b5363',
-      movie:this.SelectedIDs
+      movie:_id
     };
     this.movieservice.movieWishlist(data).subscribe((data)=>{
       console.log(data);
-      // this.ngOnInit();
+       this.ngOnInit();
     })
 }
 
