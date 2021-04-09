@@ -25,4 +25,4 @@ module.exports = router.use('/api/v1/movie',checkauth , movieRoute);
 module.exports = router.use('/api/v1/rent',checkauth ,rentRoute);
 
 /*Customer Routes */
-module.exports = router.use('/api/v1/customer',checkauth ,customerRoute);
+module.exports = router.use('/api/v1/customer' ,customerRoute);
