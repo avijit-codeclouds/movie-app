@@ -89,16 +89,16 @@ exports.deleteMovie = async(req,res,next) => {
 }
 
 exports.wishList=async(req,res,next)=>{
+    // console.log(req.body.user);
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(status.OK).json({ errors: errors.array() });
         }
         
-        const { user, movie } = req.body;
-        wishlist = new Wishlist({
-            user,
-            movie,
+        var wishlist = new Wishlist({
+            user: req.body.user,
+            movie: req.body.movie,
         });
         // console.log(req.body);
         const newWishlist = await wishlist.save();

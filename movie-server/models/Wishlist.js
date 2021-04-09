@@ -11,6 +11,11 @@ const WishlistSchema = new mongoose.Schema({
     ref: 'Movie',
     required:true
 }],
+// isChecked: {
+//   type:String,
+//   enum:['false','true'],
+//   default:'true'
+// },
   date: {
     type: Date,
     default: Date.now

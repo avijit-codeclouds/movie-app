@@ -39,9 +39,8 @@ export class MovieService {
     .pipe(retry(3), catchError(this.handleError));
   }
 
-  movieWishlist(_id,data:any) : Observable<any> {
-    console.log(_id,data)
-    return this.httpClient.post(`${this.API_URL}/movie/wishlist`,_id,data)
+  movieWishlist(data:any) : Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/movie/wishlist`,data)
     .pipe(retry(3), catchError(this.handleError));
   }
 
