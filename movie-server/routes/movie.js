@@ -5,7 +5,7 @@ const movieController = require('../controller/MovieController')
 const movieValidator = require('../validator/movieValidate')
 
 
-router.post('/add',checkauth,movieValidator.validate('createMovie'),movieController.createMovie);
+router.post('/add', movieValidator.validate('createMovie'),movieController.createMovie);
 
 router.post('/edit/:movie_id',checkauth,movieValidator.validate('createMovie'),movieController.updateMovie);
 

@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
 const Wishlist = require('../models/Wishlist');
 
-exports.createMovie = async(req,res,next) => {
+exports.createMovie = async (req,res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -23,13 +23,13 @@ exports.createMovie = async(req,res,next) => {
             rate
         });
         const newMovie = await movie.save();
-        return res.status(status.OK).json({ success: true, result: 'successfully movie saved',result: newMovie })
+        return res.status(status.OK).json({ success: true, result: 'successfully movie saved' });
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err });
     }
 }
 
-exports.getSingleMovie = async(req,res,next) => {
+exports.getSingleMovie = async (req,res,next) => {
     try {
         let movie = await Movie.findById(req.params.movie_id)
         if(!movie){
@@ -94,7 +94,7 @@ exports.wishList=async(req,res,next)=>{
         if (!errors.isEmpty()) {
             return res.status(status.OK).json({ errors: errors.array() });
         }
-        
+
         const { user, movie } = req.body;
         wishlist = new Wishlist({
             user,
