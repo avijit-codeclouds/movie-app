@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     // console.log(this.form.value)
     this.showProgress = true
     this.authService.login(this.form.value).subscribe(res => {
-      // console.log(res)
+      this.authService.currentUser(res.user[0]._id)
       if(res.success == false){
         this.showProgress = false
         this.msg = res.message

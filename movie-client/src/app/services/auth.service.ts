@@ -47,6 +47,7 @@ export class AuthService {
 
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
+    localStorage.removeItem('user_id');
     this.userSubject.next(null);
     this.router.navigate(['/login']);
   }
@@ -58,6 +59,9 @@ export class AuthService {
     this.userSubject.next(token);
   }
 
+  currentUser(id){
+    localStorage.setItem('user_id',id);
+  }
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {

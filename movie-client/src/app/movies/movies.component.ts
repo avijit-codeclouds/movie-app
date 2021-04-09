@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import {GenerService} from '../services/gener.service';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-movies',
@@ -20,6 +21,8 @@ export class MoviesComponent implements OnInit {
   icon:boolean;
   isActive = true;
   SelectedIDs:any=[];
+  user_id:any;
+  isChecked:any;
   // selectedItemsList = [];
   // checkedIDs = [];
   emptyArr=[];
@@ -27,10 +30,10 @@ export class MoviesComponent implements OnInit {
   // faUserDefault = ['fas', 'square'];
   // faUserCheck = ['fas', 'check-square'];
 
-  constructor(public movieservice:MovieService , public genereservice:GenerService) { }
+  constructor(public movieservice:MovieService , public genereservice:GenerService, public authservice:AuthService) { }
 
   ngOnInit() {
-
+    this.user_id=localStorage.getItem("user_id");
     if (localStorage.getItem("user") === null) {
      this.token=true;
     }
@@ -105,8 +108,9 @@ export class MoviesComponent implements OnInit {
     // this.SelectedIDs.push(_id);
     // console.log(this.SelectedIDs);
     let data={
-      user:'606aca63e8c38424cc2b5363',
-      movie:_id
+      user:this.user_id,
+      movies:{movie:_id,isChecked:'true'}
+      
     };
     this.movieservice.movieWishlist(data).subscribe((data)=>{
       console.log(data);
