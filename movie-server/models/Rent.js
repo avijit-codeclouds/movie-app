@@ -24,6 +24,10 @@ const RentSchema = new mongoose.Schema({
         expired: {
             type: Boolean,
             default: false
+        },
+        paused: {
+          type: Boolean,
+          default: false
         }
       }
     ],

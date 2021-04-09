@@ -5,9 +5,11 @@ const Validator         = require('../validator/movieValidate');
 const checkObjectId     = require('../config/checkObjectId');
 
 //rent movie
+
 router.post('/movie',Validator.validate('wishList'),rentController.rentMovie);
 
-router.get('/movie/list',rentController.rentList);
+router.delete('/',Validator.validate('wishList'),rentController.rentDelete);
 
+router.get('/movies',rentController.rentList)
 
 module.exports = router;
