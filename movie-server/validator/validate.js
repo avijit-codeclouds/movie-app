@@ -17,7 +17,7 @@ exports.validate = (method) => {
       case 'wishList': {
          return [
             body('user', 'User is required').notEmpty(),
-            body('movie', 'Movie is required').notEmpty(),
+            body('movies', 'Movie is required').notEmpty(),
          ];
       }
       case 'customer': {

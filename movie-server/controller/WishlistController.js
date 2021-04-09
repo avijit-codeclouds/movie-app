@@ -89,18 +89,22 @@ exports.wishList =  (req, res, next) => {
             })
         }
         else{
+            // const payload = {
+            //     movie,isChecked
+            // }
+        
             var wishlist = new Wishlist({
                         user: req.body.user,
-                        movie: req.body.movie,
+                        movies: req.body.movies
                     });
            wishlist.save().then((newWishlist)=>{
             console.log(newWishlist);
-            if(newWishlist){
-                Movie.findOneAndUpdate({_id: newWishlist.movie},{ $set: {'isChecked': 'true'} }, { upsert: true, new: true }).then(movie =>{
-                    //                 // res.json(playerinfo)
-                                    console.log(movie);
-                })
-            }
+            // if(newWishlist){
+            //     Movie.findOneAndUpdate({_id: newWishlist.movie},{ $set: {'isChecked': 'true'} }, { upsert: true, new: true }).then(movie =>{
+            //         //                 // res.json(playerinfo)
+            //                         console.log(movie);
+            //     })
+            // }
             return res.status(status.OK).json({
              success: true,
              result: 'successfully movie wishlist saved',
