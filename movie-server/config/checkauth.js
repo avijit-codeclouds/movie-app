@@ -8,8 +8,10 @@ module.exports=((req,res,next)=>{
         next();
     }
     catch(err){
-        if(!req.headers.authorization){
-            res.status(401).json({ message: "Token is required", success: false });
+        const token = req.header('authorization');
+        //check token
+        if(!token){
+            return res.status(401).json({ message: "Token is required", success: false});
         }
         res.status(401).json({
             message: "Unauthorized", success: false   
