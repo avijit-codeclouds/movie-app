@@ -6,11 +6,11 @@ const WishlistSchema = new mongoose.Schema({
         ref: 'User',
         required:true
   },
-  movie: [{
+  movie: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Movie',
     required:true
-}],
+},
 // isChecked: {
 //   type:String,
 //   enum:['false','true'],

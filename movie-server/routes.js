@@ -4,6 +4,7 @@ const usersRouter   = require('./routes/users');
 const genereRouter  = require('./routes/genere');
 const customerRoute = require('./routes/customers');
 const movieRoute    = require('./routes/movie');
+const wishlistRoute = require('./routes/wishlist');
 const rentRoute     = require('./routes/rent');
 const checkauth     = require('./config/checkauth');
 const router        = express.Router();
@@ -20,6 +21,9 @@ module.exports = router.use('/api/v1/generes',checkauth ,genereRouter);
 
 /*Movie Routes */
 module.exports = router.use('/api/v1/movie',checkauth , movieRoute);
+
+/*Wishlist Routes */
+module.exports = router.use('/api/v1/wishlist',wishlistRoute);
 
 /*Rent Routes */
 module.exports = router.use('/api/v1/rent',checkauth ,rentRoute);
