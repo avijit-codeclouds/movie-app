@@ -20,7 +20,9 @@ export class MoviesComponent implements OnInit {
   icon:boolean;
   isActive = true;
   SelectedIDs:any=[];
-
+  // selectedItemsList = [];
+  // checkedIDs = [];
+  emptyArr=[];
   // faUser = ['fas', 'square'];
   // faUserDefault = ['fas', 'square'];
   // faUserCheck = ['fas', 'check-square'];
@@ -28,6 +30,7 @@ export class MoviesComponent implements OnInit {
   constructor(public movieservice:MovieService , public genereservice:GenerService) { }
 
   ngOnInit() {
+
     if (localStorage.getItem("user") === null) {
      this.token=true;
     }
@@ -36,7 +39,9 @@ export class MoviesComponent implements OnInit {
       console.log('Unauthorized');
     }
     this.getGenere();
-    this.getMovies()
+    this.getMovies();
+    // this.fetchSelectedItems()
+    // this.fetchCheckedIDs()
   }
 
   getGenre(genreType){
@@ -58,7 +63,7 @@ export class MoviesComponent implements OnInit {
     this.movieservice.movieList().subscribe((data)=>{
       this.movies=data['result']
       this.storeMovies = this.movies
-      // console.log(data['result']);
+     console.log(data['result']);
     })
   }
   getGenere(){
@@ -76,62 +81,39 @@ export class MoviesComponent implements OnInit {
   //   this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
      
   // }
+  // changeSelection() {
+  //   this.fetchSelectedItems()
+  // }
+
+  // fetchSelectedItems() {
+  //   this.selectedItemsList = this.checkboxesDataList.filter((value, index) => {
+  //     return value.isChecked
+  //   });
+  // }
+
+  // fetchCheckedIDs() {
+  //   this.checkedIDs = []
+  //   this.checkboxesDataList.forEach((value, index) => {
+  //     if (value.isChecked) {
+  //       this.checkedIDs.push(value.id);
+  //     }
+  //   });
+  // }
+
 
   selectID(_id, event){
-    console.log(_id);
-  
     this.SelectedIDs.push(_id);
-    console.log(this.SelectedIDs);
-    this.movieservice.movieWishlist('606aca63e8c38424cc2b5363',this.SelectedIDs).subscribe((data)=>{
+    // console.log(this.SelectedIDs);
+    let data={
+      user:'606aca63e8c38424cc2b5363',
+      movie:this.SelectedIDs
+    };
+    this.movieservice.movieWishlist(data).subscribe((data)=>{
       console.log(data);
+      // this.ngOnInit();
     })
 }
 
-
-  // changeStatus(e){
-  
-  //   console.log('wishlist not added');
-  //   console.log(e.target.className)
-  //   console.log(e.target.classList);
-  //   // e.target.addClass(e.target,"bi bi-heart-fill");
-  //   // e.target.className.baseVal='bi bi-heart-fill'
-  //   // e.target.classList.remove(e.target.className.baseVal);
-  //   this.status = !this.status;
-  //   this.icon=true;
-  //   console.log('wishlist  added');
-  //       e.target.classList.value='bi bi-heart-fill'
-  //       e.target.className.baseVal='bi bi-heart-fill'
-  //       e.target.className.animVal='bi bi-heart-fill'
-
-  //   console.log(e.target.className)
-  //   this.status=false;
-  //   e.target.className.baseVal='bi bi-heart'
-  //   // e.target.classList.value='bi bi-heart'
-  //   // e.target.className.animVal='bi bi-heart'
-  //   // console.log(e.target.classList);
-  //   // e.target.classList.remove('bibi-heart');
-  //   // e.target.classList.add(e.target.className.baseVal);
-  
-  // }
-  // changewishList(e){
-  //   console.log('wishlist added');
-  //   console.log(e.target.classList);
-  //   // e.target.addClass(e.target,"bi bi-heart-fill");
-  //   // e.target.className.baseVal='bi bi-heart-fill'
-  //   // e.target.classList.remove(e.target.className.baseVal);
-  //   this.status = !this.status;
-  //   console.log('wishlist not added');
-  //       e.target.classList.value='bi bi-heart'
-  //       e.target.className.animVal='bi bi-heart'
-
-  //   console.log(e.target.className)
-  //   this.status=false;
-  //   e.target.className.baseVal='bi bi-heart-fill'
-  //   // e.target.className.animVal='bi bi-heart'
-  //   // console.log(e.target.classList);
-  //   // e.target.classList.remove('bibi-heart');
-  //   // e.target.classList.add(e.target.className.baseVal);
-  // }
 }
 
 
