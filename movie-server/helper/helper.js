@@ -8,7 +8,7 @@ exports.response = (success = null, result = null, message = null) => {
     };
 };
 
-exports.handleValidationError = (req, res, next) => {
+exports.handle_validation_error = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

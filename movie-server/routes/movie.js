@@ -2,17 +2,17 @@ const express           = require('express');
 const router            = express.Router();
 const movieController   = require('../controller/MovieController');
 const movieValidator    = require('../validator/validate');
-const { handleValidationError }  = require('../helper/helper');
+const { handle_validation_error }  = require('../helper/helper');
 
-router.post('/add', movieValidator.validate('createMovie'),handleValidationError,movieController.createMovie);
+router.post('/add', movieValidator.validate('createMovie'),handle_validation_error,movieController.create_movie);
 
-router.post('/edit/:movie_id',movieValidator.validate('createMovie'),handleValidationError,movieController.updateMovie);
+router.post('/edit/:movie_id',movieValidator.validate('createMovie'),handle_validation_error,movieController.update_movie);
 
-router.get('/list',movieController.movieList);
+router.get('/list',movieController.movie_list);
 
-router.delete('/delete/:movie_id',movieController.deleteMovie);
+router.delete('/delete/:movie_id',movieController.delete_movie);
 
-router.get('/:movie_id',movieController.getSingleMovie);
+router.get('/:movie_id',movieController.view_movie);
 
 
 module.exports = router;

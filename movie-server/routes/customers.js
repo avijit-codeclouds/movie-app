@@ -7,12 +7,12 @@ const helper                = require('../helper/helper');
 router
     .route('/')
     .get(customerController.get_all_customers)
-    .post(validator.validate('customer') , helper.handleValidationError ,customerController.create_customer);
+    .post(validator.validate('customer') , helper.handle_validation_error ,customerController.create_customer);
 
 router
     .route('/:id')
     .get(customerController.get_customer)
-    .patch(validator.validate('customer'), helper.handleValidationError ,customerController.edit_customer)
+    .patch(validator.validate('customer'), helper.handle_validation_error ,customerController.edit_customer)
     .delete(customerController.delete_customer);
 
 router
