@@ -8,25 +8,26 @@ const wishlistRoute = require('./routes/wishlist');
 const rentRoute     = require('./routes/rent');
 const checkauth     = require('./config/checkauth');
 const router        = express.Router();
-
+var constants       = require('./constant');
+const ROUTE_PREFIX  = constants.ROUTE_PREFIX + constants.ROUTE_VERSION;
 
 /* Default Routes */
 module.exports = router.use('/', indexRouter);
 
 /* User Routes */
-module.exports = router.use('/api/v1/users', usersRouter);
+module.exports = router.use(ROUTE_PREFIX+'/users', usersRouter);
 
 /*Generes Routes */
-module.exports = router.use('/api/v1/generes',checkauth ,genereRouter);
+module.exports = router.use(ROUTE_PREFIX+'/generes' ,genereRouter);
 
 /*Movie Routes */
-module.exports = router.use('/api/v1/movie',checkauth , movieRoute);
+module.exports = router.use(ROUTE_PREFIX+'/movie',checkauth , movieRoute);
 
 /*Wishlist Routes */
-module.exports = router.use('/api/v1/wishlist',wishlistRoute);
+module.exports = router.use(ROUTE_PREFIX+'/wishlist',wishlistRoute);
 
 /*Rent Routes */
-module.exports = router.use('/api/v1/rent',checkauth ,rentRoute);
+module.exports = router.use(ROUTE_PREFIX+'/rent',checkauth ,rentRoute);
 
 /*Customer Routes */
-module.exports = router.use('/api/v1/customer' ,customerRoute);
+module.exports = router.use(ROUTE_PREFIX+'/customer' ,customerRoute);
