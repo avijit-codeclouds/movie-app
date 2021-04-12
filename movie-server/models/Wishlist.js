@@ -8,17 +8,24 @@ const WishlistSchema = new mongoose.Schema({
   },
   movies: [
     {
-      movie: {
-        type: mongoose.Schema.Types.ObjectId,
+       type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',
         required:true
       },
-      isChecked: {
-        type:String,
-        required:true
-      }
-    }
   ],
+  // movies: [
+  //   {
+  //     movie: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: 'Movie',
+  //       required:true
+  //     },
+  //     // isChecked: {
+  //     //   type:String,
+  //     //   required:true
+  //     // }
+  //   }
+  // ],
 // isChecked: {
 //   type:String,
 //   enum:['false','true'],
