@@ -28,13 +28,20 @@ const RentSchema = new mongoose.Schema({
         paused: {
           type: Boolean,
           default: false
+        },
+        canceled: {
+          type: Boolean,
+          default: false
         }
       }
     ],
-    date: {
-      type: Date,
-      default: Date.now
-    }
+    // date: {
+    //   type: Date,
+    //   default: Date.now
+    // }
+  },
+  {
+      timestamps: true
   });
 
 module.exports = mongoose.model('Rent', RentSchema);

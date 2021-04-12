@@ -20,6 +20,12 @@ exports.validate = (method) => {
             body('movies', 'Movie is required').notEmpty(),
          ];
       }
+      case 'rentPanel': {
+         return [
+            body('user', 'User is required').notEmpty(),
+            body('movie', 'Movie is required').notEmpty(),
+         ];
+      }
       case 'customer': {
          return [
             body('name', 'Name is required').notEmpty(),
