@@ -56,11 +56,29 @@ exports.wishList = async (req, res, next) => {
                     // console.log(movieFav)
                     var movieIndex = movieFav.movies.indexOf(req.body.movies.toString());
                    console.log(movieIndex)
-                    movieFav.movies.splice(movieIndex, 1);   
-                    let updateMovieList =  Wishlist.findOne(getUser._id)  ;
-                    updateMovieList.movies=movieFav.movies;
-                    updateMovieList.save()
-                     console.log(updateMovieList.movies);
+                    movieFav.movies.splice(movieIndex, 1); 
+                    Wishlist.findOne({user: req.body.user}, function(err, w) {
+                        if(!err) {
+                            if(!w) {
+                                w = new Wishlist();
+                                w.user = req.body.user;
+                                w.movies=req.body.movies;
+                            }
+                            w.movies =  movieFav.movies;
+                            w.save(function(err) {
+                                if(!err) {
+                                    console.log('saved');
+                                }
+                                else {
+                                    console.log("Error: could not saved ");
+                                }
+                            });
+                        }
+                    });  
+                    // let updateMovieList =  Wishlist.findOne(getUser._id)  ;
+                    // updateMovieList.movies=movieFav.movies;
+                    // // updateMovieList.save()
+                    //  console.log(updateMovieList.movies);
                                             
                   
                                             // updateMovieList.movies=movieFav.movies;
@@ -116,19 +134,33 @@ exports.wishList = async (req, res, next) => {
                     //  wishlist.save();
                 }
                 else{
-
-                   console.log(getUser)
-                    // fav.push(req.body.movies)
-                    //  console.log(fav)
-                    // wishlist=new Wishlist;
-                    // wishlist = new Wishlist({
-                    //     user: req.body.user,
-                    //    movies : req.body.movies
-                    // });
-                    //   wishlist.save()
-                 
-                    console.log('bye')
-                    // console.log(fav)
+                   
+                    Wishlist.findOne({user: req.body.user}, function(err, w) {
+                        if(!err) {
+                            if(!w) {
+                                w = new Wishlist();
+                                w.user = req.body.user;
+                                w.movies=req.body.movies;
+                            }
+                            console.log(w.movies)
+                            let favMovie=req.body.movies.toString();
+                            console.log(req.body.movies.toString())
+                            newArray = (w.movies.concat(favMovie));
+                            newArray = [...w.movies, favMovie]; 
+                            console.log(newArray)  
+                            w.movies =newArray
+                            w.save(function(err) {
+                                if(!err) {
+                                    console.log('saved');
+                                }
+                                else {
+                                    console.log("Error: could not saved ");
+                                }
+                            });
+                        }
+                    }); 
+                   
+                   
                 }
             })
                 
@@ -136,13 +168,11 @@ exports.wishList = async (req, res, next) => {
             }
             else{
                
-                wishlist = new Wishlist({
-                        user: req.body.user,
-                       movies : req.body.movies
-                    });
+            
                      //wishlist.save()
                 console.log('hello')
             }
+        
             // if(req.body.user find in wishlist.user )
             //     {
             //         search movie?true: delete movie , false:insert or push wishlist.movies.push(req.body.movie)
