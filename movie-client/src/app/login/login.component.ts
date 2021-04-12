@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     // console.log(this.form.value)
     this.showProgress = true
     this.authService.login(this.form.value).subscribe(res => {
-      this.authService.currentUser(res.user[0]._id)
+      
       if(res.success == false){
         this.showProgress = false
         this.msg = res.message
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
         this.showProgress = false
         // console.log(res)
         this.authService.saveToken(res.token)
+        this.authService.currentUser(res.user[0]._id)
         // this.redirect.emit(this.loggedInText);//emits the data to the parent
         this.router.navigateByUrl("/");
       }
