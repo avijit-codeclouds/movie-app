@@ -2,7 +2,6 @@ require('dotenv').config();
 const status = require('http-status');
 const Movie = require('../models/Movie');
 const Rent = require('../models/Rent')
-const { check, validationResult, body } = require('express-validator');
 const moment = require('moment');
 const { response } = require('../helper/helper');
 const APIFeatuers   = require('../utils/apiFeatures');
