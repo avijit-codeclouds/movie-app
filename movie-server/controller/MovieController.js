@@ -2,7 +2,6 @@ require('dotenv').config();
 const status = require('http-status');
 const Movie = require('../models/Movie');
 const { response } = require('../helper/helper');
-const { check, validationResult, body } = require('express-validator');
 const APIFeatuers   = require('../utils/apiFeatures');
 
 exports.createMovie = async (req, res) => {
