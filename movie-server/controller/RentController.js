@@ -2,19 +2,14 @@ require('dotenv').config();
 const status = require('http-status');
 const Movie = require('../models/Movie');
 const Rent = require('../models/Rent')
-const User = require('../models/User')
 const { check, validationResult, body } = require('express-validator');
 const moment = require('moment');
 const { response } = require('../helper/helper');
+const APIFeatuers   = require('../utils/apiFeatures');
 
 
 exports.cancelRentMovie = async(req,res,next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const msg = 'validation error'
-            return res.status(status.OK).json(response(false,errors.array(),msg));
-        }
         const { user, movie } = req.body;
         
         const getUser = await Rent.findOne({ user: user })
@@ -41,11 +36,6 @@ exports.cancelRentMovie = async(req,res,next) => {
 
 exports.pauseRentMovie = async(req,res,next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const msg = 'validation error'
-            return res.status(status.OK).json(response(false,errors.array(),msg));
-        }
         const { user, movie } = req.body;
         
         const getUser = await Rent.findOne({ user: user })
@@ -72,11 +62,6 @@ exports.pauseRentMovie = async(req,res,next) => {
 
 exports.rentMovie = async(req,res,next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const msg = 'validation error'
-            return res.status(status.OK).json(response(false,errors.array(),msg));
-        }
         const { user, movie } = req.body;
         let getMovie = await Movie.findById(movie)
         if(!getMovie){
@@ -115,11 +100,6 @@ exports.rentMovie = async(req,res,next) => {
 
 exports.rentDelete = async(req,res,next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const msg = 'validation error'
-            return res.status(status.OK).json(response(false,errors.array(),msg));
-        }
         const { user, movie } = req.body;
         
         const getUser = await Rent.findOne({ user: user })
@@ -144,8 +124,17 @@ exports.rentDelete = async(req,res,next) => {
 
 exports.rentList = async(req,res,next) => {
     try {
-        const rent = await Rent.find().populate(['movies.movie']).
-        populate({ path: 'user', select: '-password' })
+        // const rent = await Rent.find().populate(['movies.movie']).
+        // populate({ path: 'user', select: '-password' })
+
+        const features = new APIFeatuers(Rent.find().populate(['movies.movie']).
+        populate({ path: 'user', select: '-password' }), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+
+        const rent = await features.query;
         return res.status(status.OK).json(response(true,rent,'rented movie list'))
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
