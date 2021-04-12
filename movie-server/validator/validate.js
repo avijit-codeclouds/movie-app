@@ -32,5 +32,11 @@ exports.validate = (method) => {
             body('details', 'Details is required').notEmpty(),
          ];
       }
+      case 'genere': {
+         return [
+            body('name', 'Name is required').notEmpty(),
+            body('details', 'Details is required').notEmpty(),
+         ];
+      }
    }
 };

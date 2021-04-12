@@ -1,55 +1,37 @@
-const express   = require('express');
-const mongoose  = require('mongoose');
-const Genere    = require('../models/Genere');
-const bcrypt    = require('bcrypt');
-const jwt       = require('jsonwebtoken');
-const status    = require('http-status');
+const express       = require('express');
+const Genre         = require('../models/Genere');
+const status        = require('http-status');
+const helper        = require('../helper/helper');
+const APIFeatuers   = require('../utils/apiFeatures');
 
-exports.create_genere = (req, res) => {
-    if (req.body.name === '' || req.body.details === '')
+exports.create_genere = async (req, res) => {
+    try
     {
-        res.status(201).json({
-            message: 'All Fields are required',
-            success: false
-        });
+        const genre = await Genre.create(req.body);
 
-    } else {
-        try
-        {
-            const genere = new Genere({
-                name: req.body.name,
-                details: req.body.details,
-            });
+        res.status(status.CREATED).json(helper.response(true, genre));
 
-            genere.save().then((genere) => {
-                res.status(status.OK).json({
-                    message: 'Genere Added Successfully',
-                    genere: genere,
-                    success: true
-                });
+    } catch (err) {
 
-            }).catch((err) => {
-                console.log(err);
-                res.status(status.FORBIDDEN).json({ message: "Name and Details field is required", success: false });
-            });
-        }
-
-        catch (e) {
-            res.status(status.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong ", success: false });
-        }
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
 
-exports.get_genere = (req, res) => {
+exports.get_all_genere = async (req, res) => {
+    try {
+        const features = new APIFeatuers(Genre.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
 
-    Genere.find().select('name details date _id').then((genere) => {
-        if (genere.length > 0) {
-            res.status(status.OK).json({ message: "All generes", genere: genere, success: true });
-        } else {
-            res.status(status.OK).json({ message: "No genere found", success: true });
-        }
-    }).catch((err) => {
-        res.status(status.INTERNAL_SERVER_ERROR).json({ message: "something went wrong ", success: false });
-    });
+        const genre = await features.query;
 
+        const message = genre.length > 0 ? "All generes" : "No genere found";
+
+        res.status(status.OK).json(helper.response(true, genre, message));
+
+    } catch (err) {
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+    }
 };
