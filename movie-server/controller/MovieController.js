@@ -1,33 +1,10 @@
 require('dotenv').config();
 const status = require('http-status');
-const {
-    data,
-    cssNumber
-} = require('jquery');
-const {
-    JSDOM
-} = require("jsdom");
-const {
-    window
-} = new JSDOM("");
-const $ = require("jquery")(window);
 const Movie = require('../models/Movie');
-const bcrypt = require('bcrypt');
-const {
-    check,
-    validationResult,
-    body
-} = require('express-validator');
 const Wishlist = require('../models/Wishlist');
 
 exports.createMovie = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(status.OK).json({
-                errors: errors.array()
-            });
-        }
         const {
             title,
             genre,
@@ -43,7 +20,7 @@ exports.createMovie = async (req, res) => {
         const newMovie = await movie.save();
         return res.status(status.OK).json({
             success: true,
-            result: 'successfully movie saved'
+            msg: 'Movie Successfully saved'
         });
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json({

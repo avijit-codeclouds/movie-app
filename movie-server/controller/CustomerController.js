@@ -1,7 +1,8 @@
-const express   = require('express');
-const Customer  = require('../models/Customer');
-const status    = require('http-status');
+const express     = require('express');
+const Customer    = require('../models/Customer');
+const status      = require('http-status');
 const APIFeatuers = require('../utils/apiFeatures');
+const helper      = require('../helper/helper');
 
 exports.get_all_customers = async (req, res) => {
     try {
@@ -13,15 +14,10 @@ exports.get_all_customers = async (req, res) => {
 
         const customer = await features.query;
 
-        res.status(status.OK).json({
-            success: true,
-            result: customer
-        });
+        res.status(status.OK).json(helper.response(true, customer));
+
     } catch (err) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            result: err
-        });
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
 
@@ -29,15 +25,9 @@ exports.create_customer = async (req, res) => {
     try {
         const customer = await Customer.create(req.body);
 
-        res.status(status.CREATED).json({
-            success: true,
-            result: customer
-        });
+        res.status(status.CREATED).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            result: err
-        });
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
 
@@ -45,15 +35,9 @@ exports.get_customer = async (req, res) => {
     try {
         const customer = await Customer.findById(req.params.id);
 
-        res.status(status.OK).json({
-            success: true,
-            result: customer,
-        });
+        res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            result: err
-        });
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
 
@@ -64,15 +48,9 @@ exports.edit_customer = async (req, res) => {
             runValidators: true,
         });
 
-        res.status(status.OK).json({
-            success: true,
-            result: customer,
-        });
+        res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            result: err
-        });
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
 
@@ -80,14 +58,8 @@ exports.delete_customer = async (req, res) => {
     try {
         const customer = await Customer.findByIdAndDelete(req.params.id);
 
-        res.status(status.NO_CONTENT).json({
-            success: true,
-            result: null,
-        });
+        res.status(status.NO_CONTENT).json(helper.response(true));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json({
-            success: false,
-            result: err
-        });
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
