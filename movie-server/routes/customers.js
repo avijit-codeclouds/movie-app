@@ -14,4 +14,9 @@ router
     .patch(validator.validate('customer'), customerController.edit_customer)
     .delete(customerController.delete_customer);
 
+router
+    .route('/lock/:id')
+    .patch(customerController.handle_customer_lock);
+
+
 module.exports = router;

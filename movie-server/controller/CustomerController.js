@@ -63,3 +63,25 @@ exports.delete_customer = async (req, res) => {
         res.status(status.BAD_REQUEST).json(helper.response(false, err));
     }
 };
+
+exports.handle_customer_lock = async ( req, res) => {
+    try {
+
+        /**
+         * if req.body.lock = true, then we will lock
+         */
+
+        const act = req.body.lock ? true : false;
+
+        const customer = await Customer.findByIdAndUpdate(req.params.id, {
+            isLocked: act
+        }, {
+            new: true,
+        });
+
+        res.status(status.OK).json(helper.response(true, customer, "Customer locked successfully!"));
+
+    } catch (err) {
+        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+    }
+};
