@@ -47,3 +47,11 @@ GET: List favourites movies
 ------------------------------------------------------
 
 Future Scope: Staff & Payment ( Due for future, no need to work on them )
+
+
+
+localhost:3000/api/v1/customer?sort=-id
+
+localhost:3000/api/v1/customer?fields=name
+
+https://docs.oracle.com/en/cloud/saas/commerce-cloud/20a/occ-developer/rest-api-query-parameters.html

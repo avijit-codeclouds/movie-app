@@ -1,18 +1,11 @@
 require('dotenv').config();
 const status = require('http-status');
 const Movie = require('../models/Movie');
-const Wishlist = require('../models/Wishlist');
 const { response } = require('../helper/helper');
-const { check, validationResult, body } = require('express-validator');
+const APIFeatuers   = require('../utils/apiFeatures');
 
 exports.createMovie = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(status.OK).json({
-                errors: errors.array()
-            });
-        }
         const {
             title,
             genre,
@@ -49,12 +42,6 @@ exports.getSingleMovie = async (req, res, next) => {
 
 exports.updateMovie = async (req, res, next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(status.OK).json({
-                errors: errors.array()
-            });
-        }
         const {
             title,
             genre,
@@ -86,8 +73,15 @@ exports.updateMovie = async (req, res, next) => {
 
 exports.movieList = async (req, res, next) => {
     try {
-        let movie = await Movie.find().populate('genre')
+        // let movie = await Movie.find().populate('genre')
         const msg = 'movie list'
+        const features = new APIFeatuers(Movie.find().populate('genre'), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+
+        const movie = await features.query;
         return res.status(status.OK).json(response(true,movie,msg))
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
