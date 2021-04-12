@@ -44,6 +44,12 @@ export class MovieService {
     .pipe(retry(3), catchError(this.handleError));
   }
 
+  
+  getMovieWishlist() : Observable<any> {
+    return this.httpClient.get(`${this.API_URL}/wishlist/get`)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {

@@ -35,7 +35,7 @@ export class NewmovieComponent implements OnInit {
   
   ngOnInit() {
     this.movieservice.genreList().subscribe(res => {
-      this.genreList = res.genere
+      this.genreList = res.result
     },err => {
       console.log(err)
     })

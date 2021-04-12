@@ -62,7 +62,7 @@ export class UpdatemovieComponent implements OnInit {
         };
         this.form.patchValue(movieData)
         this.movieservice.genreList().subscribe(res => {
-          this.genreList = res.genere
+          this.genreList = res.result
         },err => {
           console.log(err)
         })
