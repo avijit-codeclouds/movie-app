@@ -6,12 +6,14 @@ const checkObjectId     = require('../config/checkObjectId');
 
 //rent movie
 
-router.post('/movie',Validator.validate('wishList'),rentController.rentMovie);
+router.post('/movie',Validator.validate('rentPanel'),rentController.rentMovie);
 
-router.delete('/',Validator.validate('wishList'),rentController.rentDelete);
+router.delete('/',Validator.validate('rentPanel'),rentController.rentDelete);
 
 router.get('/movies',rentController.rentList);
 
-router.patch('/pause',Validator.validate('wishList'),rentController.pauseRentMovie)
+router.patch('/pause',Validator.validate('rentPanel'),rentController.pauseRentMovie)
+
+router.post('/cancel',Validator.validate('rentPanel'),rentController.cancelRentMovie)
 
 module.exports = router;

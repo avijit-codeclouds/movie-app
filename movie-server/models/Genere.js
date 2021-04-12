@@ -8,17 +8,10 @@ const GenereSchema = new mongoose.Schema({
   details: {
     type: String,
     required: true,
+  },
 },
-  // avatar: {
-  //   type: String
-  // },
-  // token:{
-  //   type: String
-  // },
-  date: {
-    type: Date,
-    default: Date.now
-  }
+{
+    timestamps: true
 });
 
 module.exports = mongoose.model('Genere', GenereSchema);
