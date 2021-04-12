@@ -11,6 +11,8 @@ const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
 const moment = require('moment');
 const _ = require('lodash');
+const { response } = require('../helper/helper');
+
 
 exports.cancelRentMovie = async(req,res,next) => {
     try {
@@ -40,7 +42,7 @@ exports.cancelRentMovie = async(req,res,next) => {
         }
     } catch (err) {
         console.log(err)
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -72,7 +74,7 @@ exports.pauseRentMovie = async(req,res,next) => {
         }
     } catch (err) {
         console.log(err)
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -100,7 +102,7 @@ exports.rentDelete = async(req,res,next) => {
         }
     } catch (err) {
         console.log(err)
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -110,7 +112,7 @@ exports.rentList = async(req,res,next) => {
         populate({ path: 'user', select: '-password' })
         return res.status(status.OK).json({ success: true, msg: 'rented movie list', result: rent })
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -152,6 +154,6 @@ exports.rentMovie = async(req,res,next) => {
         }
     } catch (err) {
         console.log(err)
-        return res.status(status.INTERNAL_SERVER_ERROR).json({ success: false, result: err })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }

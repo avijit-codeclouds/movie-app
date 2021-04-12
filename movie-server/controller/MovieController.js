@@ -2,9 +2,17 @@ require('dotenv').config();
 const status = require('http-status');
 const Movie = require('../models/Movie');
 const Wishlist = require('../models/Wishlist');
+const { response } = require('../helper/helper');
+const { check, validationResult, body } = require('express-validator');
 
 exports.createMovie = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(status.OK).json({
+                errors: errors.array()
+            });
+        }
         const {
             title,
             genre,
@@ -18,36 +26,24 @@ exports.createMovie = async (req, res) => {
             rate
         });
         const newMovie = await movie.save();
-        return res.status(status.OK).json({
-            success: true,
-            msg: 'Movie Successfully saved'
-        });
+        const msg = 'Movie Successfully saved'
+        return res.status(status.OK).json(response(true,newMovie,msg));
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            result: err
-        });
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
 exports.getSingleMovie = async (req, res, next) => {
     try {
         let movie = await Movie.findById(req.params.movie_id)
+        const invalidMsg = 'invalid movie'
         if (!movie) {
-            return res.status(status.NOT_FOUND).json({
-                success: false,
-                msg: 'invalid movie'
-            })
+            return res.status(status.NOT_FOUND).json(response(false,movie,invalidMsg))
         }
-        return res.status(status.OK).json({
-            success: true,
-            result: movie
-        })
+        const msg = 'here is your movie'
+        return res.status(status.OK).json(response(true,movie,msg))
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            result: err
-        })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -68,10 +64,8 @@ exports.updateMovie = async (req, res, next) => {
 
         let movie = await Movie.findById(req.params.movie_id)
         if (!movie) {
-            return res.status(status.NOT_FOUND).json({
-                success: false,
-                msg: 'invalid movie'
-            })
+            const invalidMsg = 'invalid movie'
+            return res.status(status.NOT_FOUND).json(response(false,movie,invalidMsg))
         }
         const payload = {
             title,
@@ -82,32 +76,21 @@ exports.updateMovie = async (req, res, next) => {
         const updateMovie = await Movie.findByIdAndUpdate(req.params.movie_id, payload, {
             new: true
         });
-        return res.status(status.OK).json({
-            success: true,
-            msg: 'movie updated',
-            result: updateMovie
-        })
+        const msg = 'movie updated'
+        return res.status(status.OK).json(response(true,updateMovie,msg))
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            result: err
-        })
+        console.log(err)
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
 exports.movieList = async (req, res, next) => {
     try {
         let movie = await Movie.find().populate('genre')
-        return res.status(status.OK).json({
-            success: true,
-            msg: 'movie list',
-            result: movie
-        })
+        const msg = 'movie list'
+        return res.status(status.OK).json(response(true,movie,msg))
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            result: err
-        })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
 
@@ -115,20 +98,13 @@ exports.deleteMovie = async (req, res, next) => {
     try {
         let movie = await Movie.findById(req.params.movie_id)
         if (!movie) {
-            return res.status(status.NOT_FOUND).json({
-                success: false,
-                msg: 'invalid movie'
-            })
+            const invalidMsg = 'invalid movie'
+            return res.status(status.NOT_FOUND).json(response(false,movie,invalidMsg))
         }
-        await Movie.findByIdAndDelete(req.params.movie_id)
-        return res.status(status.OK).json({
-            success: true,
-            msg: 'movie deleted'
-        })
+        const getMovie = await Movie.findByIdAndDelete(req.params.movie_id)
+        const msg = 'movie deleted'
+        return res.status(status.OK).json(response(true,msg))
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            result: err
-        })
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
     }
 }
