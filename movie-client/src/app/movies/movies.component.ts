@@ -23,6 +23,7 @@ export class MoviesComponent implements OnInit {
   SelectedIDs:any=[];
   user_id:any;
   isChecked:any;
+  wishList=[];
   // selectedItemsList = [];
   // checkedIDs = [];
   emptyArr=[];
@@ -43,6 +44,7 @@ export class MoviesComponent implements OnInit {
     }
     this.getGenere();
     this.getMovies();
+    this.getWishlist();
     // this.fetchSelectedItems()
     // this.fetchCheckedIDs()
   }
@@ -71,8 +73,14 @@ export class MoviesComponent implements OnInit {
   }
   getGenere(){
     this.genereservice.generList().subscribe((data)=>{
-      this.generes=data['genere']
-       console.log(data);
+       this.generes=data['result']
+    })
+  }
+  getWishlist(){
+    this.movieservice.getMovieWishlist().subscribe((data)=>{
+      this.wishList=data['result']
+      // this.storeMovies = this.movies
+     console.log( this.wishList);
     })
   }
 
@@ -102,20 +110,46 @@ export class MoviesComponent implements OnInit {
   //     }
   //   });
   // }
+  
+
+  getStatus(_id){
+    let stat=0;
+  this.wishList[0].movies.map(e=>{
+    if(e==_id)
+    stat++;
+  });
+  console.log(stat);
+  if(stat>0){
+    return true;
+  }
+  else{
+    return false;
+  }
+  }
+
 
 
   selectID(_id, event){
-    // this.SelectedIDs.push(_id);
+    // console.log(_id)
+    this.SelectedIDs.push(_id);
     // console.log(this.SelectedIDs);
+
     let data={
       user:this.user_id,
-      movies:{movie:_id,isChecked:'true'}
-      
+      movies: this.SelectedIDs
     };
+    console.log(data)
     this.movieservice.movieWishlist(data).subscribe((data)=>{
       console.log(data);
-       this.ngOnInit();
-    })
+      this.ngOnInit();
+      // data.data.movies.forEach(chk => {
+      //   console.log(chk.isChecked)
+       
+    });
+    //   // this.isChecked=data.data.movies[0].isChecked
+    //   // console.log();
+    //    this.ngOnInit();
+    // })
 }
 
 }

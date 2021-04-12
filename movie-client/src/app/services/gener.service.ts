@@ -17,7 +17,7 @@ export class GenerService {
    
   }
   generList():Observable<Genere[]>{
-    return this.httpClient.get<Genere[]>(`${this.API_URL}/generes/`).pipe(retry(3), catchError(this.handleError));;
+    return this.httpClient.get<Genere[]>(`${this.API_URL}/generes`).pipe(retry(3), catchError(this.handleError));;
   }
 
   handleError(error: HttpErrorResponse) {
