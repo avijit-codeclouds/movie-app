@@ -8,13 +8,7 @@ class APIFeatures {
         const queryObj = { ...this.query };
         //Normal Filtering
         const exclude = ['page', 'sort', 'limit', 'fields'];
-        exclude.foreach((el) => delete queryObj[el])    ;
-
-        //Advance Filtering
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
-        this.query = this.query.find(JSON.parse(queryStr));
+        exclude.forEach((el) => delete queryObj[el])    ;
 
         return this;
     }
@@ -31,7 +25,7 @@ class APIFeatures {
     limitFields() {
         if (this.queryString.fields) {
             const fields = this.queryString.fields.split(',').join(' ');
-            this.query = this.query.select('fields');
+            this.query = this.query.select(fields);
         } else {
             this.query = this.query.select('-__v'); //Select only id exclude everything else
         }
