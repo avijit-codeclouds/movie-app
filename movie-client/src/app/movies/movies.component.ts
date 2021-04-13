@@ -1,87 +1,92 @@
-import { Component, OnInit } from '@angular/core';
-import { MovieService } from '../services/movie.service';
-import {GenerService} from '../services/gener.service';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../services/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { MovieService } from "../services/movie.service";
+import { GenerService } from "../services/gener.service";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { AuthService } from "../services/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-movies',
-  templateUrl: './movies.component.html',
-  styleUrls: ['./movies.component.css']
+  selector: "app-movies",
+  templateUrl: "./movies.component.html",
+  styleUrls: ["./movies.component.css"],
 })
 export class MoviesComponent implements OnInit {
-  token:boolean;
-  movies:[];
-  generes:[];
+  token: boolean;
+  movies: [];
+  generes: [];
   query;
   p;
-  storeMovies : []
+  storeMovies: [];
   isShowDivIf = false;
-  status:any;
-  icon:boolean;
+  status: any;
+  icon: boolean;
   isActive = true;
-  SelectedIDs:any=[];
-  user_id:any;
-  isChecked:any;
-  wishList=[];
+  SelectedIDs: any = [];
+  user_id: any;
+  isChecked: any;
+  wishList = [];
   // selectedItemsList = [];
   // checkedIDs = [];
-  emptyArr=[];
+  emptyArr = [];
   // faUser = ['fas', 'square'];
   // faUserDefault = ['fas', 'square'];
   // faUserCheck = ['fas', 'check-square'];
 
-  constructor(public movieservice:MovieService , public genereservice:GenerService, public authservice:AuthService) { }
+  constructor(
+    public movieservice: MovieService,
+    public genereservice: GenerService,
+    public authservice: AuthService,
+    public router: Router,
+  ) {}
 
   ngOnInit() {
-    this.user_id=localStorage.getItem("user_id");
+    this.user_id = localStorage.getItem("user_id");
     if (localStorage.getItem("user") === null) {
-     this.token=true;
-    }
-    else{
-      
-      console.log('Unauthorized');
+      this.token = true;
+    } else {
+      console.log("Unauthorized");
     }
     this.getGenere();
     this.getMovies();
     this.getWishlist();
+
     // this.fetchSelectedItems()
     // this.fetchCheckedIDs()
   }
 
-  getGenre(genreType){
-    if(genreType == 'all'){
-      this.movies = this.storeMovies
-    }else{
+  getGenre(genreType) {
+    if (genreType == "all") {
+      this.movies = this.storeMovies;
+    } else {
       this.p = 1;
-      this.movies = this.filterData(genreType,this.storeMovies)
+      this.movies = this.filterData(genreType, this.storeMovies);
     }
   }
 
-  filterData(type,movieList) {
-    return movieList.filter(object => {
-      return object['genre']['name'] == type;
+  filterData(type, movieList) {
+    return movieList.filter((object) => {
+      return object["genre"]["name"] == type;
     });
   }
 
-  getMovies(){
-    this.movieservice.movieList().subscribe((data)=>{
-      this.movies=data['result']
-      this.storeMovies = this.movies
-     console.log(data['result']);
-    })
+  getMovies() {
+    this.movieservice.movieList().subscribe((data) => {
+      this.movies = data["result"];
+      console.log(data["result"]);
+      this.storeMovies=this.movies
+    });
   }
-  getGenere(){
-    this.genereservice.generList().subscribe((data)=>{
-       this.generes=data['result']
-    })
+  getGenere() {
+    this.genereservice.generList().subscribe((data) => {
+      this.generes = data["result"];
+    });
   }
-  getWishlist(){
-    this.movieservice.getMovieWishlist().subscribe((data)=>{
-      this.wishList=data['result']
-      // this.storeMovies = this.movies
-     console.log( this.wishList);
-    })
+  getWishlist() {
+    this.movieservice.getMovieWishlist(this.user_id).subscribe((data) => {
+      console.log(data);
+      this.wishList = data["result"];
+      //  console.log( this.wishList);
+    });
   }
 
   // toggle(): boolean {
@@ -90,7 +95,7 @@ export class MoviesComponent implements OnInit {
 
   // onClickBtn(e) {
   //   this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
-     
+
   // }
   // changeSelection() {
   //   this.fetchSelectedItems()
@@ -110,48 +115,37 @@ export class MoviesComponent implements OnInit {
   //     }
   //   });
   // }
-  
 
-  getStatus(_id){
-    let stat=0;
-  this.wishList[0].movies.map(e=>{
-    if(e==_id)
-    stat++;
-  });
-  console.log(stat);
-  if(stat>0){
-    return true;
-  }
-  else{
-    return false;
-  }
+  getStatus(_id) {
+    let stat = 0;
+    this.wishList[0].movies.map((e) => {
+      if (e == _id) stat++;
+    });
+    console.log(stat);
+    if (stat > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
+  selectID(_id, event) {
 
-
-  selectID(_id, event){
-    // console.log(_id)
-    this.SelectedIDs.push(_id);
-    // console.log(this.SelectedIDs);
-
-    let data={
-      user:this.user_id,
-      movies: this.SelectedIDs
+    let data = {
+      user: this.user_id,
+      movies: [_id],
     };
-    console.log(data)
-    this.movieservice.movieWishlist(data).subscribe((data)=>{
-      console.log(data);
+
+    this.movieservice.movieWishlist(data).subscribe((data) => {
+      console.log('received',data);
+      window.location.reload();
       this.ngOnInit();
       // data.data.movies.forEach(chk => {
       //   console.log(chk.isChecked)
-       
     });
     //   // this.isChecked=data.data.movies[0].isChecked
     //   // console.log();
     //    this.ngOnInit();
     // })
+  }
 }
-
-}
-
-
