@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class MoviesComponent implements OnInit {
   token: boolean;
-  movies: [];
+  movies: any;
   generes: [];
   query;
   p;
@@ -36,7 +36,7 @@ export class MoviesComponent implements OnInit {
     public movieservice: MovieService,
     public genereservice: GenerService,
     public authservice: AuthService,
-    public router: Router,
+    public router: Router
   ) {}
 
   ngOnInit() {
@@ -73,7 +73,7 @@ export class MoviesComponent implements OnInit {
     this.movieservice.movieList().subscribe((data) => {
       this.movies = data["result"];
       console.log(data["result"]);
-      this.storeMovies=this.movies
+      this.storeMovies = this.movies;
     });
   }
   getGenere() {
@@ -117,29 +117,31 @@ export class MoviesComponent implements OnInit {
   // }
 
   getStatus(_id) {
-    let stat = 0;
-    this.wishList[0].movies.map((e) => {
-      if (e == _id) stat++;
-    });
-    console.log(stat);
-    if (stat > 0) {
-      return true;
-    } else {
+    if (!_id) {
       return false;
+    } else {
+      let stat = 0;
+      this.wishList[0].movies.map((e) => {
+        if (e == _id) stat++;
+      });
+      console.log(stat);
+      if (stat > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
   selectID(_id, event) {
-
     let data = {
       user: this.user_id,
       movies: [_id],
     };
-
+    window.location.reload();
     this.movieservice.movieWishlist(data).subscribe((data) => {
-      console.log('received',data);
+      console.log(data);
       window.location.reload();
-      this.ngOnInit();
       // data.data.movies.forEach(chk => {
       //   console.log(chk.isChecked)
     });
