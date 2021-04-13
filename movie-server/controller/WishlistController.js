@@ -1,15 +1,9 @@
 require('dotenv').config();
 const status = require('http-status');
-const { data, cssNumber } = require('jquery');
-const { JSDOM } = require("jsdom");
-const { window } = new JSDOM("");
-const $ = require("jquery")(window);
 const Movie = require('../models/Movie');
-const bcrypt = require('bcrypt');
 const { check, validationResult, body } = require('express-validator');
 const Wishlist = require('../models/Wishlist');
 const User = require('../models/User');
-const { find } = require('../models/Movie');
 
 
 exports.wishList = async (req, res, next) => {
@@ -137,7 +131,7 @@ exports.wishList = async (req, res, next) => {
                     
                 //   let  arr = movieFav.movies.filter(e => e==req.body.movies);
                 //      //movieFav.movies.splice(1,1);
-                    console.log('hi')
+                 
                     //  let fav= Wishlist.updateOne(
                     //     { user: req.body.user },
                     //     { $set:
@@ -368,7 +362,8 @@ exports.getWishList = (req, res, next) => {
         else {
             return res.status(404).json({
                 success: false,
-                msg: 'No wishlist Found'
+                msg: 'No wishlist Found',
+                result:[]
             });
 
 
