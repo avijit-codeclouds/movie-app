@@ -14,14 +14,32 @@ const { find } = require('../models/Movie');
 
 exports.wishList = async (req, res, next) => {
     // console.log(req.body.user);
-    // try {
+     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(status.OK).json({
                 errors: errors.array()
             });
         }
-        // const { user, movie } = req.body;
+
+      //   let newWishlist = new Wishlist();
+      //   newWishlist.user = req.body.user;
+      //   newWishlist.movies=req.body.movies;
+      //   console.log(newWishlist);
+      //   newWishlist.save(function(err) {
+      //     if(!err) {
+      //         console.log('listsaved');
+      //     }
+      //     else {
+      //         console.log("Error: could not saved ");
+      //     }
+      // });
+                             
+        //    wishlist = new Wishlist({
+        //         user: req.body.user,
+        //        movies : req.body.movies,
+        //     });
+        //     const newwishlist = await wishlist.save();
         // console.log(req.body);
         // let getMovie = await Movie.findById(movie)
         // console.log(getMovie);
@@ -44,14 +62,33 @@ exports.wishList = async (req, res, next) => {
         // }
      
         // if(!getUser){
+       
            
             let getUser=await Wishlist.find({user:req.body.user})
-            if(getUser){
-            let getMovie=await Wishlist.find();
+            // console.log(getUser);
+            if(getUser.length===0){
+              let newWishlist = new Wishlist();
+              newWishlist.user = req.body.user;
+              newWishlist.movies=req.body.movies;
+              console.log(newWishlist);
+              newWishlist.save(function(err) {
+                if(!err) {
+                    console.log('listsaved');
+                }
+                else {
+                    console.log("Error: could not saved " +err);
+                }
+            });
+            }
+         
+            if(getUser.length > 0){
+              // console.log('user' +getUser);
+            let getMovie=await Wishlist.find({movies:getUser[0].movies});
+            console.log(getMovie);
             getMovie.forEach((movieFav)=>{
              let m= movieFav.movies.includes(req.body.movies.toString())
-                //  console.log(movieFav.movies);
-                 //console.log(m)
+                 console.log(movieFav.movies);
+                  console.log(m)
                 if(m){
                     // console.log(movieFav)
                     var movieIndex = movieFav.movies.indexOf(req.body.movies.toString());
@@ -63,17 +100,29 @@ exports.wishList = async (req, res, next) => {
                                 w = new Wishlist();
                                 w.user = req.body.user;
                                 w.movies=req.body.movies;
+                                console.log(w);
+                                w.save(function(err) {
+                                  if(!err) {
+                                      console.log('listsaved');
+                                  }
+                                  else {
+                                      console.log("Error: could not saved ");
+                                  }
+                              });
+                          
                             }
+                            else{
                             w.movies =  movieFav.movies;
                             w.save(function(err) {
                                 if(!err) {
-                                    console.log('saved');
+                                    console.log('listsaved');
                                 }
                                 else {
                                     console.log("Error: could not saved ");
                                 }
                             });
                         }
+                      }
                     });  
                     // let updateMovieList =  Wishlist.findOne(getUser._id)  ;
                     // updateMovieList.movies=movieFav.movies;
@@ -134,18 +183,27 @@ exports.wishList = async (req, res, next) => {
                     //  wishlist.save();
                 }
                 else{
-                   
+                   console.log('hello');
                     Wishlist.findOne({user: req.body.user}, function(err, w) {
                         if(!err) {
                             if(!w) {
                                 w = new Wishlist();
                                 w.user = req.body.user;
                                 w.movies=req.body.movies;
+                                w.save(function(err) {
+                                    if(!err) {
+                                        console.log('saved');
+                                    }
+                                    else {
+                                        console.log("Error: could not saved ");
+                                    }
+                                });
                             }
+                            else{
                             console.log(w.movies)
                             let favMovie=req.body.movies.toString();
                             console.log(req.body.movies.toString())
-                            newArray = (w.movies.concat(favMovie));
+                            // newArray = (w.movies.concat(favMovie));
                             newArray = [...w.movies, favMovie]; 
                             console.log(newArray)  
                             w.movies =newArray
@@ -158,6 +216,7 @@ exports.wishList = async (req, res, next) => {
                                 }
                             });
                         }
+                      }
                     }); 
                    
                    
@@ -166,12 +225,9 @@ exports.wishList = async (req, res, next) => {
                 
                
             }
-            else{
-               
-            
-                     //wishlist.save()
-                console.log('hello')
-            }
+           
+          }
+      
         
             // if(req.body.user find in wishlist.user )
             //     {
@@ -265,7 +321,8 @@ exports.wishList = async (req, res, next) => {
             //                         result: 'successfully movie wishlist saved',
             //                         result: newWishlist
             //                     })
-                            }
+                            
+                          
 
             //    .then((newWishlist) => {
     //                 console.log(newWishlist);
@@ -286,21 +343,21 @@ exports.wishList = async (req, res, next) => {
 
     //         }
     //     })
-    // } catch (err) {
-    //     return res.status(status.INTERNAL_SERVER_ERROR).json({
-    //         success: false,
-    //         msg: 'invalid credentials',
-    //         result: err
-    //     })
-    //  }
+     catch (err) {
+        return res.status(status.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            msg: 'invalid credentials',
+            result: err
+        })
+     }
 
-//}
+}
 
 
 
 exports.getWishList = (req, res, next) => {
 
-    Wishlist.find().select('user movies _id date').then((fav) => {
+    Wishlist.find({user:req.params._id}).select('user movies _id date').then((fav) => {
         if (fav.length > 0) {
             return res.status(status.OK).json({
                 success: true,
