@@ -8,7 +8,7 @@ const wishlistRoute = require('./routes/wishlist');
 const rentRoute     = require('./routes/rent');
 const checkauth     = require('./config/checkauth');
 const router        = express.Router();
-var constants       = require('./constant');
+const constants     = require('./constant');
 const ROUTE_PREFIX  = constants.ROUTE_PREFIX + constants.ROUTE_VERSION;
 
 /* Default Routes */

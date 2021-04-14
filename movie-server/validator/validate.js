@@ -38,5 +38,20 @@ exports.validate = (method) => {
             body('details', 'Details is required').notEmpty(),
          ];
       }
+      case 'register': {
+         return [
+            body('name', 'Name is required').notEmpty(),
+            body('email', 'Email is required').notEmpty(),
+            body('email', 'Valid email is required.').isEmail(),
+            body('password', 'Password is required').notEmpty(),
+         ];
+      }
+      case 'login': {
+         return [
+            body('email', 'Email is required').notEmpty(),
+            body('email', 'Valid email is required.').isEmail(),
+            body('password', 'Password is required').notEmpty(),
+         ];
+      }
    }
 };

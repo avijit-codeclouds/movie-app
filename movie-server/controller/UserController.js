@@ -1,118 +1,73 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const express       = require('express');
+const mongoose      = require('mongoose');
+const User          = require('../models/User');
+const bcrypt        = require('bcrypt');
+const jwt           = require('jsonwebtoken');
+const status        = require('http-status');
+const constants     = require('../constant');
+const {
+        response,
+        jwt_sign_in,
+        first
+        }           = require('../helper/helper');
 
-exports.register_user = (req, res, next) => {
-    
-    if (req.body.email == '' || req.body.name == '' || req.body.password == '') {
-        res.status(201).json({
-            message: 'All Fields are required',
-            success: false
-        })
-    }
+exports.register_user = async (req, res ) => {
 
-    User.find({ email: req.body.email }).then((user) => {
-        if (user.length >= 1) {
-            res.status(201).json({
-                message: 'email already exists',
-                success: false
-            })
-        }
-        if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
-            res.status(201).json({
-                message: 'Name , Email and Password are required',
-                success: false
-          })
-        }
-        var emailToValidate = req.body.email;
-        var emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        var check = emailRegexp.test(emailToValidate);
-        //  console.log(check);
-        if (check === false) {
-            res.status(201).json({
-                message: 'Please provide valid email',
-                success: false
-            })
+    try
+    {
+        const user = await User.find({ email: req.body.email });
 
-        }
+        if (user.length >= 1)
+            res.status(status.BAD_REQUEST).json(response(false, null , 'Similar User already exists!'));
 
-        else {
+        bcrypt.hash(req.body.password, constants.SALT_ROUNDS , async (err, hash) => {
 
+            if(err)
+                throw new Error('Bcrypt Failure');
 
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                const user = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: hash
-                });
-
-                user.save().then((user) => {
-                    res.status(200).json({
-                        message: 'Registered Successfully',
-                        user: user,
-                        success: true
-                    });
-                }).catch((err) => {
-                    console.log(err)
-                    res.status(500).json({ message: "All Fields are required", success: false });
-                })
-            })
-        }
-    })
-}
-
-
-exports.login_user = (req, res, next) => {
-    // console.log(process.env.jwtSecret);
-    if (req.body.email == ''|| req.body.password == '') {
-        res.status(201).json({
-            message: 'Email and Password Fields are required',
-            success: false
-        })
-    }
-    if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        res.status(201).json({
-            message: 'Email and Password are required',
-            success: false
-      })
-    }
-    User.find({ email: req.body.email }).then((user) => {
-        if (user.length < 1) {
-            return res.status(404).json({
-                message: 'User does not exist',
-                success: false
+            const newUser = await User.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: hash
             });
-        }
-        
-        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-            if (err) {
-                return res.status(404).json({
-                    message: 'Failed',
-                    success: false
-                });
+
+            res.status(status.OK).json(response(true, newUser, 'Registered Successfully'));
+        });
+
+    } catch(err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+    }
+};
+
+
+exports.login_user = async (req, res) => {
+
+    try
+    {
+
+        let user = await User.find({ email: req.body.email }).limit(1);
+
+        if (user.length < 1)
+            res.status(status.BAD_REQUEST).json(response(false, null , "User doesn't exists!"));
+
+        user = first(user);
+
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+
+            if(err)
+                throw new Error('Bcrypt Failure');
+
+            if(result)
+            {
+                const token = jwt_sign_in(user.email, user.name, user._id);
+
+                return res.status(status.OK).json(response(true, { user, token } , 'Login Successful'));
             }
-            if (result) {
-                const token = jwt.sign({
-                    email: user[0].email,
-                    name: user[0].name,
-                    id: user[0]._id
-                },
-                    process.env.jwtSecret, { expiresIn: "24h" });
-                return res.status(200).json({
-                    message: 'Loggedin Successfully',
-                    user: user,
-                    token: token,
-                    success: true
-                })
-            }
-            return res.status(200).json({
-                message: 'Invalid Credentials',
-                success: false
-            })
-        })
-    }).catch((err) => {
-        res.status(500).json({ err: err, success: false })
-    });
-}
+
+            return res.status(status.FORBIDDEN).json(response(false, null , 'Invalid Credentials'));
+        });
+
+    } catch(err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+    }
+};

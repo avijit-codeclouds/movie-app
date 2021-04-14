@@ -1,16 +1,13 @@
 const express           = require('express');
 const router            = express.Router();
 const userController    = require('../controller/UserController');
-
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.status(200).json({ result : 'user...' });
-});
+const validator         = require('../validator/validate');
+const { handle_validation_error } = require('../helper/helper');
 
 //register
-router.post('/register',userController.register_user);
+router.post('/register',validator.validate('register') , handle_validation_error ,userController.register_user);
 
 //login
-router.post('/login',userController.login_user);
+router.post('/login',validator.validate('login') , handle_validation_error ,userController.login_user);
 
 module.exports = router;
