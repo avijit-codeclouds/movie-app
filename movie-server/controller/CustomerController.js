@@ -17,7 +17,7 @@ exports.get_all_customers = async (req, res) => {
         res.status(status.OK).json(helper.response(true, customer));
 
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -27,7 +27,7 @@ exports.create_customer = async (req, res) => {
 
         res.status(status.CREATED).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -37,7 +37,7 @@ exports.get_customer = async (req, res) => {
 
         res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -50,7 +50,7 @@ exports.edit_customer = async (req, res) => {
 
         res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -60,7 +60,7 @@ exports.delete_customer = async (req, res) => {
 
         res.status(status.NO_CONTENT).json(helper.response(true));
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -82,6 +82,6 @@ exports.handle_customer_lock = async ( req, res) => {
         res.status(status.OK).json(helper.response(true, customer, "Customer locked successfully!"));
 
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };

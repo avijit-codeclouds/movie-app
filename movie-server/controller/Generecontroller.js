@@ -13,7 +13,7 @@ exports.create_genere = async (req, res) => {
 
     } catch (err) {
 
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
 
@@ -32,6 +32,6 @@ exports.get_all_genere = async (req, res) => {
         res.status(status.OK).json(helper.response(true, genre, message));
 
     } catch (err) {
-        res.status(status.BAD_REQUEST).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
     }
 };
