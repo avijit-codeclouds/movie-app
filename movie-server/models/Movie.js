@@ -16,7 +16,11 @@ const movieSchema = new mongoose.Schema({
   rate: {
     type: String,
     required: true,
-  }
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
 },
 {
     timestamps: true
