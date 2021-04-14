@@ -5,7 +5,7 @@ const { check, validationResult, body } = require("express-validator");
 const Wishlist = require("../models/Wishlist");
 const User = require("../models/User");
 
-exports.wishList = async (req, res, next) => {
+exports.create_wishlist = async (req, res, next) => {
   // console.log(req.body.user);
   try {
     const errors = validationResult(req);
@@ -22,7 +22,7 @@ exports.wishList = async (req, res, next) => {
       newWishlist.user = req.body.user;
       newWishlist.movies = req.body.movies;
       console.log(newWishlist);
-      newWishlist.save(function (err,doc) {
+      newWishlist.save(async(err,doc)=> {
         if (!err) {
           return res.status(status.OK).json({
             success: true,
@@ -53,14 +53,14 @@ exports.wishList = async (req, res, next) => {
           var movieIndex = movieFav.movies.indexOf(req.body.movies.toString());
           console.log(movieIndex);
           movieFav.movies.splice(movieIndex, 1);
-          Wishlist.findOne({ user: req.body.user }, function (err, w) {
+          Wishlist.findOne({ user: req.body.user }, async (err, w)=> {
             if (!err) {
               if (!w) {
                 w = new Wishlist();
                 w.user = req.body.user;
                 w.movies = req.body.movies;
                 console.log(w);
-                w.save(function (err,doc) {
+                w.save(async (err,doc)=> {
                   if (!err) {
                     return res.status(status.OK).json({
                       success: true,
@@ -77,7 +77,7 @@ exports.wishList = async (req, res, next) => {
                 });
               } else {
                 w.movies = movieFav.movies;
-                w.save(function (err,doc) {
+                w.save(async (err,doc)=> {
                   if (!err) {
                     return res.status(status.OK).json({
                       success: true,
@@ -97,13 +97,13 @@ exports.wishList = async (req, res, next) => {
           });
         } else {
           console.log("hello");
-          Wishlist.findOne({ user: req.body.user }, function (err, w) {
+          Wishlist.findOne({ user: req.body.user }, async (err, w)=> {
             if (!err) {
               if (!w) {
                 w = new Wishlist();
                 w.user = req.body.user;
                 w.movies = req.body.movies;
-                w.save(function (err) {
+               await w.save(function (err) {
                   if (!err) {
                     return res.status(status.OK).json({
                       success: true,
@@ -126,7 +126,7 @@ exports.wishList = async (req, res, next) => {
                 newArray = [...w.movies, favMovie];
                 console.log(newArray);
                 w.movies = newArray;
-                w.save(function (err,doc) {
+                w.save(async (err,doc)=> {
                   if (!err) {
                     return res.status(status.OK).json({
                       success: true,
@@ -156,7 +156,7 @@ exports.wishList = async (req, res, next) => {
   }
 };
 
-exports.getWishList = (req, res, next) => {
+exports.get_wishslist = (req, res, next) => {
   try{
     Wishlist.find({ user: req.params._id })
     .select("user movies _id date")
