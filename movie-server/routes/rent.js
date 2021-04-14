@@ -7,14 +7,14 @@ const { handle_validation_error }  = require('../helper/helper');
 
 //rent movie
 
-router.post('/movie',Validator.validate('rentPanel'),handle_validation_error,rentController.rentMovie);
+router.post('/movie',Validator.validate('rentPanel'),handle_validation_error,rentController.rent_movie);
 
-router.delete('/',Validator.validate('rentPanel'),handle_validation_error,rentController.rentDelete);
+router.delete('/',Validator.validate('rentPanel'),handle_validation_error,rentController.rent_delete);
 
-router.get('/movies',rentController.rentList);
+router.get('/movies',rentController.rent_list);
 
-router.patch('/pause',Validator.validate('rentPanel'),handle_validation_error,rentController.pauseRentMovie)
+router.patch('/pause',Validator.validate('rentPanel'),handle_validation_error,rentController.pause_rent_movie)
 
-router.post('/cancel',Validator.validate('rentPanel'),handle_validation_error,rentController.cancelRentMovie)
+router.post('/cancel',Validator.validate('rentPanel'),handle_validation_error,rentController.cancel_rent_movie)
 
 module.exports = router;
