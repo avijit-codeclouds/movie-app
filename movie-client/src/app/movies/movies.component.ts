@@ -26,6 +26,7 @@ export class MoviesComponent implements OnInit {
   isChecked: any;
   wishList = [];
   emptyArr = [];
+  clickeItem : number = 0
 
   constructor(
     public movieservice: MovieService,
@@ -113,6 +114,28 @@ export class MoviesComponent implements OnInit {
     //   // console.log();
     //    this.ngOnInit();
     // })
+  }
+
+  async wishListClicked(itemId: any) { 
+    this.clickeItem ++
+    console.log('clicked')
+    console.log(`clickeItem :: ${this.clickeItem}`)
+    // this.buttonClicked.next(itemId);
+    let data = {
+      user: this.user_id,
+      movies: [itemId],
+    };
+    // Promise.all([
+    //   this.movieservice.fetchData(data)
+    // ]).then(res => {
+    //   console.log(res)
+    //   console.log('all done')
+    //   console.log(this.clickeItem)
+    // });
+    const res =  await this.movieservice.fetchData(data)
+    // this.getMovies();
+    // this.getWishlist();
+    console.log(res)
   }
 
   clickMethod(_id: string) {
