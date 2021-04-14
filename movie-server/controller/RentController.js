@@ -7,7 +7,7 @@ const { response } = require('../helper/helper');
 const APIFeatuers   = require('../utils/apiFeatures');
 
 
-exports.cancelRentMovie = async(req,res,next) => {
+exports.cancel_rent_movie = async(req,res,next) => {
     try {
         const { user, movie } = req.body;
         
@@ -33,7 +33,7 @@ exports.cancelRentMovie = async(req,res,next) => {
     }
 }
 
-exports.pauseRentMovie = async(req,res,next) => {
+exports.pause_rent_movie = async(req,res,next) => {
     try {
         const { user, movie } = req.body;
         
@@ -59,7 +59,7 @@ exports.pauseRentMovie = async(req,res,next) => {
     }
 }
 
-exports.rentMovie = async(req,res,next) => {
+exports.rent_movie = async(req,res,next) => {
     try {
         const { user, movie } = req.body;
         let getMovie = await Movie.findById(movie)
@@ -97,7 +97,7 @@ exports.rentMovie = async(req,res,next) => {
     }
 }
 
-exports.rentDelete = async(req,res,next) => {
+exports.rent_delete = async(req,res,next) => {
     try {
         const { user, movie } = req.body;
         
@@ -121,7 +121,7 @@ exports.rentDelete = async(req,res,next) => {
     }
 }
 
-exports.rentList = async(req,res,next) => {
+exports.rent_list = async(req,res,next) => {
     try {
         // const rent = await Rent.find().populate(['movies.movie']).
         // populate({ path: 'user', select: '-password' })
