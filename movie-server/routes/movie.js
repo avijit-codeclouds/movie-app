@@ -10,7 +10,7 @@ router.post('/edit/:movie_id',movieValidator.validate('createMovie'),handle_vali
 
 router.get('/list',movieController.movie_list);
 
-router.delete('/delete/:movie_id',movieController.delete_movie);
+router.post('/delete/:movie_id',movieController.delete_movie);
 
 router.get('/:movie_id',movieController.view_movie);
 

@@ -12,6 +12,7 @@ exports.validate = (method) => {
             body('genre', 'Genre is required').notEmpty(),
             body('stock', 'Stock is required').notEmpty(),
             body('rate', 'Rate is required').notEmpty(),
+            body('user','User is required').notEmpty(),
          ];
       }
       case 'wishList': {
