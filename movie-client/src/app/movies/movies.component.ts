@@ -25,12 +25,7 @@ export class MoviesComponent implements OnInit {
   user_id: any;
   isChecked: any;
   wishList = [];
-  // selectedItemsList = [];
-  // checkedIDs = [];
   emptyArr = [];
-  // faUser = ['fas', 'square'];
-  // faUserDefault = ['fas', 'square'];
-  // faUserCheck = ['fas', 'check-square'];
 
   constructor(
     public movieservice: MovieService,
@@ -49,9 +44,6 @@ export class MoviesComponent implements OnInit {
     this.getGenere();
     this.getMovies();
     this.getWishlist();
-
-    // this.fetchSelectedItems()
-    // this.fetchCheckedIDs()
   }
 
   getGenre(genreType) {
@@ -88,34 +80,6 @@ export class MoviesComponent implements OnInit {
       //  console.log( this.wishList);
     });
   }
-
-  // toggle(): boolean {
-  //   return this.isActive = !this.isActive;
-  // }
-
-  // onClickBtn(e) {
-  //   this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
-
-  // }
-  // changeSelection() {
-  //   this.fetchSelectedItems()
-  // }
-
-  // fetchSelectedItems() {
-  //   this.selectedItemsList = this.checkboxesDataList.filter((value, index) => {
-  //     return value.isChecked
-  //   });
-  // }
-
-  // fetchCheckedIDs() {
-  //   this.checkedIDs = []
-  //   this.checkboxesDataList.forEach((value, index) => {
-  //     if (value.isChecked) {
-  //       this.checkedIDs.push(value.id);
-  //     }
-  //   });
-  // }
-
   getStatus(_id) {
     if (!_id) {
       return false;
