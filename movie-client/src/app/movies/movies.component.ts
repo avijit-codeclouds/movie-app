@@ -128,6 +128,7 @@ export class MoviesComponent implements OnInit {
         }
         else{
           alert('Successfully deleted')
+          this.ngOnInit()
         }
         
       })
