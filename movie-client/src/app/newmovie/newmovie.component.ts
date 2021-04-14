@@ -18,7 +18,7 @@ export class NewmovieComponent implements OnInit {
   enableMessage: boolean = false
   genreList : string
   showProgress : boolean = false
-
+  user_id=localStorage.getItem("user_id");
 
   constructor( public formBuilder: FormBuilder,
     public authService: AuthService,public movieservice:MovieService,
@@ -27,13 +27,15 @@ export class NewmovieComponent implements OnInit {
         title: ['', Validators.required],
         genre : ['', Validators.required],
         stock: ['',Validators.required],
-        rate:['',Validators.required]
+        rate:['',Validators.required],
+        user:[this.user_id]
       });
   }
 
   get fc() { return this.form.controls; }
   
   ngOnInit() {
+   
     this.movieservice.genreList().subscribe(res => {
       this.genreList = res.result
     },err => {
@@ -43,6 +45,7 @@ export class NewmovieComponent implements OnInit {
   
   addMovie(){
     this.submitted = true;
+    console.log(this.form.value);
     // stop here if form is invalid
     if (this.form.invalid) {
       return;
