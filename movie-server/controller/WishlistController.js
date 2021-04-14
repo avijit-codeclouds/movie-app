@@ -157,7 +157,8 @@ exports.wishList = async (req, res, next) => {
 };
 
 exports.getWishList = (req, res, next) => {
-  Wishlist.find({ user: req.params._id })
+  try{
+    Wishlist.find({ user: req.params._id })
     .select("user movies _id date")
     .then((fav) => {
       if (fav.length > 0) {
@@ -167,11 +168,17 @@ exports.getWishList = (req, res, next) => {
           result: fav,
         });
       } else {
-        return res.status(404).json({
+        return res.status(status.OK).json({
           success: false,
           msg: "No wishlist Found",
           result: [],
         });
       }
     });
+  }catch (err) {
+    return res.status(status.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      result: err,
+    });
+  }
 };
