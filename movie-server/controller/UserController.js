@@ -18,7 +18,7 @@ exports.register_user = async (req, res ) => {
         const user = await User.find({ email: req.body.email });
 
         if (user.length >= 1)
-            res.status(status.BAD_REQUEST).json(response(false, null , 'Similar User already exists!'));
+            res.status(status.OK).json(response(false, null , 'Similar User already exists!'));
 
         bcrypt.hash(req.body.password, constants.SALT_ROUNDS , async (err, hash) => {
 
@@ -48,7 +48,7 @@ exports.login_user = async (req, res) => {
         let user = await User.find({ email: req.body.email }).limit(1);
 
         if (user.length < 1)
-            res.status(status.BAD_REQUEST).json(response(false, null , "User doesn't exists!"));
+            res.status(status.OK).json(response(false, null , "User doesn't exists!"));
 
         user = first(user);
 
@@ -64,7 +64,7 @@ exports.login_user = async (req, res) => {
                 return res.status(status.OK).json(response(true, { user, token } , 'Login Successful'));
             }
 
-            return res.status(status.FORBIDDEN).json(response(false, null , 'Invalid Credentials'));
+            return res.status(status.OK).json(response(false, null , 'Invalid Credentials'));
         });
 
     } catch(err) {

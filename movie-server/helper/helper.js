@@ -1,6 +1,7 @@
 const jwt                  = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const constants            = require('../constant');
+const status               = require('http-status');
 
 exports.response = (success = null, result = null, message = null) => {
     return {
@@ -14,7 +15,7 @@ exports.handle_validation_error = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(403).json({ success: false, result: errors.array(), message: "Validation Failed!"});
+        return res.status(status.OK).json({ success: false, result: errors.array(), message: "Validation Failed!"});
     }
 
     next();
