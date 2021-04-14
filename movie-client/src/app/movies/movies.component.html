@@ -1,16 +1,17 @@
-<br><br>
+<br /><br />
 <div class="container">
-    <div class="row">
-        <div class="col-3">
-
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" (click)="getGenre('all')">All Genres</a>
-                </li>
-                <li   *ngFor="let gener of generes" class="nav-item">
-                    <a class="nav-link" (click)="getGenre(gener.name)">{{gener.name}}</a>
-                </li>
-                <!-- <li class="nav-item">
+  <div class="row">
+    <div class="col-3">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" (click)="getGenre('all')">All Genres</a>
+        </li>
+        <li *ngFor="let gener of generes" class="nav-item">
+          <a class="nav-link" (click)="getGenre(gener.name)">{{
+            gener.name
+          }}</a>
+        </li>
+        <!-- <li class="nav-item">
                     <a class="nav-link" href="#">Comedy</a>
                 </li>
                 <li class="nav-item">
@@ -19,57 +20,100 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Thriller</a>
                 </li> -->
-            </ul>
-        </div>
-        <div class="col">
-            <div *ngIf="!token">
-            <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px;">New Movie</a>
-            </div>
-            <p *ngIf="movies">Showing {{(movies|filter:query).length}} in the database.</p>
-            <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query" value="">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-primary">
-                        <th scope="col">Title </th>
-                        <th scope="col">Genere</th>
-                        <th scope="col">Stock</th>
-                        <th scope="col">Rate</th>
-                        <th scope="col">Action</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let movie of movies |filter:query| paginate: { itemsPerPage: 5, currentPage: p }">
-                        <th scope="row" class="pn" routerLink="/movies/{{movie._id}}">{{movie.title}}</th>
-                        <td>{{movie.genre.name}}</td>
-                        <td>{{movie.stock}}</td>
-                        <td>{{movie.rate}}</td>
-                        <td>
-                            
-                            <input type="checkbox" [checked]="getStatus(movie._id)" data-md-icheck  #checkdelet id="{{movie._id}}" name="movie" value="{{movie._id}}" (click)="selectID(movie._id,$event)"></td>
-                        <!-- <td ><fa-icon
-                            [icon]="faUserDefault"
-                            (click)="onClickBtn($event)"
-                          ></fa-icon></td> -->
-                          
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  class="bi bi-trash-fill" viewBox="0 0 16 16" title="delete">
-                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                          </svg>
+      </ul>
+    </div>
+    <div class="col">
+      <div *ngIf="!token">
+        <a
+          class="btn btn-primary"
+          routerLink="/movies/new"
+          style="margin-bottom: 20px"
+          >New Movie</a
+        >
+      </div>
+      <p *ngIf="movies">
+        Showing {{ (movies | filter: query).length }} in the database.
+      </p>
+      <input
+        type="text"
+        name="query"
+        class="form-control my-3"
+        placeholder="Search..."
+        [(ngModel)]="query"
+        value=""
+      />
+      <table class="table table-hover">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">Title</th>
+            <th scope="col">Genere</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Action</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+    <ng-container *ngIf="movies">
+        <tr
+        *ngFor="
+          let movie of movies
+            | filter: query
+            | paginate: { itemsPerPage: 5, currentPage: p }
+        "
+      >
+        <th scope="row" class="pn" routerLink="/movies/{{ movie._id }}">
+          {{ movie.title }}
+        </th>
+        <td>{{ movie.genre.name }}</td>
+        <td>{{ movie.stock }}</td>
+        <td>{{ movie.rate }}</td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="wishList.length >0 ? getStatus(movie._id):false"
+            data-md-icheck
+            #checkdelet
+            id="{{ movie._id }}"
+            name="movie"
+            value="{{ movie._id }}"
+            (click)="selectID(movie._id, $event)"
+          />
+        </td>
+        <!-- <td ><fa-icon
+                          [icon]="faUserDefault"
+                          (click)="onClickBtn($event)"
+                        ></fa-icon></td> -->
+        <td>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash-fill"
+            viewBox="0 0 16 16"
+            title="delete"
+            (click)="clickMethod(movie._id)"
+          >
+            <path
+              d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+            />
+          </svg>
+        </td>
+      </tr>
+    </ng-container>
+            
+        </tbody>
+      </table>
 
-                     
-                    </tr>
-                    
-                </tbody>
-               
-            </table>
-
-            <div>
-
-                <ul class="pagination">
-                    <li class="page-item active">
-                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                    </li>
-                    <!-- <li class="page-item">
+      <div>
+        <ul class="pagination">
+          <li class="page-item active">
+            <pagination-controls
+              (pageChange)="p = $event"
+            ></pagination-controls>
+          </li>
+          <!-- <li class="page-item">
                         <a class="page-link" href="#">2</a>
                     </li>
                     <li class="page-item">
@@ -84,10 +128,10 @@
                     <li class="page-item">
                         <a class="page-link" href="#">&raquo;</a>
                     </li> -->
-                </ul>
-            </div>
-        </div>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>
 <!-- <script>
     function changeStatus(x) {

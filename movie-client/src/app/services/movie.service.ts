@@ -38,7 +38,10 @@ export class MovieService {
     return this.httpClient.get(`${this.API_URL}/movie/`+movie_id)
     .pipe(retry(3), catchError(this.handleError));
   }
-
+  deleteMovie(payload: any,movie_id: string):Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/movie/delete/`+movie_id,payload)
+    .pipe(retry(3), catchError(this.handleError));
+  }
   movieWishlist(data:any) : Observable<any> {
     return this.httpClient.post(`${this.API_URL}/wishlist`,data)
     .pipe(retry(3), catchError(this.handleError));

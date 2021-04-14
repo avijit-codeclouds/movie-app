@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class MoviesComponent implements OnInit {
   token: boolean;
-  movies: [];
+  movies: any;
   generes: [];
   query;
   p;
@@ -25,18 +25,13 @@ export class MoviesComponent implements OnInit {
   user_id: any;
   isChecked: any;
   wishList = [];
-  // selectedItemsList = [];
-  // checkedIDs = [];
   emptyArr = [];
-  // faUser = ['fas', 'square'];
-  // faUserDefault = ['fas', 'square'];
-  // faUserCheck = ['fas', 'check-square'];
 
   constructor(
     public movieservice: MovieService,
     public genereservice: GenerService,
     public authservice: AuthService,
-    public router: Router,
+    public router: Router
   ) {}
 
   ngOnInit() {
@@ -49,9 +44,6 @@ export class MoviesComponent implements OnInit {
     this.getGenere();
     this.getMovies();
     this.getWishlist();
-
-    // this.fetchSelectedItems()
-    // this.fetchCheckedIDs()
   }
 
   getGenre(genreType) {
@@ -73,7 +65,7 @@ export class MoviesComponent implements OnInit {
     this.movieservice.movieList().subscribe((data) => {
       this.movies = data["result"];
       console.log(data["result"]);
-      this.storeMovies=this.movies
+      this.storeMovies = this.movies;
     });
   }
   getGenere() {
@@ -88,58 +80,32 @@ export class MoviesComponent implements OnInit {
       //  console.log( this.wishList);
     });
   }
-
-  // toggle(): boolean {
-  //   return this.isActive = !this.isActive;
-  // }
-
-  // onClickBtn(e) {
-  //   this.toggle() ? this.faUserDefault = this.faUser : this.faUserDefault = this.faUserCheck;
-
-  // }
-  // changeSelection() {
-  //   this.fetchSelectedItems()
-  // }
-
-  // fetchSelectedItems() {
-  //   this.selectedItemsList = this.checkboxesDataList.filter((value, index) => {
-  //     return value.isChecked
-  //   });
-  // }
-
-  // fetchCheckedIDs() {
-  //   this.checkedIDs = []
-  //   this.checkboxesDataList.forEach((value, index) => {
-  //     if (value.isChecked) {
-  //       this.checkedIDs.push(value.id);
-  //     }
-  //   });
-  // }
-
   getStatus(_id) {
-    let stat = 0;
-    this.wishList[0].movies.map((e) => {
-      if (e == _id) stat++;
-    });
-    console.log(stat);
-    if (stat > 0) {
-      return true;
-    } else {
+    if (!_id) {
       return false;
+    } else {
+      let stat = 0;
+      this.wishList[0].movies.map((e) => {
+        if (e == _id) stat++;
+      });
+      console.log(stat);
+      if (stat > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
   selectID(_id, event) {
-
     let data = {
       user: this.user_id,
       movies: [_id],
     };
-
+    window.location.reload();
     this.movieservice.movieWishlist(data).subscribe((data) => {
-      console.log('received',data);
+      console.log(data);
       window.location.reload();
-      this.ngOnInit();
       // data.data.movies.forEach(chk => {
       //   console.log(chk.isChecked)
     });
@@ -147,5 +113,26 @@ export class MoviesComponent implements OnInit {
     //   // console.log();
     //    this.ngOnInit();
     // })
+  }
+
+  clickMethod(_id: string) {
+    console.log(_id)
+    let data = {
+      user: this.user_id,
+    };
+    if(confirm("Are you sure to delete this movie??")) {
+      this.movieservice.deleteMovie(data,_id).subscribe((data)=>{
+        console.log(data)
+        if(data.success==false){
+          alert('Permission Denied to delete this movie...')
+        }
+        else{
+          alert('Successfully deleted')
+          this.ngOnInit()
+        }
+        
+      })
+      
+    }
   }
 }
