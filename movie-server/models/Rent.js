@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const RentSchema = new mongoose.Schema({
     user: {
@@ -15,11 +16,13 @@ const RentSchema = new mongoose.Schema({
         },
         startday: {
             type: String,
-            required:true
+            required:true,
+            default : moment().format('MMMM Do YYYY, hh:mm A')
         },
         endday: {
             type: String,
-            required:true
+            required:true,
+            default : moment().add(48, 'hours').format('MMMM Do YYYY, hh:mm A')
         },
         expired: {
             type: Boolean,
@@ -32,10 +35,10 @@ const RentSchema = new mongoose.Schema({
         canceled: {
           type: Boolean,
           default: false
-        }
-      },
-      {
-          timestamps: true
+        },
+        createdAt: { type: String, default: moment().format("YYYY-MM-DD[T]HH:mm") },
+        expireAt: { type: String, index: true, default: moment().add(10, 'minutes').format("YYYY-MM-DD[T]HH:mm") }
+        // expireAt: { type: Date, default: moment().add(48, 'hours').toDate() }
       }
     ],
     // date: {
