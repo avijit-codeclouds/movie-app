@@ -68,8 +68,8 @@ export class MovieService {
   }
 
   
-  getMovieWishlist(_id) : Observable<any> {
-    return this.httpClient.get(`${this.API_URL}/wishlist/get/`+_id)
+  getMovieWishlist() : Observable<any> {
+    return this.httpClient.get(`${this.API_URL}/wishlist/`)
     .pipe(retry(3), catchError(this.handleError));
   }
 

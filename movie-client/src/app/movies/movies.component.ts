@@ -75,7 +75,7 @@ export class MoviesComponent implements OnInit {
     });
   }
   getWishlist() {
-    this.movieservice.getMovieWishlist(this.user_id).subscribe((data) => {
+    this.movieservice.getMovieWishlist().subscribe((data) => {
       console.log(data);
       this.wishList = data["result"];
       //  console.log( this.wishList);
@@ -122,9 +122,10 @@ export class MoviesComponent implements OnInit {
     console.log(`clickeItem :: ${this.clickeItem}`)
     // this.buttonClicked.next(itemId);
     let data = {
-      user: this.user_id,
       movies: [itemId],
+      checked:event.target.checked
     };
+    console.log(data)
     // Promise.all([
     //   this.movieservice.fetchData(data)
     // ]).then(res => {
