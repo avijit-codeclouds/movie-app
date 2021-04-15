@@ -86,7 +86,7 @@ exports.movie_list = async (req, res, next) => {
     // let movie = await Movie.find().populate('genre')
     const msg = "movie list";
     const features = new APIFeatuers(
-      Movie.find().populate("genre user"),
+      Movie.find().populate("genre").populate({ path: 'user', select: '-password' }),
       req.query
     )
       .filter()

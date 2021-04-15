@@ -6,6 +6,17 @@ const moment = require('moment');
 const { response } = require('../helper/helper');
 const APIFeatuers   = require('../utils/apiFeatures');
 
+exports.expire_rent_movie = async(req,res,next) => {
+    try {
+        // const rent = await Rent.find()
+        const rent = await Rent.find({"createdAt":{$gt:new Date(Date.now() - 24*60*60 * 1000)}});
+        console.log(rent)
+        return res.status(200).json(rent)
+    } catch (err) {
+        console.log(err)
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
+    }
+}
 
 exports.cancel_rent_movie = async(req,res,next) => {
     try {
