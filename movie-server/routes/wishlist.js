@@ -7,6 +7,6 @@ const wishlistController = require ('../controller/WishlistController');
 
 
 router.post('/',validator.validate('wishList'),wishlistController.create_wishlist);
-router.get('/get/:_id',wishlistController.get_wishslist);
+router.get('/get/:_id',wishlistController.get_wishlist);
 
 module.exports=router;
