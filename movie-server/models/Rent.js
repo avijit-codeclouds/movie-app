@@ -37,7 +37,7 @@ const RentSchema = new mongoose.Schema({
           default: false
         },
         createdAt: { type: String, default: moment().format("YYYY-MM-DD[T]HH:mm") },
-        expireAt: { type: String, index: true, default: moment().add(10, 'minutes').format("YYYY-MM-DD[T]HH:mm") }
+        expireAt: { type: String, index: true, default: moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm") }
         // expireAt: { type: Date, default: moment().add(48, 'hours').toDate() }
       }
     ],
