@@ -42,7 +42,8 @@ exports.get_wishlist = async (req, res) => {
 
 	try
 	{
-		const wishlist = await Wishlist.find({ user: req.params._id }).select("user movies _id date");
+		const user    = decode_jwt(req);
+		const wishlist = await Wishlist.find({ user:user.id }).select("user movies _id date");
 
 		return res.status(status.OK).json(response(true, wishlist, wishlist.length > 0 ? "All wishlists" : "No wishlist Found"));
 
