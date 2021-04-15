@@ -21,7 +21,7 @@ exports.handle_validation_error = (req, res, next) => {
     next();
 };
 
-exports.jwt_sign_in = (id, name, email) => {
+exports.jwt_sign_in = (email, name, id) => {
 
     const token = jwt.sign(
         {
@@ -61,4 +61,19 @@ exports.is_admin_domain_name = (email) => {
     {
         return null;
     }
+};
+
+exports.decode_jwt = (req) => {
+
+    try
+    {
+        const token = req.headers.authorization.split(" ")[1];
+
+        return jwt.verify(token, process.env.jwtSecret);
+    }
+    catch ( err )
+    {
+        return null;
+    }
+
 };

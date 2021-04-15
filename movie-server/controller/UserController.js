@@ -9,7 +9,8 @@ const {
         response,
         jwt_sign_in,
         first,
-        is_admin_domain_name
+        is_admin_domain_name,
+        decode_jwt
         }           = require('../helper/helper');
 
 exports.register_user = async (req, res ) => {
@@ -70,6 +71,22 @@ exports.login_user = async (req, res) => {
         });
 
     } catch(err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+    }
+};
+
+exports.me = async (req, res) => {
+
+    try
+    {
+        const decoded = decode_jwt(req);
+
+        const user    = await User.findById(decoded.id).select(['name', 'id', 'role', 'email']);
+
+        return res.status(status.OK).json(response(true, user));
+    }
+    catch(err)
+    {
         res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 };
