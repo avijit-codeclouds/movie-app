@@ -14,7 +14,7 @@ const helmet        = require('helmet');
 const routes        = require('./routes');
 const app           = express();
 const cron = require('node-cron')
-const { expire_rent_movie } = require('./controller/RentController')
+const { expire_rent_movie }  = require('./jobs/Rentjob')
 
 
 
@@ -34,10 +34,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-// cron.schedule('* * * * * *', () => {
-//   console.log('running a task every minute');
-//   // expire_rent_movie()
-// });
+cron.schedule('* * * * *', () => {
+  expire_rent_movie()
+});
 
 app.use('/', routes);
 

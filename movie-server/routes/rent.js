@@ -17,6 +17,4 @@ router.patch('/pause',Validator.validate('rentPanel'),handle_validation_error,re
 
 router.post('/cancel',Validator.validate('rentPanel'),handle_validation_error,rentController.cancel_rent_movie)
 
-router.get('/expire',rentController.expire_rent_movie)
-
 module.exports = router;
