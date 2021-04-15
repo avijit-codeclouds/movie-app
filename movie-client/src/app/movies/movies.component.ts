@@ -4,7 +4,7 @@ import { GenerService } from "../services/gener.service";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-
+import jwt_decode from "jwt-decode";
 @Component({
   selector: "app-movies",
   templateUrl: "./movies.component.html",
@@ -27,7 +27,7 @@ export class MoviesComponent implements OnInit {
   wishList = [];
   emptyArr = [];
   clickeItem : number = 0
-
+  authToken:any;
   constructor(
     public movieservice: MovieService,
     public genereservice: GenerService,
@@ -36,7 +36,9 @@ export class MoviesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user_id = localStorage.getItem("user_id");
+    this.authToken=localStorage.getItem("user");
+    this.user_id  = jwt_decode(this.authToken);
+    this.user_id=this.user_id.id 
     if (localStorage.getItem("user") === null) {
       this.token = true;
     } else {
