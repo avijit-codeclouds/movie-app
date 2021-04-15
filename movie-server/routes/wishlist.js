@@ -1,12 +1,12 @@
-const express           = require('express');
-const router            = express.Router();
-const movieController   = require('../controller/MovieController');
-const validator    = require('../validator/validate');
-const wishlistController = require ('../controller/WishlistController');
+const express               = require('express');
+const router                = express.Router();
+const validator             = require('../validator/validate');
+const wishlistController    = require ('../controller/WishlistController');
+const helper                = require('../helper/helper');
 
-
-
-router.post('/',validator.validate('wishList'),wishlistController.create_wishlist);
-router.get('/get/:_id',wishlistController.get_wishlist);
+router
+    .route('/')
+    .get(wishlistController.get_wishlist)
+    .post(validator.validate('wishList'), helper.handle_validation_error ,wishlistController.create_wishlist);
 
 module.exports=router;

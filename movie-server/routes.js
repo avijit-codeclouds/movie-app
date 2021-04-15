@@ -24,7 +24,7 @@ module.exports = router.use(ROUTE_PREFIX+'/generes' ,genereRouter);
 module.exports = router.use(ROUTE_PREFIX+'/movie',checkauth , movieRoute);
 
 /*Wishlist Routes */
-module.exports = router.use(ROUTE_PREFIX+'/wishlist',wishlistRoute);
+module.exports = router.use(ROUTE_PREFIX+'/wishlist',checkauth ,wishlistRoute);
 
 /*Rent Routes */
 module.exports = router.use(ROUTE_PREFIX+'/rent',checkauth ,rentRoute);
