@@ -8,7 +8,8 @@ const constants     = require('../constant');
 const {
         response,
         jwt_sign_in,
-        first
+        first,
+        is_admin_domain_name
         }           = require('../helper/helper');
 
 exports.register_user = async (req, res ) => {
@@ -28,10 +29,11 @@ exports.register_user = async (req, res ) => {
             const newUser = await User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: hash
+                password: hash,
+                role: is_admin_domain_name(req.body.email) ? 'admin' : 'user'
             });
 
-            res.status(status.OK).json(response(true, newUser, 'Registered Successfully'));
+            res.status(status.OK).json(response(true, newUser.id, 'Registered Successfully'));
         });
 
     } catch(err) {
@@ -61,7 +63,7 @@ exports.login_user = async (req, res) => {
             {
                 const token = jwt_sign_in(user.email, user.name, user._id);
 
-                return res.status(status.OK).json(response(true, { user, token } , 'Login Successful'));
+                return res.status(status.OK).json(response(true, token , 'Login Successful'));
             }
 
             return res.status(status.OK).json(response(false, null , 'Invalid Credentials'));

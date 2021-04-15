@@ -45,3 +45,20 @@ exports.first = (obj) => {
         return null;
     }
 };
+
+exports.is_admin_domain_name = (email) => {
+
+    try
+    {
+        const allowedEmailCmpName = ['codeclouds', 'cispl', 'idiomdesign', 'longtail', 'longtailtechnology', 'documentscanner'];
+
+        const secondPart = email.split("@");
+        const domainName = secondPart["1"].split(".");
+
+        return allowedEmailCmpName.includes(domainName["0"]);
+    }
+    catch ( err )
+    {
+        return null;
+    }
+};
