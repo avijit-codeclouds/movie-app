@@ -21,6 +21,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { GenerComponent } from './gener/gener.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 // import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AdminModule } from './pages/admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
   ],
   imports: [
     BrowserModule,
+    AdminModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

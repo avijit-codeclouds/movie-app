@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/admin']" [ngClass]="{'active': (navTitle == 'Dashboard')}">
+                <i class="fas fa-home"></i>
+                Dashboard
+              </a>
+            </li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Features</span>
+            <a class="d-flex align-items-center text-muted" href="javascript:void(0)">
+              <i class="fas fa-plus-circle"></i>
+            </a>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['customers']"  routerLinkActive="active">
+                <i class="fas fa-users"></i>
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['movies']"  routerLinkActive="active">
+                <i class="fas fa-film"></i>
+                Movies
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['rentals']"  routerLinkActive="active">
+                <i class="fas fa-shopping-cart"></i>
+                Rentals
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+          <h1 class="h2">{{ navTitle }}</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+              <button *ngFor="let btn of buttonConfigs" [ngClass]="btn.class ? btn.class : 'btn btn-outline-secondary'" (click)="onClick(btn)" [innerHTML]="btn.label"></button>
+            </div>
+            <!-- <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              This week
+            </button> -->
+          </div>
+        </div>
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
