@@ -6,13 +6,15 @@ import { PageComponent } from './page/page.component';
 import { ListComponent as CustomersListComponent } from './customers/list.component';
 import { ListComponent as MoviesListComponent } from './movies/list.component';
 import { ListComponent as RentalsListComponent } from './rental/list.component';
+import { IsAdminGuard } from './../../guards/is-admin.guard';
 
 
 const routes: Routes = [
   {
     path: "admin",
     component: PageComponent,
-    data: {},
+    data: {title: ''},
+    canActivate: [IsAdminGuard],
     children: [
       {
         path: '',
