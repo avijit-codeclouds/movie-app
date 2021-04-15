@@ -57,9 +57,8 @@ export class LoginComponent implements OnInit {
         }, 3000)
       }else{
         this.showProgress = false
-        // console.log(res)
-        this.authService.saveToken(res.result.token)
-         this.authService.currentUser(res.result.user._id)
+         console.log(res)
+        this.authService.saveToken(res.result)
         // this.redirect.emit(this.loggedInText);//emits the data to the parent
         this.router.navigateByUrl("/");
       }
