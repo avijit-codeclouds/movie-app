@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { MovieService } from "../services/movie.service";
-import { GenerService } from "../services/gener.service";
+import { MovieService } from "./../../services/movie.service";
+import { GenerService } from "./../../services/gener.service";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "./../../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { finalize } from "rxjs/operators";
 
 
 @Component({
@@ -35,6 +36,8 @@ export class MoviesComponent implements OnInit {
   showProgress : boolean = false;
   selectedGenre: string = 'all';
   jwtHelper = new JwtHelperService();
+  loadingMovies: boolean = false;
+  loadingGenres: boolean = false;
 
 
   constructor(
@@ -85,14 +88,20 @@ export class MoviesComponent implements OnInit {
   }
 
   getMovies() {
-    this.movieservice.movieList().subscribe((data) => {
+    this.loadingMovies = true;
+    this.movieservice.movieList().pipe(finalize(() => {
+      this.loadingMovies = false;
+    })).subscribe((data) => {
       this.movies = data["result"];
       console.log(data["result"]);
       this.storeMovies = this.movies;
     });
   }
   getGenere() {
-    this.genereservice.generList().subscribe((data) => {
+    this.loadingGenres = true;
+    this.genereservice.generList().pipe(finalize(() => {
+      this.loadingGenres = false;
+    })).subscribe((data) => {
       this.generes = data["result"];
     });
   }

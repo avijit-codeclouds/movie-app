@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   form: FormGroup;
   submitted = false;
@@ -19,13 +19,12 @@ export class LoginComponent implements OnInit {
 
 
   constructor(
-    public router: Router,public formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     public authService: AuthService,
+    public router: Router,
   ) { 
-    if(localStorage.getItem("user")!=null){
-      this.router.navigate(['/']);
-    }
     this.form = this.formBuilder.group({
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -35,7 +34,10 @@ export class LoginComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
 
-  loginUser(){
+  ngOnInit() {
+  }
+
+  registerUser() {
     this.submitted = true;
     // stop here if form is invalid
     if (this.form.invalid) {
@@ -43,32 +45,34 @@ export class LoginComponent implements OnInit {
     }
     // console.log(this.form.value)
     this.showProgress = true
-    this.authService.login(this.form.value).subscribe(res => {
-      
-      if(res.success == false){
+    this.authService.registerUser(this.form.value).subscribe(result => {
+      if(result.success == true){
         this.showProgress = false
-        this.msg = res.message
+        this.msg = 'Successfully registered!'
         this.enableMessage = true
-        this.className = 'alert-danger'
+        this.className = 'alert-success'
         // this.form.controls['name'].setValue('');
         // this.form.reset()
-        setTimeout( () => {
+        setTimeout( ()=>{
+          // console.log('works')
           this.enableMessage = false
+          // console.log(`enableMessage :: ${this.enableMessage}`)
+          this.router.navigate(['/login']);
         }, 3000)
       }else{
         this.showProgress = false
-         console.log(res)
-        this.authService.saveToken(res.result)
-        // this.redirect.emit(this.loggedInText);//emits the data to the parent
-        this.router.navigateByUrl("/");
+        this.msg = result.message
+        this.enableMessage = true
+        this.className = 'alert-danger'
+        setTimeout( ()=>{
+          // console.log('works')
+          this.enableMessage = false
+        }, 3000)
       }
-    },err => {
+    }, err => {
       this.showProgress = false
       console.log(err)
     })
-  }
-
-  ngOnInit() {
   }
 
 }

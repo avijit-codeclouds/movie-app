@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from "./guards/auth.guard";
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { CustomersComponent } from './customers/customers.component';
-import { RentalsComponent } from './rentals/rentals.component';
-import { NewmovieComponent } from './newmovie/newmovie.component';
-import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
-import { LogoutComponent } from './logout/logout.component'
-import { NotfoundComponent } from './notfound/notfound.component'
-import { WishlistComponent } from './wishlist/wishlist.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { RentalsComponent } from './pages/rentals/rentals.component';
+import { NewmovieComponent } from './pages/newmovie/newmovie.component';
+import { UpdatemovieComponent } from './pages/updatemovie/updatemovie.component';
+import { LogoutComponent } from './pages/logout/logout.component'
+import { NotfoundComponent } from './pages/notfound/notfound.component'
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 const routes: Routes = [
   // { path: '', component: HomeComponent },
-  { path: '', loadChildren: './movies/movies.module#MoviesModule'},
+  { path: '', loadChildren: './pages/movies/movies.module#MoviesModule'},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },

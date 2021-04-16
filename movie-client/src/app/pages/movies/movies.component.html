@@ -21,6 +21,7 @@
                     <a class="nav-link" href="#">Thriller</a>
                 </li> -->
       </ul>
+      <mat-progress-bar mode='indeterminate' class="mt-3" *ngIf="loadingGenres"></mat-progress-bar>
     </div>
     <div class="col">
       <div *ngIf="authservice.isAdmin">
@@ -120,8 +121,9 @@
             
         </tbody>
       </table>
+      <mat-progress-bar mode='indeterminate' *ngIf="loadingMovies"></mat-progress-bar>
       <div>
-        <ul class="pagination">
+        <ul class="pagination" *ngIf="!loadingMovies">
           <li class="page-item active">
             <pagination-controls
               (pageChange)="p = $event"
