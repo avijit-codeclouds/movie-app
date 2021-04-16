@@ -28,7 +28,6 @@ export class UpdatemovieComponent implements OnInit {
     stock: new FormControl(),
     rate: new FormControl()
   })
-  user_id=localStorage.getItem("user_id");
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -41,7 +40,6 @@ export class UpdatemovieComponent implements OnInit {
       genre : ['', Validators.required],
       stock: ['',Validators.required],
       rate:['',Validators.required],
-      user:[this.user_id]
     });
   }
 

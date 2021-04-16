@@ -18,7 +18,6 @@ export class NewmovieComponent implements OnInit {
   enableMessage: boolean = false
   genreList : string
   showProgress : boolean = false
-  user_id=localStorage.getItem("user_id");
 
   constructor( public formBuilder: FormBuilder,
     public authService: AuthService,public movieservice:MovieService,
@@ -28,7 +27,6 @@ export class NewmovieComponent implements OnInit {
         genre : ['', Validators.required],
         stock: ['',Validators.required],
         rate:['',Validators.required],
-        user:[this.user_id]
       });
   }
 
