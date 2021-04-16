@@ -4,10 +4,10 @@
     <div class="col-3">
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a class="nav-link active" (click)="getGenre('all')">All Genres</a>
+          <a class="nav-link" [ngClass]="{active: selectedGenre == 'all'}" (click)="getGenre('all')">All Genres</a>
         </li>
         <li *ngFor="let gener of generes" class="nav-item">
-          <a class="nav-link" (click)="getGenre(gener.name)">{{
+          <a class="nav-link" [ngClass]="{active: selectedGenre == gener.name}" (click)="getGenre(gener.name)">{{
             gener.name
           }}</a>
         </li>

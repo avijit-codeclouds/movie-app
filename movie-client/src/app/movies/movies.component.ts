@@ -32,7 +32,8 @@ export class MoviesComponent implements OnInit {
   clickeItem: number = 0;
   user : any
   getUserId : any
-  showProgress : boolean = false
+  showProgress : boolean = false;
+  selectedGenre: string = 'all';
 
   constructor(
     public movieservice: MovieService,
@@ -72,6 +73,7 @@ export class MoviesComponent implements OnInit {
       this.p = 1;
       this.movies = this.filterData(genreType, this.storeMovies);
     }
+    this.selectedGenre = genreType;
   }
 
   filterData(type, movieList) {
