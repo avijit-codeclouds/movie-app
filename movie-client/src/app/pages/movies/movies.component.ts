@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { MovieService } from "../services/movie.service";
-import { GenerService } from "../services/gener.service";
+import { MovieService } from "./../../services/movie.service";
+import { GenerService } from "./../../services/gener.service";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "./../../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar'; 

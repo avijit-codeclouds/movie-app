@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
-import { CustomerService } from './../services/customer.service';
+import { AuthService } from '../../services/auth.service';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-customers',

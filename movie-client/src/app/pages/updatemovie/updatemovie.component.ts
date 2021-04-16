@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, NgForm, FormArray, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
-import { MovieService } from '../services/movie.service';
-import { GenerService } from '../services/gener.service';
+import { MovieService } from './../../services/movie.service';
+import { GenerService } from './../../services/gener.service';
 import { title } from 'process';
 
 @Component({

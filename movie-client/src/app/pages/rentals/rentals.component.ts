@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { RentalService } from './../services/rental.service';
+import { RentalService } from './../../services/rental.service';
 
 @Component({
   selector: 'app-rentals',

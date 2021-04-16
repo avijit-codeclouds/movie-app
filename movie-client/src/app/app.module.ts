@@ -10,17 +10,17 @@ import { MatProgressSpinnerModule, MatProgressBarModule,
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { CustomersComponent } from './customers/customers.component';
-import { RentalsComponent } from './rentals/rentals.component';
-import { NewmovieComponent } from './newmovie/newmovie.component';
-import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { RentalsComponent } from './pages/rentals/rentals.component';
+import { NewmovieComponent } from './pages/newmovie/newmovie.component';
+import { UpdatemovieComponent } from './pages/updatemovie/updatemovie.component';
 import { AuthService } from './services/auth.service';
-import { LogoutComponent } from './logout/logout.component';
-import { GenerComponent } from './gener/gener.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { WishlistComponent } from './wishlist/wishlist.component';
+import { LogoutComponent } from './pages/logout/logout.component';
+import { GenerComponent } from './pages/gener/gener.component';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 

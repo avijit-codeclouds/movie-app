@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { MovieService } from '../services/movie.service';
+import { AuthService } from './../../services/auth.service';
+import { MovieService } from './../../services/movie.service';
 
 @Component({
   selector: 'app-wishlist',
