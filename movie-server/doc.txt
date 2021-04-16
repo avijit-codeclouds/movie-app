@@ -9,7 +9,6 @@ GET: will list movies
 POST: can add movies
 Delete: can delete movies
 PUT: Edit movie ( Title, rate, stock )
-POST: Add movie to favourites
 
 Customers:
 GET: Can view total active customers

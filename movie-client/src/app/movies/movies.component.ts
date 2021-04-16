@@ -116,6 +116,11 @@ export class MoviesComponent implements OnInit {
   //   // })
   // }
 
+  rentMovie(movie_id){
+    console.log('clicked')
+    console.log(movie_id)
+  }
+
   async wishListClicked(itemId: any, event) {
     this.clickeItem++;
     console.log("clicked");
