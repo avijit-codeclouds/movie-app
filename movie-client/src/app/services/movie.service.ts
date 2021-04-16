@@ -49,6 +49,11 @@ export class MovieService {
     .pipe(retry(3), catchError(this.handleError));
   }
 
+  rentMovies(data:any) : Observable<any> {
+    return this.httpClient.post(`${this.API_URL}/rent/movie`,data)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
   fetchData(data:any){
     let promise = new Promise((resolve, reject) => {
       this.httpClient.post(`${this.API_URL}/wishlist`,data)

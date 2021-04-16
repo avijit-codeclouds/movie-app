@@ -4,6 +4,9 @@ import { GenerService } from "../services/gener.service";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import jwt_decode from "jwt-decode";
+import { MatSnackBar } from '@angular/material/snack-bar'; 
+
 
 @Component({
   selector: "app-movies",
@@ -27,13 +30,21 @@ export class MoviesComponent implements OnInit {
   wishList = [];
   emptyArr = [];
   clickeItem: number = 0;
+  user : any
+  getUserId : any
+  showProgress : boolean = false
 
   constructor(
     public movieservice: MovieService,
     public genereservice: GenerService,
     public authservice: AuthService,
-    public router: Router
-  ) {}
+    public router: Router,
+    private _snackBar: MatSnackBar,
+  ) {
+    this.authservice.user.subscribe(x => this.user = x);
+    const decode = jwt_decode(this.user)
+    this.getUserId = decode['id'] 
+  }
 
   ngOnInit() {
     this.user_id = localStorage.getItem("user_id");
@@ -45,6 +56,13 @@ export class MoviesComponent implements OnInit {
     this.getGenere();
     this.getMovies();
     this.getWishlist();
+  }
+
+  openSnackBar(message: string, action: string = 'Done') { 
+    // openSnackBar('GAME ONE','HURRAH !!!!!')
+    this._snackBar.open(message, action, { 
+      duration: 2000, 
+    }); 
   }
 
   getGenre(genreType) {
@@ -119,6 +137,22 @@ export class MoviesComponent implements OnInit {
   rentMovie(movie_id){
     console.log('clicked')
     console.log(movie_id)
+    let payload = {
+      movie : movie_id,
+      user : this.getUserId
+    }
+    this.showProgress = true
+    this.movieservice.rentMovies(payload).subscribe(res => {
+      console.log(res)
+      this.showProgress = false
+      if(res.success == true){
+        this.openSnackBar('Successfully you have subscribed')
+      }else{
+        this.openSnackBar(res.message)
+      }
+    },err => {
+      console.log(err)
+    })
   }
 
   async wishListClicked(itemId: any, event) {
