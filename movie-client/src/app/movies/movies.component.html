@@ -61,7 +61,10 @@
             | paginate: { itemsPerPage: 5, currentPage: p }
         "
       >
-        <th scope="row" class="pn" routerLink="/movies/{{ movie._id }}">
+        <th  *ngIf="authservice.isAdmin" scope="row" class="pn" routerLink="/movies/{{ movie._id }}">
+          {{ movie.title }}
+        </th>
+        <th  *ngIf="authservice.isUser" scope="row" class="pn">
           {{ movie.title }}
         </th>
         <td>{{ movie.genre.name }}</td>
