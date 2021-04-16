@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { catchError, map, retry } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { environment } from '../../environments/environment'
-import {Movie} from '../model/movie';
+import { Movie } from '../model/movie';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +51,11 @@ export class MovieService {
 
   rentMovies(data:any) : Observable<any> {
     return this.httpClient.post(`${this.API_URL}/rent/movie`,data)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
+  singleUserRentMovies(data:any,user_id: any) : Observable<any> {
+    return this.httpClient.get(`${this.API_URL}/rent/`+user_id,data)
     .pipe(retry(3), catchError(this.handleError));
   }
 

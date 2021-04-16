@@ -6,6 +6,20 @@ const moment = require('moment');
 const { response } = require('../helper/helper');
 const APIFeatuers   = require('../utils/apiFeatures');
 
+exports.user_movies = async(req,res,next) => {
+    try {
+        const user = req.params.user_id
+        const getUser = await Rent.findOne({ user: user }).populate('movies.movie')
+        if(!getUser){
+            return res.status(status.OK).json(response(false,'','no one movie is found with this user'))
+        }
+        return res.status(status.OK).json(response(true,getUser,'listed movies with this user'))
+    } catch (err) {
+        console.log(err)
+        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
+    }
+}
+
 exports.cancel_rent_movie = async(req,res,next) => {
     try {
         const { user, movie } = req.body;
