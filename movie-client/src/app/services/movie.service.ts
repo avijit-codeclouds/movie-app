@@ -16,7 +16,7 @@ export class MovieService {
   constructor(private httpClient: HttpClient,public router: Router) { }
 
   movieList():Observable<Movie[]>{
-    return this.httpClient.get<Movie[]>(`${this.API_URL}/movie/list/`, {params: {
+    return this.httpClient.get<Movie[]>(`${this.API_URL}/movie`, {params: {
       sort: 'date',}
     },).pipe(retry(3), catchError(this.handleError));;
   }
@@ -27,12 +27,12 @@ export class MovieService {
   }
 
   addMovie(payload: any) : Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/movie/add`, payload)
+    return this.httpClient.post(`${this.API_URL}/movie`, payload)
     .pipe(retry(3), catchError(this.handleError)); 
   }
 
   updateMovie(payload: any,movie_id: string) : Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/movie/edit/`+movie_id, payload)
+    return this.httpClient.patch(`${this.API_URL}/movie/`+movie_id, payload)
     .pipe(retry(3), catchError(this.handleError)); 
   }
 
@@ -40,8 +40,8 @@ export class MovieService {
     return this.httpClient.get(`${this.API_URL}/movie/`+movie_id)
     .pipe(retry(3), catchError(this.handleError));
   }
-  deleteMovie(payload: any,movie_id: string):Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/movie/delete/`+movie_id,payload)
+  deleteMovie(movie_id: string):Observable<any> {
+    return this.httpClient.delete(`${this.API_URL}/movie/`+movie_id)
     .pipe(retry(3), catchError(this.handleError));
   }
   movieWishlist(data:any) : Observable<any> {
