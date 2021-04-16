@@ -118,7 +118,7 @@ export class MoviesComponent implements OnInit {
     } else {
       let stat = 0;
       this.wishList[0].movies.map((e) => {
-        if (e == _id) stat++;
+        if (e._id == _id) stat++;
       });
       console.log(stat);
       if (stat > 0) {

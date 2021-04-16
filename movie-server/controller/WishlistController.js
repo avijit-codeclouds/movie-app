@@ -4,6 +4,7 @@ const status         = require("http-status");
 const Movie          = require("../models/Movie");
 const Wishlist       = require("../models/Wishlist");
 const User           = require("../models/User");
+const Genere          =require("../models/Genere");
 const { decode_jwt, response, first } = require('../helper/helper');
 
 exports.create_wishlist = async (req, res) => {
@@ -43,7 +44,11 @@ exports.get_wishlist = async (req, res) => {
 	try
 	{
 		const user    = decode_jwt(req);
-		const wishlist = await Wishlist.find({ user:user.id }).select("user movies _id date");
+		const wishlist = await Wishlist.find({ user:user.id }).select("user movies _id date").populate({path: 'movies',
+		populate: {
+		  path: 'genre',
+		  model: 'Genere'
+		}} )
 
 		return res.status(status.OK).json(response(true, wishlist, wishlist.length > 0 ? "All wishlists" : "No wishlist Found"));
 
