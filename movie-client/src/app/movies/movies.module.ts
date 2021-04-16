@@ -8,6 +8,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { MatProgressSpinnerModule, MatProgressBarModule,
+  MatSnackBarModule } from '@angular/material'
 
 @NgModule({
   declarations: [MoviesComponent],
@@ -17,7 +19,8 @@ import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
     FormsModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
   ]
 })
 export class MoviesModule {
