@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { catchError, map, retry } from 'rxjs/operators';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment'
 
 @Injectable({
@@ -15,6 +15,7 @@ export class AuthService {
   private token: string;
   private userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
+  private rawUser: any = null;
 
   constructor(private httpClient: HttpClient,public router: Router) { 
     this.userSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
@@ -50,6 +51,7 @@ export class AuthService {
     localStorage.removeItem('user_id');
     this.userSubject.next(null);
     this.router.navigate(['/login']);
+    this.rawUser = null;
   }
 
   saveToken(token: string): void {
@@ -57,6 +59,7 @@ export class AuthService {
     this.token = token;
     localStorage.setItem('user', JSON.stringify(token));
     this.userSubject.next(token);
+    this.loadCurrentUser();
   }
 
   currentUser(id){
@@ -74,5 +77,37 @@ export class AuthService {
     console.log(error)
     // window.alert(errorMessage);
     return throwError(errorMessage);
+  }
+
+  loadCurrentUser() {
+    return this.httpClient.get<any>(`${this.API_URL}/users/me`).subscribe(r => {
+      if (r.success) {
+        this.rawUser = r.result;
+      }
+    })
+  }
+
+  get me() {
+    return this.rawUser;
+  }
+
+  get isAdmin(): boolean {
+    if (this.rawUser!=null && this.rawUser.role == 'admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get isUser(): boolean {
+    if (this.rawUser!=null && this.rawUser.role == 'user') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get isAuth(): boolean {
+    return this.rawUser != null;
   }
 }
