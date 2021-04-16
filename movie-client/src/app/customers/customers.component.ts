@@ -25,7 +25,9 @@ export class CustomersComponent implements OnInit {
 
   loadCustomers() {
     this.customerService.loadCustomers(this.authService.isAuth ? this.authService.me.id : null).subscribe(response => {
-      console.log(response);
+      if (response.success) {
+        this.customers = response.result;
+      }
     })
   }
 
