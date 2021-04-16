@@ -1,1 +1,73 @@
-<p>rentals works!</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-3">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active">All Rentals</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+            <!-- <p *ngIf="movies">
+        Showing {{ (movies | filter: query).length }} in the database.
+      </p> -->
+            <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="" />
+            <table class="table  table-bordered">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">User</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Total Rentals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let rent of rentals">
+                        <tr style="position: relative;">
+                            <td>
+                                <svg class="more-icon" *ngIf="!rent.expanded" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                                    fill="#000000" (click)="toggleRental(rent)">
+                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+                                </svg>
+
+                                <svg class="more-icon" *ngIf="rent.expanded" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                                    fill="#000000" (click)="toggleRental(rent)">
+                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" />
+                                </svg>
+                                {{ rent.user.name }}
+                            </td>
+                            <td>{{ rent.user.email }}</td>
+                            <td>{{ rent.movies.length }}</td>
+                        </tr>
+                        <tr *ngIf="rent.expanded">
+                            <td colspan="3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Movie Name</th>
+                                            <th scope="col">Start Date</th>
+                                            <th scope="col">End Date</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let movie of rent.movies">
+                                            <td>{{ movie.movie.title }}</td>
+                                            <td>{{ movie.startday }}</td>
+                                            <td>{{ movie.endday }}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <mat-progress-bar mode='indeterminate' *ngIf="loadingRentals"></mat-progress-bar>
+        </div>
+    </div>
+</div>
