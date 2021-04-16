@@ -26,7 +26,7 @@ export class MoviesComponent implements OnInit {
   isChecked: any;
   wishList = [];
   emptyArr = [];
-  clickeItem : number = 0
+  clickeItem: number = 0;
 
   constructor(
     public movieservice: MovieService,
@@ -116,16 +116,16 @@ export class MoviesComponent implements OnInit {
   //   // })
   // }
 
-  async wishListClicked(itemId:any,event) { 
-    this.clickeItem ++
-    console.log('clicked')
-    console.log(`clickeItem :: ${this.clickeItem}`)
+  async wishListClicked(itemId: any, event) {
+    this.clickeItem++;
+    console.log("clicked");
+    console.log(`clickeItem :: ${this.clickeItem}`);
     // this.buttonClicked.next(itemId);
     let data = {
       movies: itemId,
-      checked:event.target.checked
+      checked: event.target.checked,
     };
-    console.log(data)
+    console.log(data);
     // Promise.all([
     //   this.movieservice.fetchData(data)
     // ]).then(res => {
@@ -133,27 +133,19 @@ export class MoviesComponent implements OnInit {
     //   console.log('all done')
     //   console.log(this.clickeItem)
     // });
-    const res =  await this.movieservice.fetchData(data)
+    const res = await this.movieservice.fetchData(data);
     // this.getMovies();
     // this.getWishlist();
-    console.log(res)
+    console.log(res);
   }
 
   clickMethod(_id: string) {
-
-    if(confirm("Are you sure to delete this movie??")) {
-      this.movieservice.deleteMovie(_id).subscribe((data)=>{
-        console.log(data)
-        if(data.success==false){
-          alert('Permission Denied to delete this movie...')
-        }
-        else{
-          alert('Successfully deleted')
-          this.ngOnInit()
-        }
-        
-      })
-      
+    if (confirm("Are you sure to delete this movie??")) {
+      this.movieservice.deleteMovie(_id).subscribe((data) => {
+        console.log(data);
+        alert("Successfully deleted");
+        this.ngOnInit();
+      });
     }
   }
 }
