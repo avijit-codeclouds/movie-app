@@ -1,16 +1,19 @@
 const express     = require('express');
-const Customer    = require('../models/Customer');
+const Rent        = require('../models/Rent');
 const status      = require('http-status');
 const APIFeatuers = require('../utils/apiFeatures');
 const helper      = require('../helper/helper');
 
 exports.get_all_customers = async (req, res) => {
     try {
-        const features = new APIFeatuers(Customer.find(), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
+
+        const user = helper.decode_jwt(req);
+
+        const features = new APIFeatuers(Rent.find({user: user.id}).populate('movies'), req.query)
+                        .filter()
+                        .sort()
+                        .limitFields()
+                        .paginate();
 
         const customer = await features.query;
 
@@ -21,19 +24,9 @@ exports.get_all_customers = async (req, res) => {
     }
 };
 
-exports.create_customer = async (req, res) => {
-    try {
-        const customer = await Customer.create(req.body);
-
-        res.status(status.CREATED).json(helper.response(true, customer));
-    } catch (err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
-    }
-};
-
 exports.get_customer = async (req, res) => {
     try {
-        const customer = await Customer.findById(req.params.id);
+        const customer = await Rent.findById(req.params.id);
 
         res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
@@ -41,22 +34,10 @@ exports.get_customer = async (req, res) => {
     }
 };
 
-exports.edit_customer = async (req, res) => {
-    try {
-        const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-        });
-
-        res.status(status.OK).json(helper.response(true, customer));
-    } catch (err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
-    }
-};
 
 exports.delete_customer = async (req, res) => {
     try {
-        const customer = await Customer.findByIdAndDelete(req.params.id);
+        const customer = await Rent.findByIdAndDelete(req.params.id);
 
         res.status(status.NO_CONTENT).json(helper.response(true));
     } catch (err) {
@@ -73,7 +54,7 @@ exports.handle_customer_lock = async ( req, res) => {
 
         const act = req.body.lock ? true : false;
 
-        const customer = await Customer.findByIdAndUpdate(req.params.id, {
+        const customer = await Rent.findByIdAndUpdate(req.params.id, {
             isLocked: act
         }, {
             new: true,
