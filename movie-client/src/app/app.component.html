@@ -6,19 +6,22 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngIf="!user">
+      <li class="nav-item" *ngIf="!authService.isAuth">
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
       <li class="nav-item" *ngIf="!user">
         <a class="nav-link" routerLink="/register">Register</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isAdmin">
         <a class="nav-link" routerLink="/customers">Customers</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isAuth">
         <a class="nav-link" routerLink="/rentals">Rentals</a>
       </li>
-      <li class="nav-item" *ngIf="user">
+      <li class="nav-item" *ngIf="authService.isUser">
+        <a class="nav-link" href="javascript:void(0)">Favorites</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuth">
         <a class="nav-link" routerLink="/logout">Logout</a>
       </li>
       <!-- <li class="nav-item dropdown">
