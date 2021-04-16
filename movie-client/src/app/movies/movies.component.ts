@@ -98,23 +98,23 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  selectID(_id, event) {
-    let data = {
-      user: this.user_id,
-      movies: [_id],
-    };
-    window.location.reload();
-    this.movieservice.movieWishlist(data).subscribe((data) => {
-      console.log(data);
-      window.location.reload();
-      // data.data.movies.forEach(chk => {
-      //   console.log(chk.isChecked)
-    });
-    //   // this.isChecked=data.data.movies[0].isChecked
-    //   // console.log();
-    //    this.ngOnInit();
-    // })
-  }
+  // selectID(_id, event) {
+  //   let data = {
+  //     user: this.user_id,
+  //     movies: [_id],
+  //   };
+  //   window.location.reload();
+  //   this.movieservice.movieWishlist(data).subscribe((data) => {
+  //     console.log(data);
+  //     window.location.reload();
+  //     // data.data.movies.forEach(chk => {
+  //     //   console.log(chk.isChecked)
+  //   });
+  //   //   // this.isChecked=data.data.movies[0].isChecked
+  //   //   // console.log();
+  //   //    this.ngOnInit();
+  //   // })
+  // }
 
   async wishListClicked(itemId:any,event) { 
     this.clickeItem ++
@@ -122,7 +122,7 @@ export class MoviesComponent implements OnInit {
     console.log(`clickeItem :: ${this.clickeItem}`)
     // this.buttonClicked.next(itemId);
     let data = {
-      movies: [itemId],
+      movies: itemId,
       checked:event.target.checked
     };
     console.log(data)
