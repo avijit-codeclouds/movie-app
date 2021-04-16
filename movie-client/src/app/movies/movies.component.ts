@@ -140,12 +140,9 @@ export class MoviesComponent implements OnInit {
   }
 
   clickMethod(_id: string) {
-    console.log(_id)
-    let data = {
-      user: this.user_id,
-    };
+
     if(confirm("Are you sure to delete this movie??")) {
-      this.movieservice.deleteMovie(data,_id).subscribe((data)=>{
+      this.movieservice.deleteMovie(_id).subscribe((data)=>{
         console.log(data)
         if(data.success==false){
           alert('Permission Denied to delete this movie...')
