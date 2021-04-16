@@ -19,7 +19,7 @@
         <a class="nav-link" routerLink="/rentals">Rentals</a>
       </li>
       <li class="nav-item" *ngIf="authService.isUser">
-        <a class="nav-link" href="javascript:void(0)">Favorites</a>
+        <a class="nav-link" routerLink="/wishlist">Favorites</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuth">
         <a class="nav-link" routerLink="/logout">Logout</a>

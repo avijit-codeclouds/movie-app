@@ -4,7 +4,7 @@ import { GenerService } from "../services/gener.service";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import jwt_decode from "jwt-decode";
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 
@@ -32,7 +32,10 @@ export class MoviesComponent implements OnInit {
   clickeItem: number = 0;
   user : any
   getUserId : any
-  showProgress : boolean = false
+  showProgress : boolean = false;
+  selectedGenre: string = 'all';
+  jwtHelper = new JwtHelperService();
+
 
   constructor(
     public movieservice: MovieService,
@@ -42,7 +45,7 @@ export class MoviesComponent implements OnInit {
     private _snackBar: MatSnackBar,
   ) {
     this.authservice.user.subscribe(x => this.user = x);
-    const decode = jwt_decode(this.user)
+    const decode = this.jwtHelper.decodeToken(this.user);
     this.getUserId = decode['id'] 
   }
 
@@ -72,6 +75,7 @@ export class MoviesComponent implements OnInit {
       this.p = 1;
       this.movies = this.filterData(genreType, this.storeMovies);
     }
+    this.selectedGenre = genreType;
   }
 
   filterData(type, movieList) {

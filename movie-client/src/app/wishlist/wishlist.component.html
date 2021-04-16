@@ -1,0 +1,105 @@
+<br /><br />
+
+<div class="container">
+  <div class="row">
+    <h3>Favorites</h3>
+    <!-- <div class="col-3">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" (click)="getGenre('all')">All Genres</a>
+        </li>
+        <li *ngFor="let gener of generes" class="nav-item">
+          <a class="nav-link" (click)="getGenre(gener.name)">{{
+            gener.name
+          }}</a>
+        </li>
+         <li class="nav-item">
+                    <a class="nav-link" href="#">Comedy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Romance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Thriller</a>
+                </li> 
+       </ul>
+    </div>  -->
+
+    <!-- <input
+      type="text"
+      name="query"
+      class="form-control my-3"
+      placeholder="Search..."
+      [(ngModel)]="query"
+      value=""
+    /> -->
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">Title</th>
+          <th scope="col">Genere</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Rate</th>
+          <th scope="col">Action</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="wishList.length" class="pn">
+        <ng-container *ngFor="let movie of wishList">
+          <tr
+            scope="row"
+            colspan="5"
+            class="pn"
+            *ngFor="
+              let Favorites of movie.movies
+                | paginate: { itemsPerPage: 5, currentPage: p }
+            "
+          >
+            <td scope="row">{{ Favorites }}</td>
+            <td scope="row">{{ Favorites }}</td>
+            <td scope="row">{{ Favorites }}</td>
+            <td scope="row">{{ Favorites }}</td>
+            <td scope="row">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-trash-fill pn"
+                viewBox="0 0 16 16"
+                title="delete"
+              >
+                <path
+                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                />
+              </svg>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- <tbody >
+            <tr
+        *ngFor="
+          let movie of wishList
+            | filter: query
+            | paginate: { itemsPerPage: 5, currentPage: p }
+        "
+      >
+            <td >Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            </tr> -->
+      </tbody>
+    </table>
+
+    <div>
+      <ul class="pagination">
+        <li class="page-item active">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

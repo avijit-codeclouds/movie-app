@@ -20,7 +20,9 @@ import { AuthService } from './services/auth.service';
 import { LogoutComponent } from './logout/logout.component';
 import { GenerComponent } from './gener/gener.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-// import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
     LogoutComponent,
     GenerComponent,
     NotfoundComponent,
+    WishlistComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     BrowserAnimationsModule,
     ReactiveFormsModule, FormsModule,
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
-    // Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
