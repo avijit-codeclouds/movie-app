@@ -23,6 +23,15 @@ export class WishlistComponent implements OnInit {
       //  console.log( this.wishList);
     });
   }
-  
-
+  deleteFav(_id){
+    if (confirm("Are you sure to delete this movie??")) {
+      console.log(_id)
+      this.movieservice.deleteMovieWishlist(_id).subscribe((data) => {
+        console.log(data);
+        alert("Successfully deleted");
+        this.ngOnInit();
+      });
+    }
+  }
 }
+
