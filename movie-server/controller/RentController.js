@@ -116,12 +116,13 @@ exports.handle_rent_action = async( req, res ) => {
 
         if( allowedActions.includes(action))
         {
-            return handle_action(req, res, action, action_value);
+            return handle_action(req, res, action, actionValue);
         }
 
         return res.status(status.FORBIDDEN).json(response(false, null, "Invalid Action!"));
 
     } catch(err) {
+        console.log(err);
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 };
