@@ -13,4 +13,8 @@ export class RentalService {
   rentals(): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/rent/movies`);
   }
+
+  userMovies(userId): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/rent/${userId}`);
+  }
 }

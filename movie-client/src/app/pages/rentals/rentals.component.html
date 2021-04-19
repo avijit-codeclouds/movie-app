@@ -11,8 +11,8 @@
             <!-- <p *ngIf="movies">
         Showing {{ (movies | filter: query).length }} in the database.
       </p> -->
-            <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="" />
-            <table class="table  table-bordered">
+            <!-- <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="" /> -->
+            <table class="table  table-bordered" *ngIf="authService.isAuth && authService.isAdmin">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">User</th>
@@ -54,15 +54,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let movie of rent.movies">
-                                            <td>{{ movie.movie.title }}</td>
-                                            <td>{{ movie.startday }}</td>
-                                            <td>{{ movie.endday }}</td>
-                                            <td></td>
-                                        </tr>
+                                        <ng-container *ngFor="let movie of rent.movies">
+                                            <tr *ngIf="movie.movie">
+                                                <td>{{ movie.movie.title }}</td>
+                                                <td>{{ movie.startday }}</td>
+                                                <td>{{ movie.endday }}</td>
+                                                <td></td>
+                                            </tr>
+                                        </ng-container>
                                     </tbody>
                                 </table>
                             </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered" *ngIf="authService.isAuth && authService.isUser && !loadingRentals">
+                <thead>
+                    <tr>
+                        <th scope="col">Movie Name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let movie of userRentList.movies">
+                        <tr *ngIf="movie.movie">
+                            <td>{{ movie.movie.title }}</td>
+                            <td>{{ movie.startday }}</td>
+                            <td>{{ movie.endday }}</td>
+                            <td></td>
                         </tr>
                     </ng-container>
                 </tbody>
