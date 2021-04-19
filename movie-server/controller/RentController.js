@@ -112,7 +112,7 @@ exports.handle_rent_action = async( req, res ) => {
         const action         = req.body.action;
         const actionValue    = req.body.action_value;
 
-        const allowedActions = ["cancel, pause"];
+        const allowedActions = ["cancel", "pause"];
 
         if( allowedActions.includes(action))
         {

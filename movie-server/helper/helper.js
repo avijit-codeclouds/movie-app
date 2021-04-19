@@ -80,10 +80,17 @@ const decode_jwt = exports.decode_jwt = (req) => {
 };
 
 exports.admin_section = (req, res, next) => {
-    const token = decode_jwt(req);
+    try
+    {
+        const token = decode_jwt(req);
 
-    if(token.role == 'user' || token.role == null)
-        return res.status(status.NOT_FOUND).json({ success: false, message: "Not Found"});
+        if(token.role == 'user' || token.role == null)
+            return res.status(status.UNPROCESSABLE_ENTITY).json({ success: false, message: "Not Found"});
 
-    next();
+        next();
+
+    } catch ( err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+    }
+
 };
