@@ -9,7 +9,7 @@ exports.get_all_customers = async (req, res) => {
 
         const user = helper.decode_jwt(req);
 
-        const features = new APIFeatuers(Rent.find({user: user.id}).populate('movies'), req.query)
+        const features = new APIFeatuers(Rent.find().populate(['movies.movie']).populate({ path: 'user', select: '-password' }), req.query)
                         .filter()
                         .sort()
                         .limitFields()
