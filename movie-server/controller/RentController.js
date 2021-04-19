@@ -126,7 +126,7 @@ exports.handle_rent_action = async( req, res ) => {
     }
 };
 
-handle_action = async( hi ) => {
+handle_action = async( req, res, action, action_value ) => {
 
     try {
         const { user, movie } = req.body;
