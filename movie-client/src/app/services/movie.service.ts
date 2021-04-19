@@ -50,7 +50,7 @@ export class MovieService {
   }
 
   rentMovies(data:any) : Observable<any> {
-    return this.httpClient.post(`${this.API_URL}/rent/movie`,data)
+    return this.httpClient.post(`${this.API_URL}/rent`,data)
     .pipe(retry(3), catchError(this.handleError));
   }
 
