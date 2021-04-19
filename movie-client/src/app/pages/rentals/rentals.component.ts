@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-rentals',
@@ -10,10 +11,40 @@ import { RentalService } from './../../services/rental.service';
 export class RentalsComponent implements OnInit {
   rentals: Array<any> = [];
   loadingRentals: boolean = false;
-  constructor(private rentalService: RentalService) { }
+  userRentList: any = null;
+
+  constructor(
+    private rentalService: RentalService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
-    this.loadRentals();
+    if (this.authService.isAuth) {
+      this.initRentals();    
+    } else {
+      this.authService.rawUserSubjectInstance.subscribe((user) => {
+        this.initRentals();
+      })
+    }
+  }
+
+  initRentals() {
+    if (this.authService.isUser) {
+      this.loadUserRentals(this.authService.me._id);
+    } else {
+      this.loadRentals();
+    }
+  }
+
+  loadUserRentals(userId) {
+    this.loadingRentals = true
+    this.rentalService.userMovies(userId).pipe(finalize(() => {
+      this.loadingRentals = false;
+    })).subscribe((response) => {
+      if (response.success) {
+        this.userRentList = response.result;
+      }
+    })
   }
 
   loadRentals() {
