@@ -112,7 +112,7 @@ exports.handle_rent_action = async( req, res ) => {
         const action         = req.body.action;
         const actionValue    = req.body.action_value;
 
-        const allowedActions = ["cancel", "pause"];
+        const allowedActions = ["canceled", "paused"];
 
         if( allowedActions.includes(action))
         {
@@ -145,7 +145,7 @@ handle_action = async( req, res, action, action_value ) => {
 
         const newPayload = first(anyMovieExists);
 
-        newPayload.action     = action_value;
+        newPayload[action]    = action_value;
         updateRentlist.movies = updateRentlist.movies.filter(e => e.movie.toString() !== movie);
         updateRentlist.movies.unshift(newPayload);
 
