@@ -55,10 +55,12 @@ export class WishlistComponent implements OnInit {
   }
   deleteFav(_id){
     if (confirm("Are you sure to delete this movie??")) {
+      this.showProgress = true
       console.log(_id)
       this.movieservice.deleteMovieWishlist(_id).subscribe((data) => {
+        this.showProgress = false
         console.log(data);
-        alert("Successfully deleted");
+        this.openSnackBar("Successfully deleted movie from wishlist");
         this.ngOnInit();
       });
     }

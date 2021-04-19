@@ -178,6 +178,7 @@ export class MoviesComponent implements OnInit {
       checked: event.target.checked,
     };
     console.log(data);
+    this.showProgress = true
     // Promise.all([
     //   this.movieservice.fetchData(data)
     // ]).then(res => {
@@ -186,6 +187,8 @@ export class MoviesComponent implements OnInit {
     //   console.log(this.clickeItem)
     // });
     const res = await this.movieservice.fetchData(data);
+    this.showProgress = false
+    this.openSnackBar('Successfully Updtaed Movie Wishlist')
     // this.getMovies();
     // this.getWishlist();
     this.ngOnInit();
