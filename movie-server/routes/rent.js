@@ -12,9 +12,6 @@ const { handle_validation_error, admin_section }  = require('../helper/helper');
 //list rent
 router.get('/', admin_section ,rentController.rent_list);
 
-//View user rents
-router.get('/:user_id',rentController.view_rent);
-
 //rent movie
 router.post('/',Validator.validate('rentPanel'),handle_validation_error,rentController.rent_movie);
 
@@ -24,5 +21,7 @@ router.patch('/delete',Validator.validate('rentPanel'),handle_validation_error,r
 //handle rent actions
 router.patch('/action',Validator.validate('rentPatch'),handle_validation_error,rentController.handle_rent_action);
 
+//View user rents
+router.get('/:user_id',rentController.view_rent);
 
 module.exports = router;
