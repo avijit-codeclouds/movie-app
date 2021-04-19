@@ -13,7 +13,7 @@
             gener.name
           }}</a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item">
                     <a class="nav-link" href="#">Comedy</a>
                 </li>
                 <li class="nav-item">
@@ -22,7 +22,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Thriller</a>
                 </li> 
-       </ul>
+      </ul>
     </div>  -->
 
     <!-- <input
@@ -74,6 +74,8 @@
                   d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
                 />
               </svg>
+              &nbsp;
+              <button type="button" (click)="rentMovie(Favorites._id)" class="btn btn-primary">Rent</button>
             </td>
           </tr>
         </ng-container>
@@ -94,13 +96,15 @@
             </tr> -->
       </tbody>
     </table>
-
+    <mat-progress-bar mode='indeterminate' *ngIf="loadingMovies"></mat-progress-bar>
     <div>
       <ul class="pagination">
         <li class="page-item active">
           <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </li>
       </ul>
+      
     </div>
+    <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar>
   </div>
 </div>

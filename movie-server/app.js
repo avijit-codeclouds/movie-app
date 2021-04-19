@@ -12,7 +12,7 @@ const winston       = require('./config/winston');
 const helmet        = require('helmet');
 const routes        = require('./routes');
 const app           = express();
-const cron = require('node-cron')
+const cron          = require('node-cron')
 const { expire_rent_movie }  = require('./jobs/Rentjob')
 
 

@@ -12,6 +12,7 @@ export class RentalsComponent implements OnInit {
   rentals: Array<any> = [];
   loadingRentals: boolean = false;
   userRentList: any = null;
+  isCanceling: boolean = false;
 
   constructor(
     private rentalService: RentalService,
@@ -66,5 +67,22 @@ export class RentalsComponent implements OnInit {
     if (index > -1) {
       this.rentals[index]['expanded'] = !this.rentals[index]['expanded'];
     }
+  }
+
+  cancelRental(movie) {
+    // ["canceled", "paused"]
+    this.isCanceling = true;
+    this.rentalService.rentActions(
+      this.authService.me._id,
+      movie.movie,
+      'canceled',
+      !movie.canceled
+    ).pipe(finalize(() => {
+      this.isCanceling = false;
+    })).subscribe(response => {
+      if (response.success) {
+        this.initRentals();
+      }
+    })
   }
 }

@@ -54,3 +54,8 @@ localhost:3000/api/v1/customer?sort=-id
 localhost:3000/api/v1/customer?fields=name
 
 https://docs.oracle.com/en/cloud/saas/commerce-cloud/20a/occ-developer/rest-api-query-parameters.html
+
+
+https://docs.google.com/document/d/1V_IhbCUOrB0OTVke-FRfrPkZfb6xrTkCwQ5GdHoMDwc/edit
+
+https://docs.google.com/document/d/16hSdD1cGWC_mnnbdMMY3if7_LevqjQue7P5b7GQJrMI/edit
