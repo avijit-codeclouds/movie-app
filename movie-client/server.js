@@ -1,23 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var debug = require('debug')('movie:app');
-var http = require('http');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let debug = require('debug')('movie:app');
+let http = require('http');
 require('dotenv').config();
 const bodyParser =  require('body-parser');
-const passport = require('passport');
-const cors = require('cors');
 //const dogecoin = require('./server/routes/dogecoind_rpc');
  
-var app = express();
+let app = express();
 
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// parse application/json
+app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require('cors')());
+app.use(require('passport').initialize());
 app.use(cookieParser());
  
 //Set Static Folder
@@ -41,14 +42,14 @@ app.get('*', (req,res) =>{
  * Get port from environment and store in Express.
  */
 
- var port = normalizePort(process.env.PORT || '3000');
+ let port = normalizePort(process.env.PORT || '3000');
  app.set('port', port);
  
  /**
   * Create HTTP server.
   */
  
- var server = http.createServer(app);
+ let server = http.createServer(app);
  
  /**
   * Listen on provided port, on all network interfaces.
@@ -63,7 +64,7 @@ app.get('*', (req,res) =>{
   */
  
  function normalizePort(val) {
-   var port = parseInt(val, 10);
+   let port = parseInt(val, 10);
  
    if (isNaN(port)) {
      // named pipe
@@ -87,7 +88,7 @@ app.get('*', (req,res) =>{
      throw error;
    }
  
-   var bind = typeof port === 'string'
+   let bind = typeof port === 'string'
      ? 'Pipe ' + port
      : 'Port ' + port;
  
@@ -111,8 +112,8 @@ app.get('*', (req,res) =>{
   */
  
  function onListening() {
-   var addr = server.address();
-   var bind = typeof addr === 'string'
+   let addr = server.address();
+   let bind = typeof addr === 'string'
      ? 'pipe ' + addr
      : 'port ' + addr.port;
    debug('Listening on ' + bind);
