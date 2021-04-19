@@ -188,7 +188,7 @@ export class MoviesComponent implements OnInit {
     // });
     const res = await this.movieservice.fetchData(data);
     this.showProgress = false
-    this.openSnackBar('Successfully Updtaed Movie Wishlist')
+    this.openSnackBar('Successfully Updated Movie Wishlist')
     // this.getMovies();
     // this.getWishlist();
     this.ngOnInit();
