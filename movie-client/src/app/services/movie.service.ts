@@ -83,6 +83,11 @@ export class MovieService {
     .pipe(retry(3), catchError(this.handleError));
   }
 
+  deleteMovieWishlist(movie_id: string):Observable<any> {
+    return this.httpClient.delete(`${this.API_URL}/wishlist/`+movie_id)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
