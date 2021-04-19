@@ -11,10 +11,19 @@ export class RentalService {
   constructor(private http: HttpClient) { }
 
   rentals(): Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/rent/movies`);
+    return this.http.get<any>(`${environment.apiURL}/rent`);
   }
 
   userMovies(userId): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/rent/${userId}`);
+  }
+
+  rentActions(userId, movieId, actionType, actionValue): Observable<any> {
+    return this.http.patch(`${environment.apiURL}/rent/action`, {
+      'user': userId,
+      'movie': movieId,
+      'action': actionType,
+      'action_value': actionValue,
+    });
   }
 }
