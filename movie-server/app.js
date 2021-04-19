@@ -12,9 +12,9 @@ const winston       = require('./config/winston');
 const helmet        = require('helmet');
 const routes        = require('./routes');
 const app           = express();
-const cron          = require('node-cron')
-const { expire_rent_movie }  = require('./jobs/Rentjob')
-
+const cron          = require('node-cron');
+const { expire_rent_movie }  = require('./jobs/Rentjob');
+const { modifyExpire }  = require('./jobs/rendModifications');
 
 
 
@@ -29,7 +29,8 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, 'public')));
 
 cron.schedule('* * * * *', () => {
-  expire_rent_movie()
+  expire_rent_movie();
+  modifyExpire();
 });
 
 app.use(function (req, res, next) {
