@@ -33,7 +33,7 @@ exports.create_wishlist = async (req, res) => {
       ? existingMovies.splice(index, 1)
       : null;
 
-    const updatedWishlist = await Wishlist.findByIdAndUpdate(getUser._id, {
+    const updatedWishlist = await Wishlist.findByIdAndUpdate(getUser[0]._id, {
       movies: existingMovies,
     });
 
@@ -94,7 +94,7 @@ exports.delete_wishlist = async (req, res) => {
 
      const msg = "Wishlist Deleted";
 
-     return res.status(status.NO_CONTENT).json(response(true,msg));
+     return res.status(status.OK).json(response(true,updatedWishlist,msg));
   } catch (err) {
     return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
   }
