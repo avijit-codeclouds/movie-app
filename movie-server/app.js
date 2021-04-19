@@ -9,7 +9,6 @@ const path          = require('path');
 const cookieParser  = require('cookie-parser');
 const morgan        = require('morgan');
 const winston       = require('./config/winston');
-const cors          = require('cors');
 const helmet        = require('helmet');
 const routes        = require('./routes');
 const app           = express();
@@ -22,12 +21,7 @@ const { expire_rent_movie }  = require('./jobs/Rentjob')
 app.use(morgan('combined', { stream: winston.stream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const option = {
-  origin : "*",
-  methods: "GET,PUT,PATCH,POST,DELETE",
-  allowedHeaders : "Origin, X-Requested-With, Content-Type, Accept"
-}
-app.use(cors(option));
+app.use(require('cors')())
 app.use(helmet());
 app.use(cookieParser());
 app.use(require('compression')())
@@ -38,6 +32,12 @@ cron.schedule('* * * * *', () => {
   expire_rent_movie()
 });
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 app.use('/', routes);
@@ -58,6 +58,9 @@ app.use((err, req, res, next) => {
     }
   })
 });
+
+
+
 
 module.exports = app;
 

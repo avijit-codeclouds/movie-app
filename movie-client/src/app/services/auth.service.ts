@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { catchError, map, retry } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment'
 
 @Injectable({
@@ -16,6 +16,8 @@ export class AuthService {
   private userSubject: BehaviorSubject<any>;
   public user: Observable<any>;
   private rawUser: any = null;
+  private rawUserSubject: Subject<any> = new Subject<any>();
+
 
   constructor(private httpClient: HttpClient,public router: Router) { 
     this.userSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
@@ -83,6 +85,7 @@ export class AuthService {
     return this.httpClient.get<any>(`${this.API_URL}/users/me`).subscribe(r => {
       if (r.success) {
         this.rawUser = r.result;
+        this.rawUserSubject.next(this.rawUser);
       }
     })
   }
@@ -109,5 +112,9 @@ export class AuthService {
 
   get isAuth(): boolean {
     return this.rawUser != null;
+  }
+
+  get rawUserSubjectInstance(): Observable<any> {
+    return this.rawUserSubject.asObservable();
   }
 }

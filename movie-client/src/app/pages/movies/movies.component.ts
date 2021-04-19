@@ -188,7 +188,7 @@ export class MoviesComponent implements OnInit {
     const res = await this.movieservice.fetchData(data);
     // this.getMovies();
     // this.getWishlist();
-    console.log(res);
+    this.ngOnInit();
   }
 
   clickMethod(_id: string) {
