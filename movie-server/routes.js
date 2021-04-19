@@ -31,3 +31,4 @@ module.exports = router.use(ROUTE_PREFIX+'/rent',checkauth ,rentRoute);
 
 /*Customer Routes */
 module.exports = router.use(ROUTE_PREFIX+'/customer' ,customerRoute);
+
