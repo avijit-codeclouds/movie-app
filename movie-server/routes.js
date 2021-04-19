@@ -17,18 +17,24 @@ module.exports = router.use('/', indexRouter);
 /* User Routes */
 module.exports = router.use(ROUTE_PREFIX+'/users', usersRouter);
 
+/**
+ * Routes with JWT required:
+ */
+
+const verifiedRoute = router.use(checkauth);
+
 /*Generes Routes */
-module.exports = router.use(ROUTE_PREFIX+'/generes' ,genereRouter);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/generes', genereRouter);
 
 /*Movie Routes */
-module.exports = router.use(ROUTE_PREFIX+'/movie',checkauth , movieRoute);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/movie', movieRoute);
 
 /*Wishlist Routes */
-module.exports = router.use(ROUTE_PREFIX+'/wishlist',checkauth ,wishlistRoute);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/wishlist', wishlistRoute);
 
 /*Rent Routes */
-module.exports = router.use(ROUTE_PREFIX+'/rent',checkauth ,rentRoute);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/rent', rentRoute);
 
 /*Customer Routes */
-module.exports = router.use(ROUTE_PREFIX+'/customer' ,customerRoute);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/customer' ,customerRoute);
 

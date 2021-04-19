@@ -2,8 +2,7 @@ const express           = require('express');
 const router            = express.Router();
 const rentController    = require('../controller/RentController');
 const Validator         = require('../validator/validate');
-const checkObjectId     = require('../config/checkObjectId');
-const { handle_validation_error }  = require('../helper/helper');
+const { handle_validation_error, admin_section }  = require('../helper/helper');
 
 
 /**
@@ -11,7 +10,7 @@ const { handle_validation_error }  = require('../helper/helper');
  */
 
 //list rent
-router.get('/',rentController.rent_list);
+router.get('/', admin_section ,rentController.rent_list);
 
 //View user rents
 router.get('/:user_id',rentController.view_rent);

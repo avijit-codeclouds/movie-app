@@ -62,7 +62,7 @@ exports.login_user = async (req, res) => {
 
             if(result)
             {
-                const token = jwt_sign_in(user.email, user.name, user._id);
+                const token = jwt_sign_in(user.email, user.name, user._id, user.role);
 
                 return res.status(status.OK).json(response(true, token , 'Login Successful'));
             }

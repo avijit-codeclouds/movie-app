@@ -29,8 +29,8 @@ exports.validate = (method) => {
          return [
             body('user', 'User is required').notEmpty(),
             body('movie', 'Movie is required').notEmpty(),
-            body('action', 'Movie is required').notEmpty(),
-            body('action_value', 'Movie is required').notEmpty(),
+            body('action', 'Action is required').notEmpty(),
+            body('action_value', 'Action value is required').notEmpty(),
          ];
       }
       case 'customer': {

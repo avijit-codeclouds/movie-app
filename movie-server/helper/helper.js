@@ -21,13 +21,14 @@ exports.handle_validation_error = (req, res, next) => {
     next();
 };
 
-exports.jwt_sign_in = (email, name, id) => {
+exports.jwt_sign_in = (email, name, id, role) => {
 
     const token = jwt.sign(
         {
             email,
             name,
-            id
+            id,
+            role
         },
         process.env.jwtSecret,
         {
@@ -63,7 +64,7 @@ exports.is_admin_domain_name = (email) => {
     }
 };
 
-exports.decode_jwt = (req) => {
+const decode_jwt = exports.decode_jwt = (req) => {
 
     try
     {
@@ -76,4 +77,13 @@ exports.decode_jwt = (req) => {
         return null;
     }
 
+};
+
+exports.admin_section = (req, res, next) => {
+    const token = decode_jwt(req);
+
+    if(token.role == 'user' || token.role == null)
+        return res.status(status.NOT_FOUND).json({ success: false, message: "Not Found"});
+
+    next();
 };
