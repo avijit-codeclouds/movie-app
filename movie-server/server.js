@@ -2,6 +2,7 @@ const app           = require('./app');
 const connectDB     = require('./config/db');
 const http          = require('http');
 const debug         = require('debug')('movie-server:server');
+const crons         = require('./jobs/index');
 
 /**
  * Connecting DB
@@ -84,4 +85,11 @@ function onListening() {
     let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Listening on ' + bind);
     console.log('Listening on ' + bind);
+
+    startCronJobs();
+    console.log('Cron jobs started');
+}
+
+function startCronJobs() {
+    // crons.expiry_cron(); //Disabling crons for now
 }
