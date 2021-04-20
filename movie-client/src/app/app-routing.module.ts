@@ -71,7 +71,7 @@ const routes: Routes = [
     component: WishlistComponent,
     canActivate: [AuthGuard],
     data: {
-      title: 'Wishlish ::Movie-App'
+      title: 'Wishlist ::Movie-App'
     }
   }, { 
     path: 'logout', 
