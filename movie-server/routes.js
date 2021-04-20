@@ -10,7 +10,7 @@ const checkauth     = require('./config/checkauth');
 const router        = express.Router();
 const constants     = require('./constant');
 const ROUTE_PREFIX  = constants.ROUTE_PREFIX + constants.ROUTE_VERSION;
-const { admin_section }  = require('../helper/helper');
+const { admin_section }  = require('./helper/helper');
 
 /* Default Routes */
 module.exports = router.use('/', indexRouter);
