@@ -25,8 +25,10 @@ exports.get_all_customers = async (req, res) => {
 };
 
 exports.get_customer = async (req, res) => {
-    try {
-        const customer = await Rent.findById(req.params.id);
+    try
+    {
+        const user = req.params.id;
+        const customer = await Rent.find({ user }).limit(1);
 
         res.status(status.OK).json(helper.response(true, customer));
     } catch (err) {
