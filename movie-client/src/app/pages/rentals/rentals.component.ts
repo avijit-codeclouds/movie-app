@@ -13,6 +13,11 @@ export class RentalsComponent implements OnInit {
   loadingRentals: boolean = false;
   userRentList: any = null;
   isCanceling: boolean = false;
+  isPausing: boolean = false;
+  cancelModalConfig = {
+    show: false,
+    data: {}
+  }
 
   constructor(
     private rentalService: RentalService,
@@ -69,16 +74,41 @@ export class RentalsComponent implements OnInit {
     }
   }
 
-  cancelRental(movie) {
+  cancelRental(movie, user, confirm=false) {
     // ["canceled", "paused"]
+    if (!confirm) {
+      this.cancelModalConfig.data = {
+        movie,
+        user
+      };
+      this.cancelModalConfig.show = true;
+      return;
+    }
     this.isCanceling = true;
     this.rentalService.rentActions(
-      this.authService.me._id,
-      movie.movie,
+      user,
+      movie.movie._id,
       'canceled',
       !movie.canceled
     ).pipe(finalize(() => {
       this.isCanceling = false;
+    })).subscribe(response => {
+      if (response.success) {
+        this.cancelModalConfig.show = false;
+        this.initRentals();
+      }
+    })
+  }
+
+  pauseRental(movie) {
+    this.isPausing = true;
+    this.rentalService.rentActions(
+      movie.movie.user,
+      movie.movie._id,
+      'paused',
+      !movie.canceled
+    ).pipe(finalize(() => {
+      this.isPausing = false;
     })).subscribe(response => {
       if (response.success) {
         this.initRentals();
