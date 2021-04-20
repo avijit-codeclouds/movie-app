@@ -8,61 +8,73 @@
             </ul>
         </div>
         <div class="col">
-            <div *ngIf="authService.isAdmin">
-                <a class="btn btn-primary" href="javascript:void(0)" style="margin-bottom: 20px">New Customer</a>
-            </div>
-            <!-- <p *ngIf="movies">
-        Showing {{ (movies | filter: query).length }} in the database.
-      </p> -->
-            <!-- <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="" /> -->
             <table class="table table-hover">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">Name</th>
-                        <th scope="col">Title</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Join Date</th>
+                        <th scope="col">Movies</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let customer of customers">
                         <th scope="row" class="pn">
-                            {{ customer.name }}
+                            {{ customer.user.name }}
                         </th>
-                        <td>{{ customer.details }}</td>
+                        <td>{{ customer.user.email }}</td>
                         <td>{{ customer.createdAt }}</td>
+                        <td>({{ customer.movies.length }}) <a href="javascript:void(0)">View</a></td>
                         <td>
                             <ng-container *ngIf="authService.isAdmin">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 pn" height="20" viewBox="0 0 24 24"
-                                    width="24" fill="#000000">
-                                    <path d="M0 0h24v24H0V0z" fill="none" />
-                                    <path
-                                        d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-trash-fill pn" viewBox="0 0 16 16" title="delete">
-                                    <path
-                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                </svg>
-                            </ng-container>
-                            <ng-container *ngIf="authService.isUser">
+                                <i class="fas mr-2" [ngClass]="{'fa-lock': !customer.isLocked, 'fa-unlock': customer.isLocked}" (click)="toggleLock(customer)"></i>
+                                <i class="fas fa-trash" (click)="deleteCustomer(customer)"></i>
                             </ng-container>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <mat-progress-bar mode='indeterminate' *ngIf="loadingCustomers"></mat-progress-bar>
-            <div>
-                <!-- <ul class="pagination">
-          <li class="page-item active">
-            <pagination-controls
-              (pageChange)="p = $event"
-            ></pagination-controls>
-          </li>
-        </ul> -->
-                <!-- <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar> -->
-            </div>
         </div>
     </div>
 </div>
+
+<!-- lock/unlock customer -->
+<app-modal [title]="'Are you sure?'" [show]="lockUnlockModalConfig.show" (onHidden)="lockUnlockModalConfig.show = false" [config]="{
+    header: true,
+    footer: true
+}">
+    <div content-type="body">
+        <p *ngIf="lockUnlockModalConfig.show">
+            Do you really want to <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">un-</span>lock this customer?
+        </p>
+    </div>
+    <div content-type="footer" class="modal-footer">
+        <button [disabled]="lockUnlockModalConfig.working" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button *ngIf="lockUnlockModalConfig.show" [disabled]="lockUnlockModalConfig.working" type="button" class="btn btn-primary" (click)="toggleLock(lockUnlockModalConfig.data.customer, true)">
+            <i *ngIf="lockUnlockModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">Un-</span>Lock
+        </button>
+    </div>
+</app-modal>
+
+<!-- lock/unlock customer -->
+<app-modal [title]="'Are you sure?'" [show]="deleteModalConfig.show" (onHidden)="deleteModalConfig.show = false" [config]="{
+    header: true,
+    footer: true
+}">
+    <div content-type="body">
+        <p *ngIf="deleteModalConfig.show">
+            Do you really want to delete this customer?
+        </p>
+        <p>
+            You cannot UNDO this operation.
+        </p>
+    </div>
+    <div content-type="footer" class="modal-footer">
+        <button [disabled]="deleteModalConfig.working" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button *ngIf="deleteModalConfig.show" [disabled]="deleteModalConfig.working" type="button" class="btn btn-danger" (click)="deleteCustomer(deleteModalConfig.data.customer, true)">
+            <i *ngIf="deleteModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm Delete
+        </button>
+    </div>
+</app-modal>

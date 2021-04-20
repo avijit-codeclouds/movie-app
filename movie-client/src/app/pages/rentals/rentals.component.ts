@@ -13,10 +13,24 @@ export class RentalsComponent implements OnInit {
   loadingRentals: boolean = false;
   userRentList: any = null;
   isCanceling: boolean = false;
+  isPausing: boolean = false;
+  isDeleting: boolean = false;
+  cancelModalConfig: any = {
+    show: false,
+    data: null
+  }
+  pauseModalConfig: any = {
+    show: false,
+    data: null
+  }
+  deleteModalConfig: any = {
+    show: false,
+    data: null
+  }
 
   constructor(
-    private rentalService: RentalService,
-    private authService: AuthService
+    public rentalService: RentalService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -54,10 +68,16 @@ export class RentalsComponent implements OnInit {
       this.loadingRentals = false;
     })).subscribe(response => {
       if (response.success) {
-        this.rentals = response.result.map((rent) => {
-          rent['expanded'] = false;
+        let rentals = response.result.map((rent) => {
+          let index = this.rentals.findIndex(r => r._id == rent._id);
+          if (index > -1 && this.rentals[index].hasOwnProperty('expanded')) {
+            rent['expanded'] = this.rentals[index]['expanded'];
+          } else {
+            rent['expanded'] = false;
+          }
           return rent;
         });
+        this.rentals = rentals;
       }
     })
   }
@@ -69,18 +89,74 @@ export class RentalsComponent implements OnInit {
     }
   }
 
-  cancelRental(movie) {
-    // ["canceled", "paused"]
+  cancelRental(movie, user, confirm=false) {
+    if (!confirm) {
+      this.cancelModalConfig.data = {
+        movie,
+        user
+      };
+      this.cancelModalConfig.show = true;
+      return;
+    }
     this.isCanceling = true;
     this.rentalService.rentActions(
-      this.authService.me._id,
-      movie.movie,
+      user,
+      movie.movie._id,
       'canceled',
       !movie.canceled
     ).pipe(finalize(() => {
       this.isCanceling = false;
     })).subscribe(response => {
       if (response.success) {
+        this.cancelModalConfig.show = false;
+        this.initRentals();
+      }
+    })
+  }
+
+  pauseRental(movie, user, confirm: boolean = false) {
+    if (!confirm) {
+      this.pauseModalConfig.data = {
+        movie,
+        user
+      };
+      this.pauseModalConfig.show = true;
+      return;
+    }
+    this.isPausing = true;
+    this.rentalService.rentActions(
+      user,
+      movie.movie._id,
+      'paused',
+      !movie.paused
+    ).pipe(finalize(() => {
+      this.isPausing = false;
+    })).subscribe(response => {
+      if (response.success) {
+        this.pauseModalConfig.show = false;
+        this.initRentals();
+      }
+    })
+  }
+
+  deleteRental(movie, user, confirm: boolean = false) {
+    if (!confirm) {
+      this.deleteModalConfig.data = {
+        movie,
+        user
+      };
+      this.deleteModalConfig.show = true;
+      return;
+    }
+    this.isDeleting = true;
+    this.rentalService.deleteRental(
+      user,
+      movie.movie._id
+    ).pipe(finalize(() => {
+      this.isDeleting = false;
+    })).subscribe(response => {
+      if (response.success) {
+        this.deleteModalConfig.show = false;
         this.initRentals();
       }
     })
