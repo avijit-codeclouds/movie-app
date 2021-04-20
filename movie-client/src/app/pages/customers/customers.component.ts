@@ -58,7 +58,7 @@ export class CustomersComponent implements OnInit {
     }
 
     this.lockUnlockModalConfig.working = true;
-    this.customerService.toggleLock(customer.user._id).pipe(finalize(() => {
+    this.customerService.toggleLock(customer.user._id, !customer.isLocked).pipe(finalize(() => {
       this.lockUnlockModalConfig.working = false;
     })).subscribe((response) => {
       if (response.success) {
@@ -82,10 +82,10 @@ export class CustomersComponent implements OnInit {
     this.customerService.deleteCustomer(customer.user._id).pipe(finalize(() => {
       this.deleteModalConfig.working = false;
     })).subscribe((response) => {
-      if (response.success) {
+      // if (response.success) {
         this.deleteModalConfig.show = false;
         this.loadCustomers();
-      }
+      // }
     })
   }
 
