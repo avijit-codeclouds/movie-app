@@ -13,4 +13,12 @@ export class CustomerService {
   loadCustomers(userId = null) : Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/customer`);
   }
+
+  toggleLock(customerId): Observable<any> {
+    return this.http.patch<any>(`${environment.apiURL}/customer/lock/${customerId}`, {});
+  }
+
+  deleteCustomer(customerId): Observable<any> {
+    return this.http.delete<any>(`${environment.apiURL}/customer/${customerId}`);
+  }
 }

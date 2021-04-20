@@ -15,10 +15,22 @@ export class CustomersComponent implements OnInit {
   customers: Array<any> = [];
   loadingCustomers: boolean = false;
 
+  lockUnlockModalConfig: any = {
+    show: false,
+    data: null,
+    working: false,
+  }
+
+  deleteModalConfig: any = {
+    show: false,
+    data: null,
+    working: false,
+  }
+
   constructor(
     public router: Router,public formBuilder: FormBuilder,
     public authService: AuthService,
-    private customerService: CustomerService
+    public customerService: CustomerService,
   ) { }
 
   ngOnInit() {
@@ -32,6 +44,47 @@ export class CustomersComponent implements OnInit {
     })).subscribe(response => {
       if (response.success) {
         this.customers = response.result;
+      }
+    })
+  }
+
+  toggleLock(customer, confirm: boolean = false) {
+    if (!confirm) {
+      this.lockUnlockModalConfig.data = {
+        customer: customer
+      }
+      this.lockUnlockModalConfig.show = true;
+      return;
+    }
+
+    this.lockUnlockModalConfig.working = true;
+    this.customerService.toggleLock(customer.user._id).pipe(finalize(() => {
+      this.lockUnlockModalConfig.working = false;
+    })).subscribe((response) => {
+      if (response.success) {
+        this.lockUnlockModalConfig.show = false;
+        this.loadCustomers();
+      }
+    })
+
+  }
+
+  deleteCustomer(customer, confirm: boolean = false) {
+    if (!confirm) {
+      this.deleteModalConfig.data = {
+        customer: customer
+      }
+      this.deleteModalConfig.show = true;
+      return;
+    }
+
+    this.deleteModalConfig.working = true;
+    this.customerService.deleteCustomer(customer.user._id).pipe(finalize(() => {
+      this.deleteModalConfig.working = false;
+    })).subscribe((response) => {
+      if (response.success) {
+        this.deleteModalConfig.show = false;
+        this.loadCustomers();
       }
     })
   }
