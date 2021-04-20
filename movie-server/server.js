@@ -91,5 +91,5 @@ function onListening() {
 }
 
 function startCronJobs() {
-    // crons.expiry_cron(); //Disabling crons for now
+    crons.expiry_cron(); //Disabling crons for now
 }
