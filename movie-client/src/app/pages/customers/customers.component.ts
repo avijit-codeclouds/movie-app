@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { CustomerService } from '../../services/customer.service';
+import { NotificationService } from './../../services/notification.service';
 
 @Component({
   selector: 'app-customers',
@@ -31,6 +32,7 @@ export class CustomersComponent implements OnInit {
     public router: Router,public formBuilder: FormBuilder,
     public authService: AuthService,
     public customerService: CustomerService,
+    public notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,7 @@ export class CustomersComponent implements OnInit {
         this.lockUnlockModalConfig.show = false;
         this.loadCustomers();
       }
+      this.notificationService.toast(response.message);
     })
 
   }
@@ -85,6 +88,7 @@ export class CustomersComponent implements OnInit {
       // if (response.success) {
         this.deleteModalConfig.show = false;
         this.loadCustomers();
+        this.notificationService.toast('Customer Successfully Deleted');
       // }
     })
   }

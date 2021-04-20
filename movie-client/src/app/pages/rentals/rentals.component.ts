@@ -3,6 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from './../../services/notification.service';
 
 @Component({
   selector: 'app-rentals',
@@ -34,7 +35,8 @@ export class RentalsComponent implements OnInit {
   constructor(
     public rentalService: RentalService,
     public authService: AuthService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -116,6 +118,7 @@ export class RentalsComponent implements OnInit {
         this.cancelModalConfig.show = false;
         this.initRentals();
       }
+      this.notificationService.toast(response.message);
     })
   }
 
@@ -140,6 +143,7 @@ export class RentalsComponent implements OnInit {
       if (response.success) {
         this.pauseModalConfig.show = false;
         this.initRentals();
+        this.notificationService.toast(response.message);
       }
     })
   }
@@ -163,6 +167,7 @@ export class RentalsComponent implements OnInit {
       if (response.success) {
         this.deleteModalConfig.show = false;
         this.initRentals();
+        this.notificationService.toast("Rental Deleted");
       }
     })
   }
