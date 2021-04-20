@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
   { path: 'rentals', component: RentalsComponent, canActivate: [AuthGuard] },
+  { path: 'rentals/:user_id', component: RentalsComponent, canActivate: [AuthGuard] },
   { path: 'movies/new', component: NewmovieComponent, canActivate: [AuthGuard] },
   { path: 'movies/:movie_id',component: UpdatemovieComponent, canActivate: [AuthGuard] },
   { path: 'wishlist', component: WishlistComponent,canActivate: [AuthGuard] },
