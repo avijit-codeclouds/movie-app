@@ -60,9 +60,9 @@
                                                 <td>{{ movie.startday }}</td>
                                                 <td>{{ movie.endday }}</td>
                                                 <td>
-
+                                                    <i class="fas fa-pause"></i>
                                                     <i *ngIf="isCanceling" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
-                                                    <i *ngIf="!isCanceling" (click)="cancelRental(movie)" class="fas fa-times" style="font-size: 17px;"></i>
+                                                    <i *ngIf="!isCanceling" (click)="cancelRental(movie, rent)" class="fas fa-times" style="font-size: 17px;"></i>
                                                 </td>
                                             </tr>
                                         </ng-container>
@@ -89,15 +89,19 @@
                             <td>{{ movie.movie.title }}</td>
                             <td>{{ movie.startday }}</td>
                             <td>{{ movie.endday }}</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                                </svg>
-
-                                <i *ngIf="isCanceling" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
-                                <i *ngIf="!isCanceling" (click)="cancelRental(movie)" class="fas fa-times" style="font-size: 17px;"></i>
+                            <td class="text-center">
+                                <ng-container *ngIf="movie.expired && !movie.canceled">
+                                    Expired
+                                </ng-container>
+                                <ng-container *ngIf="movie.paused && !movie.canceled">
+                                    Paused
+                                </ng-container>
+                                <ng-container *ngIf="!movie.canceled && !movie.expired && !movie.paused">
+                                    <i *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
+                                </ng-container>
+                                <ng-container *ngIf="movie.canceled">
+                                    Cancled
+                                </ng-container>
                             </td>
                         </tr>
                     </ng-container>
@@ -107,3 +111,20 @@
         </div>
     </div>
 </div>
+
+<app-modal [title]="'Are you sure?'" [show]="cancelModalConfig.show" (onHidden)="cancelModalConfig.show = false" [config]="{
+    header: true,
+    footer: true
+}">
+    <div content-type="body">
+        <p>
+            Cancel Rental
+        </p>
+    </div>
+    <div content-type="footer" class="modal-footer">
+        <button [disabled]="isCanceling" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button [disabled]="isCanceling" type="button" class="btn btn-primary" (click)="cancelRental(cancelModalConfig.data.movie, cancelModalConfig.data.user, true)">
+            <i *ngIf="isCanceling" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm Cancel
+        </button>
+    </div>
+</app-modal>

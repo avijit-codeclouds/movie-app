@@ -22,7 +22,8 @@ import { GenerComponent } from './pages/gener/gener.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalComponent } from './shared/modal/modal.component'; 
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     GenerComponent,
     NotfoundComponent,
     WishlistComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
