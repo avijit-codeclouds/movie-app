@@ -5,9 +5,9 @@ const { modifyExpire }       = require('./rendModifications');
 
 //Expiry Cron
 
-exports.expiry_cron = () => cron.schedule('* * * * *', () => {
-                                expire_rent_movie();
-                                modifyExpire();
+exports.expiry_cron = async() => cron.schedule('* * * * *', async() => {
+                                await expire_rent_movie();
+                                await modifyExpire();
                             });
 
 

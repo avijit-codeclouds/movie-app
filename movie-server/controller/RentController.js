@@ -52,15 +52,19 @@ exports.rent_movie = async( req,res ) => {
         if(getUser.isLocked === true){
             return res.status(status.OK).json(response(false, null, 'Your account is locked, Talk with Administrator'));
         }
-        if (getUser.movies.some((movies) => movies.movie.toString() === movie )) {
+        let movieContent = getUser.movies.find(e => e.movie.toString() === movie.toString());
+        if(movieContent.expired === true || movieContent.canceled === true){
+            //this movie is expired / canceled
+            getUser.movies = getUser.movies.filter(movies => movies.movie.toString() !== movie.toString())
+        }else{
             return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
         }
 
         getUser.movies.unshift(payload);
-        const movieList = await getUser.save();
+        movieList = await getUser.save();
         return res.status(status.OK).json(response(true,movieList,'Rent saved successfully'));
-
     } catch (err) {
+        console.log(err)
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 };
