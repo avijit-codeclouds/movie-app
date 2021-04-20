@@ -60,9 +60,6 @@
                                                 <td>{{ movie.startday }}</td>
                                                 <td>{{ movie.endday }}</td>
                                                 <td>
-                                                    <i class="fas fa-pause"></i>
-                                                    <i *ngIf="isCanceling" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
-                                                    <i *ngIf="!isCanceling" (click)="cancelRental(movie, rent)" class="fas fa-times" style="font-size: 17px;"></i>
                                                 </td>
                                             </tr>
                                         </ng-container>
