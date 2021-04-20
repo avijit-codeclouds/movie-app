@@ -5,7 +5,7 @@ exports.modifyExpire = async () => {
     try {
         const now = moment().format("YYYY-MM-DD[T]HH:mm");
 
-        let rents = Rent.find();
+        let rents = await Rent.find();
 
         rents.forEach( async (results) =>
         {
