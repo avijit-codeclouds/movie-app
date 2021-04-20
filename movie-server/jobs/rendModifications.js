@@ -26,6 +26,7 @@ exports.modifyExpire = async () => {
                 }
             }
         });
+        console.log("modifyExpire done..");
     } catch (err) {
         console.log(err);
     }
