@@ -24,6 +24,7 @@ import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalComponent } from './shared/modal/modal.component'; 
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ModalComponent } from './shared/modal/modal.component';
     ReactiveFormsModule, FormsModule,
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    TooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

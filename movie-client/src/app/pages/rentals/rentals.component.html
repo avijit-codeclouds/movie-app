@@ -60,16 +60,16 @@
                                                         Expired
                                                     </ng-container>
                                                     <ng-container *ngIf="!movie.expired && !movie.canceled">
-                                                        <i class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, rent.user._id)"></i>
+                                                        <i tooltip="Pause/UnPause" class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, rent.user._id)"></i>
                                                     </ng-container>
 
                                                     <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
-                                                        <i (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
+                                                        <i tooltip="Cancel" (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
                                                     </ng-container>
                                                     <ng-container *ngIf="movie.canceled">
                                                         Cancled
                                                     </ng-container>
-                                                    <i class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
+                                                    <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
                                                 </td>
                                             </tr>
                                         </ng-container>
@@ -104,7 +104,7 @@
                                     Paused
                                 </ng-container>
                                 <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired && !movie.paused">
-                                    <i *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
+                                    <i tooltip="Cancel" *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
                                 </ng-container>
                                 <ng-container *ngIf="movie.canceled">
                                     Cancled

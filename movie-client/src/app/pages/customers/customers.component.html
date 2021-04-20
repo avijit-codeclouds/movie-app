@@ -28,8 +28,8 @@
                         <td>({{ customer.movies.length }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a></td>
                         <td>
                             <ng-container *ngIf="authService.isAdmin">
-                                <i class="fas mr-2" [ngClass]="{'fa-lock': !customer.isLocked, 'fa-unlock': customer.isLocked}" (click)="toggleLock(customer)"></i>
-                                <i class="fas fa-trash" (click)="deleteCustomer(customer)"></i>
+                                <i tooltip="Lock/UnLock Customer" class="fas mr-2" [ngClass]="{'fa-lock': !customer.isLocked, 'fa-unlock': customer.isLocked}" (click)="toggleLock(customer)"></i>
+                                <i tooltip="Delete Customer" class="fas fa-trash" (click)="deleteCustomer(customer)"></i>
                             </ng-container>
                         </td>
                     </tr>
