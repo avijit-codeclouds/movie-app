@@ -10,6 +10,7 @@ const checkauth     = require('./config/checkauth');
 const router        = express.Router();
 const constants     = require('./constant');
 const ROUTE_PREFIX  = constants.ROUTE_PREFIX + constants.ROUTE_VERSION;
+const { admin_section }  = require('../helper/helper');
 
 /* Default Routes */
 module.exports = router.use('/', indexRouter);
@@ -36,5 +37,5 @@ module.exports = verifiedRoute.use(ROUTE_PREFIX+'/wishlist', wishlistRoute);
 module.exports = verifiedRoute.use(ROUTE_PREFIX+'/rent', rentRoute);
 
 /*Customer Routes */
-module.exports = verifiedRoute.use(ROUTE_PREFIX+'/customer' ,customerRoute);
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/customer' , admin_section ,customerRoute);
 
