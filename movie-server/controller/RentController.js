@@ -4,6 +4,7 @@ const Movie         = require('../models/Movie');
 const Rent          = require('../models/Rent');
 const APIFeatuers   = require('../utils/apiFeatures');
 const { response, first } = require('../helper/helper');
+const { get } = require('../routes');
 
 exports.view_rent = async( req,res ) => {
     try
@@ -48,6 +49,9 @@ exports.rent_movie = async( req,res ) => {
             return res.status(status.OK).json(response(true, newRent, 'Rent successfully saved'));
         }
 
+        if(getUser.isLocked === true){
+            return res.status(status.OK).json(response(false, null, 'Your account is locked, Talk with Administrator'));
+        }
         if (getUser.movies.some((movies) => movies.movie.toString() === movie )) {
             return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
         }
