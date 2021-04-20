@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-rentals',
@@ -28,12 +29,16 @@ export class RentalsComponent implements OnInit {
     data: null
   }
 
+  userId = null;
+
   constructor(
     public rentalService: RentalService,
-    public authService: AuthService
+    public authService: AuthService,
+    public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.userId = this.route.snapshot.params.user_id || null;
     if (this.authService.isAuth) {
       this.initRentals();    
     } else {
@@ -44,8 +49,8 @@ export class RentalsComponent implements OnInit {
   }
 
   initRentals() {
-    if (this.authService.isUser) {
-      this.loadUserRentals(this.authService.me._id);
+    if (this.userId || this.authService.isUser) {
+      this.loadUserRentals(this.userId || this.authService.me._id);
     } else {
       this.loadRentals();
     }

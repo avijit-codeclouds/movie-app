@@ -8,11 +8,7 @@
             </ul>
         </div>
         <div class="col">
-            <!-- <p *ngIf="movies">
-        Showing {{ (movies | filter: query).length }} in the database.
-      </p> -->
-            <!-- <input type="text" name="query" class="form-control my-3" placeholder="Search..." value="" /> -->
-            <table class="table  table-bordered" *ngIf="authService.isAuth && authService.isAdmin">
+            <table class="table  table-bordered" *ngIf="authService.isAuth && authService.isAdmin && userId == null">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">User</th>
@@ -85,9 +81,9 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered" *ngIf="authService.isAuth && authService.isUser && !loadingRentals">
+            <table class="table table-bordered" *ngIf="authService.isAuth && (userId != null || authService.isUser) && !loadingRentals">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">Movie Name</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
