@@ -14,8 +14,10 @@ export class CustomerService {
     return this.http.get<any>(`${environment.apiURL}/customer`);
   }
 
-  toggleLock(customerId): Observable<any> {
-    return this.http.patch<any>(`${environment.apiURL}/customer/lock/${customerId}`, {});
+  toggleLock(customerId, status): Observable<any> {
+    return this.http.patch<any>(`${environment.apiURL}/customer/lock/${customerId}`, {
+      lock: status
+    });
   }
 
   deleteCustomer(customerId): Observable<any> {
