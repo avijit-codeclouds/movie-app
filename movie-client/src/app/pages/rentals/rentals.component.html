@@ -60,6 +60,20 @@
                                                 <td>{{ movie.startday }}</td>
                                                 <td>{{ movie.endday }}</td>
                                                 <td>
+                                                    <ng-container *ngIf="movie.expired && !movie.canceled">
+                                                        Expired
+                                                    </ng-container>
+                                                    <ng-container *ngIf="!movie.expired && !movie.canceled">
+                                                        <i class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, rent.user._id)"></i>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
+                                                        <i (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="movie.canceled">
+                                                        Cancled
+                                                    </ng-container>
+                                                    <i class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
                                                 </td>
                                             </tr>
                                         </ng-container>
@@ -93,7 +107,7 @@
                                 <ng-container *ngIf="movie.paused && !movie.canceled">
                                     Paused
                                 </ng-container>
-                                <ng-container *ngIf="!movie.canceled && !movie.expired && !movie.paused">
+                                <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired && !movie.paused">
                                     <i *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
                                 </ng-container>
                                 <ng-container *ngIf="movie.canceled">
@@ -109,19 +123,58 @@
     </div>
 </div>
 
+<!-- cancle rental -->
 <app-modal [title]="'Are you sure?'" [show]="cancelModalConfig.show" (onHidden)="cancelModalConfig.show = false" [config]="{
     header: true,
     footer: true
 }">
     <div content-type="body">
-        <p>
-            Cancel Rental
+        <p *ngIf="cancelModalConfig.show">
+            Do you really want to cancel "{{ cancelModalConfig.data.movie.movie.title }}" rental?
         </p>
     </div>
     <div content-type="footer" class="modal-footer">
         <button [disabled]="isCanceling" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button [disabled]="isCanceling" type="button" class="btn btn-primary" (click)="cancelRental(cancelModalConfig.data.movie, cancelModalConfig.data.user, true)">
             <i *ngIf="isCanceling" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm Cancel
+        </button>
+    </div>
+</app-modal>
+<!-- pause rental -->
+<app-modal [title]="'Are you sure?'" [show]="pauseModalConfig.show" (onHidden)="pauseModalConfig.show = false" [config]="{
+    header: true,
+    footer: true
+}">
+    <div content-type="body">
+        <p *ngIf="pauseModalConfig.show">
+            Do you really want to <span *ngIf="pauseModalConfig.data.movie.paused">un-</span>pause "{{ pauseModalConfig.data.movie.movie.title }}" rental?
+        </p>
+    </div>
+    <div content-type="footer" class="modal-footer">
+        <button [disabled]="isPausing" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button *ngIf="pauseModalConfig.show" [disabled]="isPausing" type="button" class="btn btn-primary" (click)="pauseRental(pauseModalConfig.data.movie, pauseModalConfig.data.user, true)">
+            <i *ngIf="isPausing" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm <span *ngIf="pauseModalConfig.data.movie.paused">Un-</span>Pause
+        </button>
+    </div>
+</app-modal>
+
+<!-- delete rental -->
+<app-modal [title]="'Are you sure?'" [show]="deleteModalConfig.show" (onHidden)="deleteModalConfig.show = false" [config]="{
+    header: true,
+    footer: true
+}">
+    <div content-type="body">
+        <p *ngIf="deleteModalConfig.show">
+            Do you really want to delete "{{ deleteModalConfig.data.movie.movie.title }}" rental?
+        </p>
+        <p>
+            You cannot UNDO this operation
+        </p>
+    </div>
+    <div content-type="footer" class="modal-footer">
+        <button [disabled]="isDeleting" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button [disabled]="isDeleting" type="button" class="btn btn-danger" (click)="deleteRental(deleteModalConfig.data.movie, deleteModalConfig.data.user, true)">
+            <i *ngIf="isDeleting" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm Delete
         </button>
     </div>
 </app-modal>
