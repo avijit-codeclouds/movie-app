@@ -26,4 +26,11 @@ export class RentalService {
       'action_value': actionValue,
     });
   }
+  // delete rented movie
+  deleteRental(userId, movieId): Observable<any> {
+    return this.http.patch(`${environment.apiURL}/rent/delete`, {
+      'user': userId,
+      'movie': movieId
+    });
+  }
 }
