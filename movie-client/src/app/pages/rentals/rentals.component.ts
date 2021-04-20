@@ -14,14 +14,14 @@ export class RentalsComponent implements OnInit {
   userRentList: any = null;
   isCanceling: boolean = false;
   isPausing: boolean = false;
-  cancelModalConfig = {
+  cancelModalConfig: any = {
     show: false,
-    data: {}
+    data: null
   }
 
   constructor(
-    private rentalService: RentalService,
-    private authService: AuthService
+    public rentalService: RentalService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
