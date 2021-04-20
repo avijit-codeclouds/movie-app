@@ -37,7 +37,9 @@ exports.get_customer = async (req, res) => {
 
 exports.delete_customer = async (req, res) => {
     try {
-        const customer = await Rent.findByIdAndDelete(req.params.id);
+        const user = req.params.id;
+
+        const customer = await Rent.deleteMany({ user });
 
         res.status(status.NO_CONTENT).json(helper.response(true));
     } catch (err) {
@@ -52,12 +54,11 @@ exports.handle_customer_lock = async ( req, res) => {
          * if req.body.lock = true, then we will lock
          */
 
-        const act = req.body.lock ? true : false;
+        const act  = req.body.lock ? true : false;
+        const user = req.params.id;
 
-        const customer = await Rent.findByIdAndUpdate(req.params.id, {
+        const customer = await Rent.updateMany({ user }, {
             isLocked: act
-        }, {
-            new: true,
         });
 
         res.status(status.OK).json(helper.response(true, customer, "Customer locked successfully!"));
