@@ -15,6 +15,7 @@ export class AppComponent implements OnInit{
   title = 'movie-client';
   toastSubscription: Subscription;
   user: any;
+  isRootPage: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit{
       if (event instanceof NavigationEnd) {
         let title = this.activatedroute.snapshot.firstChild.data.title;
         this.titleService.setTitle(title);
+        this.isRootPage = event.url == '/';
       }
   });
   }
