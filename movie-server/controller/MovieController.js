@@ -125,7 +125,12 @@ exports.delete_movie = async (req, res) => {
 			return res.status(status.NOT_FOUND).json(response(false, movie, invalidMsg));
 		}
 
-		const getMovie = await Movie.findByIdAndDelete(req.params.movie_id);
+		const getMovie = await Movie.findById(req.params.movie_id);
+
+		getMovie.deletedAt = Date.now();
+		getMovie.isDeleted = true;
+
+		await getMovie.save();
 
 		const msg = "Movie Deleted";
 
