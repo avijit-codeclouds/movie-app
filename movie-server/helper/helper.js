@@ -2,6 +2,7 @@ const jwt                  = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const constants            = require('../constant');
 const status               = require('http-status');
+const { logger }           = require('./logger');
 
 exports.response = (success = null, result = null, message = null) => {
     return {
@@ -93,4 +94,8 @@ exports.admin_section = (req, res, next) => {
         res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 
+};
+
+exports.cronLog = (cronName) => {
+    logger.info(`${cronName} cron has been executed successfully.`);
 };

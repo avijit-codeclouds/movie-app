@@ -49,27 +49,31 @@ exports.rent_movie = async( req,res ) => {
             return res.status(status.OK).json(response(true, newRent, 'Rent successfully saved'));
         }
 
-        if(getUser.isLocked === true){
-            return res.status(status.OK).json(response(false, null, 'Your account is locked, Talk with Administrator'));
-        }
-        let movieContent = getUser.movies.find(e => e.movie.toString() === movie.toString());
-        if(movieContent.expired === true || movieContent.canceled === true){
-            //this movie is expired / canceled
-            getUser.movies = getUser.movies.filter(movies => movies.movie.toString() !== movie.toString())
-        }else{
-            return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
-        }
+        //Return if movie is locked
+        if(getUser.isLocked === true)
+            return res.status(status.OK).json(response(false, null, 'Your account is locked, Please contact Administrator'));
 
+        const movieContent = getUser.movies.find(e => e.movie.toString() === movie.toString());
+
+        //Return if movie is already on rent
+        if(!(movieContent.expired === true || movieContent.canceled === true))
+            return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
+
+        //This movie is expired / canceled
+        getUser.movies = getUser.movies.filter(movies => movies.movie.toString() !== movie.toString());
         getUser.movies.unshift(payload);
+
         movieList = await getUser.save();
-        return res.status(status.OK).json(response(true,movieList,'Rent saved successfully'));
+
+        return res.status(status.OK).json(response(true, movieList, 'Rent saved successfully'));
+
     } catch (err) {
-        console.log(err)
+
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 };
 
-exports.rent_delete = async(req,res) => {
+exports.rent_delete = async ( req, res ) => {
     try {
         const { user, movie } = req.body;
 

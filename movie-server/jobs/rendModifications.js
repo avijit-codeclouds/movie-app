@@ -1,5 +1,6 @@
-const Rent = require('../models/Rent');
-const moment = require('moment');
+const Rent      = require('../models/Rent');
+const moment    = require('moment');
+const { logger } = require('../helper/logger');
 
 exports.modifyExpire = async () => {
     try {
@@ -26,8 +27,8 @@ exports.modifyExpire = async () => {
                 }
             }
         });
-        console.log("modifyExpire done..");
+
     } catch (err) {
-        console.log(err);
+        logger.error(err);
     }
 };

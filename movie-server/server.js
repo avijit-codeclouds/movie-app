@@ -3,6 +3,7 @@ const connectDB     = require('./config/db');
 const http          = require('http');
 const debug         = require('debug')('movie-server:server');
 const crons         = require('./jobs/index');
+const { logger }	= require('./helper/logger');
 
 /**
  * Connecting DB

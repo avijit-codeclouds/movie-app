@@ -26,6 +26,9 @@ const logger = new winston.createLogger({
     new winston.transports.File(options.file),
     new winston.transports.Console(options.console)
   ],
+  exceptionHandlers: [
+    new winston.transports.File({ filename: `${appRoot}/logs/exception.log` })
+  ],
   exitOnError: false, // do not exit on handled exceptions
 });
 
