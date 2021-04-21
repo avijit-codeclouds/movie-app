@@ -63,7 +63,7 @@
               colspan="5"
               class="pn"
               *ngFor="
-                let Favorites of movie.movies.reverse()
+                let Favorites of movie.movies
                   | paginate: { itemsPerPage: 5, currentPage: p },
                   let i=index;"
             >
@@ -72,7 +72,7 @@
               <td scope="row">{{ Favorites.stock }}</td>
               <td scope="row">{{ Favorites.rate }}</td>
               <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
-                <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
+                <i (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
                 <!-- <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -80,7 +80,7 @@
                   fill="currentColor"
                   class="bi bi-trash-fill pn"
                   viewBox="0 0 16 16"
-                  title="delete"
+                  tooltip="Delete"
                   (click)="deleteFav(Favorites._id)"
                 >
                   <path

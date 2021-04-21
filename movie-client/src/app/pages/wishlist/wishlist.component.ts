@@ -67,6 +67,7 @@ export class WishlistComponent implements OnInit {
     // });
   }
   deleteFav(_id, confirm = false) {
+    console.log(_id)
     if (!confirm) {
       this.cancelModalConfig.data = {
         _id,
