@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" routerLink="/">Movies</a>
+  <a class="navbar-brand" routerLink="/">
+    <img src="/favicon.ico" style="height: 22px;" class="d-inline-block align-top" alt="">
+    Movie-App
+  </a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,33 +11,26 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" *ngIf="!authService.isAuth">
-        <a class="nav-link" routerLink="/login">Login</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
       </li>
-      <li class="nav-item" *ngIf="!user">
-        <a class="nav-link" routerLink="/register">Register</a>
+      <li class="nav-item" *ngIf="!authService.isAuth">
+        <a class="nav-link" routerLinkActive="active" routerLink="/register">Register</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuth">
+        <a class="nav-link" [ngClass]="{active: isRootPage}" routerLink="/">Movies</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAdmin">
-        <a class="nav-link" routerLink="/customers">Customers</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/customers">Customers</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuth">
-        <a class="nav-link" routerLink="/rentals">Rentals</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/rentals">Rentals</a>
       </li>
       <li class="nav-item" *ngIf="authService.isUser">
-        <a class="nav-link" routerLink="/wishlist">Wishlists</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/wishlist">Wishlists</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuth">
-        <a class="nav-link" routerLink="/logout">Logout</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/logout">Logout</a>
       </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Separated link</a>
-        </div>
-      </li> -->
     </ul>
     <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Search">
