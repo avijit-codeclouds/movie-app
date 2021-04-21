@@ -17,6 +17,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <ng-container *ngIf="rentals.length == 0">
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                No Rentals Available
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngFor="let rent of rentals">
                         <tr style="position: relative;">
                             <td>
@@ -50,12 +57,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <ng-container *ngIf="rent.movies.length == 0">
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    No Rentals Available
+                                                </td>
+                                            </tr>
+                                        </ng-container>
                                         <ng-container *ngFor="let movie of rent.movies">
                                             <tr *ngIf="movie.movie">
                                                 <td>{{ movie.movie.title }}</td>
                                                 <td>{{ movie.startday }}</td>
                                                 <td>{{ movie.endday }}</td>
-                                                <td>
+                                                <td style="cursor:pointer">
                                                     <ng-container *ngIf="movie.expired && !movie.canceled">
                                                         Expired
                                                     </ng-container>
@@ -91,12 +105,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <ng-container *ngIf="!loadingRentals && (userRentList==null || userRentList.movies.length == 0)">
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                No Rentals Available
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="userRentList">
                     <ng-container *ngFor="let movie of userRentList.movies">
                         <tr *ngIf="movie.movie">
                             <td>{{ movie.movie.title }}</td>
                             <td>{{ movie.startday }}</td>
                             <td>{{ movie.endday }}</td>
-                            <td class="text-center">
+                            <td style="cursor:pointer" class="text-center">
                                 <ng-container *ngIf="authService.isUser">
                                     <ng-container *ngIf="movie.expired && !movie.canceled">
                                         Expired
@@ -129,6 +151,7 @@
                                 </ng-container>
                             </td>
                         </tr>
+                    </ng-container>
                     </ng-container>
                 </tbody>
             </table>

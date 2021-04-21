@@ -50,21 +50,28 @@
           </tr>
         </thead>
         <tbody *ngIf="wishList.length" class="pn">
+          <ng-container>
+            <tr>
+                <td colspan="5" class="text-center">
+                  {{msg}}
+                </td>
+            </tr>
+        </ng-container>
           <ng-container *ngFor="let movie of wishList">
             <tr
               scope="row"
               colspan="5"
               class="pn"
               *ngFor="
-                let Favorites of movie.movies
-                  | paginate: { itemsPerPage: 5, currentPage: p }
-              "
+                let Favorites of movie.movies.reverse()
+                  | paginate: { itemsPerPage: 5, currentPage: p },
+                  let i=index;"
             >
-              <td scope="row">{{ Favorites.title }}</td>
+              <td  scope="row">{{ Favorites.title }}</td>
               <td scope="row">{{ Favorites.genre.name }}</td>
               <td scope="row">{{ Favorites.stock }}</td>
               <td scope="row">{{ Favorites.rate }}</td>
-              <td scope="row" *ngIf="!isCanceling">
+              <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
                 <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
                 <!-- <svg
                   xmlns="http://www.w3.org/2000/svg"

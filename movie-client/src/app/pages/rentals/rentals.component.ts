@@ -65,6 +65,8 @@ export class RentalsComponent implements OnInit {
     })).subscribe((response) => {
       if (response.success) {
         this.userRentList = response.result;
+      } else {
+        this.userRentList = null;
       }
     })
   }
