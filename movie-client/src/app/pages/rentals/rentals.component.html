@@ -17,6 +17,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <ng-container *ngIf="rentals.length == 0">
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                No Rentals Available
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngFor="let rent of rentals">
                         <tr style="position: relative;">
                             <td>
