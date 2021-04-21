@@ -42,6 +42,13 @@ class APIFeatures {
 
         return this;
     }
+
+    withoutSoftDeletes(softDeleteField = 'isDeleted') {
+
+        this.query = this.query.find({ [softDeleteField]: { $ne: true } });
+
+        return this;
+    }
 }
 
 module.exports = APIFeatures;

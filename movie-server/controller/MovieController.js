@@ -101,7 +101,8 @@ exports.movie_list = async (req, res) => {
 						.filter()
 						.sort()
 						.limitFields()
-						.paginate();
+						.paginate()
+						.withoutSoftDeletes();
 
 		const movie = await features.query;
 
