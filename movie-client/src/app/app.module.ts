@@ -39,7 +39,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     GenerComponent,
     NotfoundComponent,
     WishlistComponent,
-    ModalComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

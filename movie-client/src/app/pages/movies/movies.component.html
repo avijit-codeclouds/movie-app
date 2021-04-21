@@ -165,3 +165,30 @@
 </div>
 </div>
 </div>
+
+<div class="modal fade" [attr.id]="id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Are you sure?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Delete Movie ...</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" [disabled]="isCanceling" (click)="deleteMovie(cancelModalConfig.data._id, true)"
+            class="btn btn-primary">
+            <i
+            *ngIf="isCanceling"
+            class="fas fa-spinner fa-spin"
+            style="font-size: 17px"
+            ></i>
+            Confirm Delete</button>
+          <button type="button" [disabled]="isCanceling" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
