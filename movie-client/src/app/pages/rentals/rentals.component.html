@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngIf="rentals.length == 0">
+                    <ng-container *ngIf="!loadingRentals && rentals.length == 0">
                         <tr>
                             <td colspan="3" class="text-center">
                                 No Rentals Available
@@ -114,42 +114,48 @@
                     </ng-container>
                     <ng-container *ngIf="userRentList">
                     <ng-container *ngFor="let movie of userRentList.movies">
-                        <tr *ngIf="movie.movie">
-                            <td>{{ movie.movie.title }}</td>
-                            <td>{{ movie.startday }}</td>
-                            <td>{{ movie.endday }}</td>
-                            <td style="cursor:pointer" class="text-center">
-                                <ng-container *ngIf="authService.isUser">
-                                    <ng-container *ngIf="movie.expired && !movie.canceled">
-                                        Expired
-                                    </ng-container>
-                                    <ng-container *ngIf="movie.paused && !movie.canceled">
-                                        Paused
-                                    </ng-container>
-                                    <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired && !movie.paused">
-                                        <i tooltip="Cancel" *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
-                                    </ng-container>
-                                    <ng-container *ngIf="movie.canceled">
-                                        Cancled
-                                    </ng-container>
-                                </ng-container>
-                                <ng-container *ngIf="authService.isAdmin">
-                                    <ng-container *ngIf="movie.expired && !movie.canceled">
-                                        Expired
-                                    </ng-container>
-                                    <ng-container *ngIf="!movie.expired && !movie.canceled">
-                                        <i tooltip="Pause/UnPause" class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, userRentList.user)"></i>
-                                    </ng-container>
 
-                                    <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
-                                        <i tooltip="Cancel" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
+                        <tr *ngIf="movie.movie">
+                            <ng-container *ngIf="movie.available">
+                                <td>{{ movie.movie.title }}</td>
+                                <td>{{ movie.startday }}</td>
+                                <td>{{ movie.endday }}</td>
+                                <td style="cursor:pointer" class="text-center">
+                                    <ng-container *ngIf="authService.isUser">
+                                        <ng-container *ngIf="movie.expired && !movie.canceled">
+                                            Expired
+                                        </ng-container>
+                                        <ng-container *ngIf="movie.paused && !movie.canceled">
+                                            Paused
+                                        </ng-container>
+                                        <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired && !movie.paused">
+                                            <i tooltip="Cancel" *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
+                                        </ng-container>
+                                        <ng-container *ngIf="movie.canceled">
+                                            Cancled
+                                        </ng-container>
                                     </ng-container>
-                                    <ng-container *ngIf="movie.canceled">
-                                        Cancled
+                                    <ng-container *ngIf="authService.isAdmin">
+                                        <ng-container *ngIf="movie.expired && !movie.canceled">
+                                            Expired
+                                        </ng-container>
+                                        <ng-container *ngIf="!movie.expired && !movie.canceled">
+                                            <i tooltip="Pause/UnPause" class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, userRentList.user)"></i>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
+                                            <i tooltip="Cancel" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
+                                        </ng-container>
+                                        <ng-container *ngIf="movie.canceled">
+                                            Cancled
+                                        </ng-container>
+                                        <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, userRentList.user)"></i>
                                     </ng-container>
-                                    <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, userRentList.user)"></i>
-                                </ng-container>
-                            </td>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="!movie.available">
+                                <td colspan="4" class="text-center">Please contact admin</td>
+                            </ng-container>
                         </tr>
                     </ng-container>
                     </ng-container>
