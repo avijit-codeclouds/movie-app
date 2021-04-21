@@ -50,6 +50,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <ng-container *ngIf="rent.movies.length == 0">
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    No Rentals Available
+                                                </td>
+                                            </tr>
+                                        </ng-container>
                                         <ng-container *ngFor="let movie of rent.movies">
                                             <tr *ngIf="movie.movie">
                                                 <td>{{ movie.movie.title }}</td>
@@ -91,6 +98,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <ng-container *ngIf="!loadingRentals && userRentList && userRentList.movies.length == 0">
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                No Rentals Available
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngFor="let movie of userRentList.movies">
                         <tr *ngIf="movie.movie">
                             <td>{{ movie.movie.title }}</td>
