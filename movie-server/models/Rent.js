@@ -44,6 +44,10 @@ const RentSchema = new mongoose.Schema({
       type: String,
       index: true,
       default: moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
+    },
+    available: {
+      type: Boolean,
+      default: true
     }
   }],
   isLocked: {

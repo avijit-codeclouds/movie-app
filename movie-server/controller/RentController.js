@@ -4,7 +4,6 @@ const Movie         = require('../models/Movie');
 const Rent          = require('../models/Rent');
 const APIFeatuers   = require('../utils/apiFeatures');
 const { response, first } = require('../helper/helper');
-const { get } = require('../routes');
 
 exports.view_rent = async( req,res ) => {
     try
@@ -56,7 +55,7 @@ exports.rent_movie = async( req,res ) => {
         const movieContent = getUser.movies.find(e => e.movie.toString() === movie.toString());
 
         //Return if movie is already on rent
-        if(!(movieContent.expired === true || movieContent.canceled === true))
+        if(movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true))
             return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
 
         //This movie is expired / canceled
@@ -68,7 +67,6 @@ exports.rent_movie = async( req,res ) => {
         return res.status(status.OK).json(response(true, movieList, 'Rent saved successfully'));
 
     } catch (err) {
-
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
 };

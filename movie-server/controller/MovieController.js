@@ -1,8 +1,10 @@
 require("dotenv").config();
 const status 		= require("http-status");
 const Movie 		= require("../models/Movie");
+const Rent			= require("../models/Rent");
 const APIFeatuers 	= require("../utils/apiFeatures");
 const { response } 	= require("../helper/helper");
+const { logger }    = require("../helper/logger");
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -127,6 +129,8 @@ exports.delete_movie = async (req, res) => {
 
 		const msg = "Movie Deleted";
 
+		handle_movie_delete(req.params.movie_id);
+
 		return res.status(status.NO_CONTENT).json(response(true));
 
 	}
@@ -134,4 +138,16 @@ exports.delete_movie = async (req, res) => {
 	{
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
 	}
+};
+
+const handle_movie_delete = async (id) => {
+
+	const rent = await Rent.updateMany({ "movies.movie": id }, { "movies.$.available": false} , {
+		arrayFilters: [
+			{
+				'movies.$.movie': id
+			}]
+		});
+
+	logger.info("MOVIE-DELETE event. rental made unavailable");
 };
