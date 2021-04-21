@@ -8,6 +8,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { finalize } from "rxjs/operators";
 
+declare var $: any;
+
 
 @Component({
   selector: "app-movies",
@@ -39,6 +41,13 @@ export class MoviesComponent implements OnInit {
   loadingMovies: boolean = false;
   loadingGenres: boolean = false;
 
+  cancelModalConfig: any = {
+    show: false,
+    data: null,
+  };
+  isCanceling: boolean = false;
+
+  id: string = 'modal-'+ (Math.random() * 100).toFixed(0);
 
   constructor(
     public movieservice: MovieService,
@@ -194,13 +203,42 @@ export class MoviesComponent implements OnInit {
     this.ngOnInit();
   }
 
-  clickMethod(_id: string) {
-    if (confirm("Are you sure to delete this movie??")) {
-      this.movieservice.deleteMovie(_id).subscribe((data) => {
-        console.log(data);
-        alert("Successfully deleted");
-        this.ngOnInit();
+  deleteMovie(_id : any, confirm){
+    console.log(this.cancelModalConfig)
+    this.isCanceling = true;
+    this.showProgress = true;
+    if(confirm === true){
+      this.movieservice
+            .deleteMovie(_id)
+            .pipe(
+              finalize(() => {
+                this.isCanceling = false;
+              })
+            )
+            .subscribe((response) => {          
+              if (response.success) {
+                this.isCanceling = false;
+                this.cancelModalConfig.show = false;
+                this.showProgress = false;
+                $('#' + this.id).modal('hide');
+                this.openSnackBar("Successfully deleted movie");
+                this.ngOnInit();
+              }
       });
+    }
+  }
+
+  clickMethod(_id : any, confirm = false) {
+    $('#' + this.id).modal({
+      keyboard: false,
+      backdrop: 'static'
+    });    
+    if (!confirm) {
+      this.cancelModalConfig.data = {
+        _id,
+      };
+      this.cancelModalConfig.show = true;
+      return;
     }
   }
 }
