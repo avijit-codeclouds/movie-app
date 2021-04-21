@@ -131,11 +131,12 @@ exports.delete_movie = async (req, res) => {
 
 		handle_movie_delete(req.params.movie_id);
 
-		return res.status(status.NO_CONTENT).json(response(true));
+		return res.status(status.OK).json(response(true,null,'movie deleted'));
 
 	}
 	catch (err)
 	{
+		console.log(err)
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
 	}
 };
