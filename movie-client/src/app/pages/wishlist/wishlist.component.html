@@ -64,7 +64,7 @@
               <td scope="row">{{ Favorites.genre.name }}</td>
               <td scope="row">{{ Favorites.stock }}</td>
               <td scope="row">{{ Favorites.rate }}</td>
-              <td scope="row" *ngIf="!isCanceling">
+              <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
                 <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
                 <!-- <svg
                   xmlns="http://www.w3.org/2000/svg"

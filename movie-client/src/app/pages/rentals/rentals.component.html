@@ -55,7 +55,7 @@
                                                 <td>{{ movie.movie.title }}</td>
                                                 <td>{{ movie.startday }}</td>
                                                 <td>{{ movie.endday }}</td>
-                                                <td>
+                                                <td style="cursor:pointer">
                                                     <ng-container *ngIf="movie.expired && !movie.canceled">
                                                         Expired
                                                     </ng-container>
@@ -96,7 +96,7 @@
                             <td>{{ movie.movie.title }}</td>
                             <td>{{ movie.startday }}</td>
                             <td>{{ movie.endday }}</td>
-                            <td class="text-center">
+                            <td style="cursor:pointer" class="text-center">
                                 <ng-container *ngIf="authService.isUser">
                                     <ng-container *ngIf="movie.expired && !movie.canceled">
                                         Expired
