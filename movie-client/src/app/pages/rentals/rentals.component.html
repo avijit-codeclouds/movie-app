@@ -66,25 +66,30 @@
                                         </ng-container>
                                         <ng-container *ngFor="let movie of rent.movies">
                                             <tr *ngIf="movie.movie">
-                                                <td>{{ movie.movie.title }}</td>
-                                                <td>{{ movie.startday }}</td>
-                                                <td>{{ movie.endday }}</td>
-                                                <td style="cursor:pointer">
-                                                    <ng-container *ngIf="movie.expired && !movie.canceled">
-                                                        Expired
-                                                    </ng-container>
-                                                    <ng-container *ngIf="!movie.expired && !movie.canceled">
-                                                        <i tooltip="Pause/UnPause" class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, rent.user._id)"></i>
-                                                    </ng-container>
+                                                <ng-container *ngIf="movie.available">
+                                                    <td>{{ movie.movie.title }}</td>
+                                                    <td>{{ movie.startday }}</td>
+                                                    <td>{{ movie.endday }}</td>
+                                                    <td style="cursor:pointer">
+                                                        <ng-container *ngIf="movie.expired && !movie.canceled">
+                                                            Expired
+                                                        </ng-container>
+                                                        <ng-container *ngIf="!movie.expired && !movie.canceled">
+                                                            <i tooltip="Pause/UnPause" class="fas mr-2" [ngClass]="{'fa-pause': !movie.paused, 'fa-play': movie.paused}" (click)="pauseRental(movie, rent.user._id)"></i>
+                                                        </ng-container>
 
-                                                    <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
-                                                        <i tooltip="Cancel" (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="movie.canceled">
-                                                        Cancled
-                                                    </ng-container>
-                                                    <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
-                                                </td>
+                                                        <ng-container *ngIf="!movie.expired && !movie.canceled && !movie.expired">
+                                                            <i tooltip="Cancel" (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="movie.canceled">
+                                                            Cancled
+                                                        </ng-container>
+                                                        <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container *ngIf="!movie.available">
+                                                    <td colspan="4" class="text-center">Please contact admin</td>
+                                                </ng-container>
                                             </tr>
                                         </ng-container>
                                     </tbody>
