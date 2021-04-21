@@ -50,6 +50,13 @@
           </tr>
         </thead>
         <tbody *ngIf="wishList.length" class="pn">
+          <ng-container>
+            <tr>
+                <td colspan="5" class="text-center">
+                  {{msg}}
+                </td>
+            </tr>
+        </ng-container>
           <ng-container *ngFor="let movie of wishList">
             <tr
               scope="row"

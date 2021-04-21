@@ -13,6 +13,7 @@ import { finalize } from "rxjs/operators";
 export class WishlistComponent implements OnInit {
   query;
   p;
+  msg:any;
   wishList = [];
   loadingMovies: boolean = false;
   showProgress: boolean = false;
@@ -54,6 +55,9 @@ export class WishlistComponent implements OnInit {
       )
       .subscribe((data) => {
         this.wishList = data["result"];
+        if(this.wishList[0].movies.length==0){
+          this.msg="No Wishlist Found"
+        }
       });
 
     // this.movieservice.getMovieWishlist().subscribe((data) => {
