@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { CustomerService } from '../../services/customer.service';
 import { NotificationService } from './../../services/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-customers',
@@ -45,7 +46,10 @@ export class CustomersComponent implements OnInit {
       this.loadingCustomers = false;
     })).subscribe(response => {
       if (response.success) {
-        this.customers = response.result;
+        this.customers = response.result.map((customer) => {
+          customer['user']['formatedDate'] = moment(customer.user.date).format("MMM Do YYYY")
+          return customer;
+        });
       }
     })
   }
