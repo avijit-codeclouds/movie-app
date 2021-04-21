@@ -2,7 +2,7 @@
 <div class="container">
 <div class="row">
 <div class="col-3">
-    <ul class="nav nav-pills flex-column">
+    <ul style="cursor:pointer" class="nav nav-pills flex-column">
     <li class="nav-item">
         <a
         class="nav-link"
@@ -80,7 +80,7 @@
             <td>{{ movie.genre.name }}</td>
             <td>{{ movie.stock }}</td>
             <td>{{ movie.rate }}</td>
-            <td>
+            <td style="cursor:pointer">
             <ng-container *ngIf="authservice.isAdmin">
                 <i
                 tooltip="Edit"

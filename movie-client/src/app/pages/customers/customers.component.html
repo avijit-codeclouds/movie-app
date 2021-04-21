@@ -26,7 +26,7 @@
                         <td>{{ customer.user.email }}</td>
                         <td>{{ customer.user.formatedDate }}</td>
                         <td>({{ customer.movies.length }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a></td>
-                        <td>
+                        <td style="cursor:pointer">
                             <ng-container *ngIf="authService.isAdmin">
                                 <i tooltip="Lock/UnLock Customer" class="fas mr-2" [ngClass]="{'fa-lock': !customer.isLocked, 'fa-unlock': customer.isLocked}" (click)="toggleLock(customer)"></i>
                                 <i tooltip="Delete Customer" class="fas fa-trash" (click)="deleteCustomer(customer)"></i>
