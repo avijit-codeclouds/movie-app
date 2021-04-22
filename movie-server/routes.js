@@ -11,9 +11,14 @@ const router        = express.Router();
 const constants     = require('./constant');
 const ROUTE_PREFIX  = constants.ROUTE_PREFIX + constants.ROUTE_VERSION;
 const { admin_section }  = require('./helper/helper');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/swagger.json');
 
 /* Default Routes */
 module.exports = router.use('/', indexRouter);
+
+/*Swagger Implementaion*/
+module.exports = router.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 /* User Routes */
 module.exports = router.use(ROUTE_PREFIX+'/users', usersRouter);
