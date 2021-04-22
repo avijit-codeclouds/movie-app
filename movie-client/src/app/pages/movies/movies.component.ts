@@ -22,6 +22,7 @@ export class MoviesComponent implements OnInit {
   generes: [];
   query;
   p;
+  movie:any;
   storeMovies: [];
   isShowDivIf = false;
   status: any;
@@ -107,6 +108,7 @@ export class MoviesComponent implements OnInit {
       this.loadingMovies = false;
     })).subscribe((data) => {
       this.movies = data["result"];
+      this.movie=this.movies.length;
       this.storeMovies = this.movies;
     });
   }

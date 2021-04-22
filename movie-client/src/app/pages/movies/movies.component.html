@@ -134,6 +134,7 @@
     *ngIf="loadingMovies"
     ></mat-progress-bar>
     <div><br><br>
+        <span *ngIf="movie!=0">
     <ul class="pagination" style="padding-left: 0%;margin-left:19%;"  *ngIf="!loadingMovies">
         <li class="page-item active">
         <pagination-controls
@@ -156,6 +157,7 @@
             <a class="page-link" href="#">&raquo;</a>
         </li> -->
     </ul>
+</span>
     <mat-progress-bar
         mode="indeterminate"
         *ngIf="showProgress"
