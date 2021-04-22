@@ -4,7 +4,7 @@ import { GenerService } from "./../../services/gener.service";
 import { AuthService } from "./../../services/auth.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { finalize } from "rxjs/operators";
+import { finalize, take } from "rxjs/operators";
 @Component({
   selector: "app-movies",
   templateUrl: "./movies.component.html",
@@ -41,7 +41,7 @@ export class MoviesComponent implements OnInit {
     if (this.authservice.isAuth) {
       this.loadData();
     } else {
-      this.authservice.rawUserSubjectInstance.subscribe((user) => {
+      this.authservice.rawUserSubjectInstance.pipe(take(1)).subscribe((user) => {
         this.loadData();
       });
     }
