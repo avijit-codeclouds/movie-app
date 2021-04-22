@@ -30,8 +30,9 @@
       <li class="nav-item" *ngIf="authService.isUser">
         <a class="nav-link" routerLinkActive="active" routerLink="/wishlist">Wishlists</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">user <i class="fas fa-user"></i></a>
+      &nbsp; &nbsp;&nbsp;&nbsp;
+      <li class="nav-item dropdown" *ngIf="authService.isAuth">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{username.split(' ')[0]}} <i class="fas fa-user"></i></a>
         <div class="dropdown-menu">
           <a class="dropdown-item" routerLinkActive="active" routerLink="/logout">Logout</a>
         </div>
