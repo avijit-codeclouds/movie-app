@@ -1,34 +1,49 @@
-<div class="container">
-<form [formGroup]="form" (ngSubmit)="loginUser()">
-    <fieldset>
-      <legend>Login</legend>
-      <div class="alert alert-dismissible {{ className }}" *ngIf="enableMessage">
-        {{ msg }}
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-        placeholder="Enter email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-        formControlName="email">
-        <div *ngIf="submitted && f.email.errors" class="alert alert-dismissible alert-danger">
-            <div *ngIf="f.email.errors.required">Email is required</div>
-            <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
-            <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="loginUser()">
+            <fieldset>
+              <legend class="card-title">Login</legend>
+              <div class="alert alert-dismissible {{ className }}" *ngIf="enableMessage">
+                {{ msg }}
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Enter email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                  formControlName="email">
+                <div *ngIf="submitted && f.email.errors" class="alert alert-dismissible alert-danger">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
+                  <div *ngIf="f.email.errors.pattern">Email must be a valid email address</div>
+                </div>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                  else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" formControlName="password">
+                <div *ngIf="submitted && f.password.errors" class="alert alert-dismissible alert-danger">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+              </div>
+              <!-- <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar><br> -->
+              <p class="float-left mt-3 mb-0">
+                No Account? <a routerLink="/register">Register</a>
+              </p>
+              <button type="submit" class="btn btn-primary float-right" [disabled]="showProgress">
+                <i *ngIf="showProgress" class="fas fa-spinner fa-spin"></i>
+                Login
+              </button>
+              <!-- <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner> -->
+            </fieldset>
+          </form>
         </div>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
-        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" formControlName="password" >
-        <div *ngIf="submitted && f.password.errors" class="alert alert-dismissible alert-danger">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-        </div>
-      </div>
-      <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar><br>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <!-- <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner> -->
-    </fieldset>
-  </form>
+    </div>
+  </div>
 </div>
