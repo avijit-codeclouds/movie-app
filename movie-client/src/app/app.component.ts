@@ -5,7 +5,7 @@ import { NotificationService } from './services/notification.service';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { Title } from '@angular/platform-browser';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +16,9 @@ export class AppComponent implements OnInit{
   toastSubscription: Subscription;
   user: any;
   isRootPage: boolean = false;
-
+  jwtHelper = new JwtHelperService();
+  getUserId:any;
+  username:any;
   constructor(
     public authService: AuthService,
     public router: Router,
@@ -26,6 +28,9 @@ export class AppComponent implements OnInit{
     private titleService: Title
   ) { 
     this.authService.user.subscribe(x => this.user = x);
+    const decode = this.jwtHelper.decodeToken(this.user);
+    this.getUserId = decode['id'] 
+    this.username=decode['name']
     // console.log(this.user)
     // if(localStorage.getItem("user")!=null){
     //   this.loggedIn = true
