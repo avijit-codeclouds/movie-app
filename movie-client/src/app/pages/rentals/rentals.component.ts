@@ -32,6 +32,11 @@ export class RentalsComponent implements OnInit {
 
   userId = null;
 
+  paginationConfig = {
+    page: 1,
+    limit:15
+  }
+
   constructor(
     public rentalService: RentalService,
     public authService: AuthService,
@@ -73,7 +78,7 @@ export class RentalsComponent implements OnInit {
 
   loadRentals() {
     this.loadingRentals = true;
-    this.rentalService.rentals().pipe(finalize(() => {
+    this.rentalService.rentals(this.paginationConfig).pipe(finalize(() => {
       this.loadingRentals = false;
     })).subscribe(response => {
       if (response.success) {
@@ -172,5 +177,17 @@ export class RentalsComponent implements OnInit {
         this.notificationService.toast("Rental Deleted");
       }
     })
+  }
+
+  previousPage() {
+    if (this.paginationConfig.page == 1 || this.loadingRentals) return;
+    this.paginationConfig.page -=1;
+    this.loadRentals();
+  }
+
+  nextPage() {
+    if (this.rentals.length < this.paginationConfig.limit || this.loadingRentals) return;
+    this.paginationConfig.page +=1;
+    this.loadRentals();
   }
 }

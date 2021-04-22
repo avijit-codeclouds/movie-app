@@ -10,8 +10,8 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  loadCustomers(userId = null) : Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/customer`);
+  loadCustomers(userId = null, config) : Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/customer?page=${config.page}&limit=${config.limit}`);
   }
 
   toggleLock(customerId, status): Observable<any> {

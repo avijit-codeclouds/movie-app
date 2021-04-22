@@ -29,6 +29,11 @@ export class CustomersComponent implements OnInit {
     working: false,
   }
 
+  paginationConfig = {
+    page: 1,
+    limit:15
+  }
+
   constructor(
     public router: Router,public formBuilder: FormBuilder,
     public authService: AuthService,
@@ -42,7 +47,7 @@ export class CustomersComponent implements OnInit {
 
   loadCustomers() {
     this.loadingCustomers = true;
-    this.customerService.loadCustomers(this.authService.isAuth ? this.authService.me.id : null).pipe(finalize(() => {
+    this.customerService.loadCustomers(this.authService.isAuth ? this.authService.me.id : null, this.paginationConfig).pipe(finalize(() => {
       this.loadingCustomers = false;
     })).subscribe(response => {
       if (response.success) {
@@ -95,6 +100,18 @@ export class CustomersComponent implements OnInit {
         this.notificationService.toast('Customer Successfully Deleted');
       // }
     })
+  }
+
+  previousPage() {
+    if (this.paginationConfig.page == 1 || this.loadingCustomers) return;
+    this.paginationConfig.page -=1;
+    this.loadCustomers();
+  }
+
+  nextPage() {
+    if (this.customers.length < this.paginationConfig.limit || this.loadingCustomers) return;
+    this.paginationConfig.page +=1;
+    this.loadCustomers();
   }
 
 }

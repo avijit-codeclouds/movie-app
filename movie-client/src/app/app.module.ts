@@ -27,6 +27,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalComponent } from './shared/modal/modal.component'; 
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { MoviesComponent } from './pages/movies/movies.component';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @NgModule({
@@ -42,7 +43,8 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
     GenerComponent,
     NotfoundComponent,
     WishlistComponent,
-    ModalComponent
+    ModalComponent,
+    MoviesComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +57,9 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
     NgxPaginationModule,
     TooltipModule,
     LoadingBarHttpClientModule
+  ],
+  exports: [
+    ModalComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

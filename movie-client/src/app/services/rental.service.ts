@@ -10,8 +10,8 @@ export class RentalService {
 
   constructor(private http: HttpClient) { }
 
-  rentals(): Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/rent`);
+  rentals(config): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/rent?page=${config.page}&limit=${config.limit}`);
   }
 
   userMovies(userId): Observable<any> {
