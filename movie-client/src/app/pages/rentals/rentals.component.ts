@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -49,7 +49,7 @@ export class RentalsComponent implements OnInit {
     if (this.authService.isAuth) {
       this.initRentals();    
     } else {
-      this.authService.rawUserSubjectInstance.subscribe((user) => {
+      this.authService.rawUserSubjectInstance.pipe(take(1)).subscribe((user) => {
         this.initRentals();
       })
     }
