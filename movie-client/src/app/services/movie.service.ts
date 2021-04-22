@@ -101,4 +101,8 @@ export class MovieService {
     // window.alert(errorMessage);
     return throwError(error);
   }
+
+  restoreMovie(movieId): Observable<any> {
+    return this.httpClient.patch<any>(`${this.API_URL}/movie/restore/`+movieId, {});
+  }
 }

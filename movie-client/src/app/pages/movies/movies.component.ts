@@ -41,9 +41,10 @@ export class MoviesComponent implements OnInit {
   loadingMovies: boolean = false;
   loadingGenres: boolean = false;
 
-  cancelModalConfig: any = {
+  deleteRestoreModalConfig: any = {
     show: false,
     data: null,
+    working: false
   };
   isCanceling: boolean = false;
 
@@ -102,7 +103,6 @@ export class MoviesComponent implements OnInit {
       this.loadingMovies = false;
     })).subscribe((data) => {
       this.movies = data["result"];
-      console.log(data["result"]);
       this.storeMovies = this.movies;
     });
   }
@@ -116,7 +116,6 @@ export class MoviesComponent implements OnInit {
   }
   getWishlist() {
     this.movieservice.getMovieWishlist().subscribe((data) => {
-      console.log(data);
       this.wishList = data["result"];
       //  console.log( this.wishList);
     });
@@ -129,7 +128,7 @@ export class MoviesComponent implements OnInit {
       this.wishList[0].movies.map((e) => {
         if (e._id == _id) stat++;
       });
-      console.log(stat);
+      
       if (stat > 0) {
         return true;
       } else {
@@ -203,42 +202,44 @@ export class MoviesComponent implements OnInit {
     this.ngOnInit();
   }
 
-  deleteMovie(_id : any, confirm){
-    console.log(this.cancelModalConfig)
-    this.isCanceling = true;
-    this.showProgress = true;
-    if(confirm === true){
-      this.movieservice
-            .deleteMovie(_id)
-            .pipe(
-              finalize(() => {
-                this.isCanceling = false;
-              })
-            )
-            .subscribe((response) => {          
-              if (response.success) {
-                this.isCanceling = false;
-                this.cancelModalConfig.show = false;
-                this.showProgress = false;
-                $('#' + this.id).modal('hide');
-                this.openSnackBar("Successfully deleted movie");
-                this.ngOnInit();
-              }
+  deleteMovie(_id : any) {
+      this.movieservice.deleteMovie(_id).pipe(finalize(() => {
+        this.deleteRestoreModalConfig.working = false;
+      })).subscribe((response) => {          
+        if (response.success) {
+          this.deleteRestoreModalConfig.show = false;
+          this.openSnackBar("Successfully deleted movie");
+          this.getMovies();
+        }
       });
+  }
+
+  deleteOrRestoreMovie(movie, confirm=false) {
+    if (!confirm) {
+      this.deleteRestoreModalConfig.data = {
+        movie: movie,
+      };
+      this.deleteRestoreModalConfig.show = true;
+      return;
+    }
+
+    this.deleteRestoreModalConfig.working = true;
+    if (this.deleteRestoreModalConfig.data.movie.isDeleted) {
+      this.restoreMovie(this.deleteRestoreModalConfig.data.movie._id);
+    } else {
+      this.deleteMovie(this.deleteRestoreModalConfig.data.movie._id);
     }
   }
 
-  clickMethod(_id : any, confirm = false) {
-    $('#' + this.id).modal({
-      keyboard: false,
-      backdrop: 'static'
-    });    
-    if (!confirm) {
-      this.cancelModalConfig.data = {
-        _id,
-      };
-      this.cancelModalConfig.show = true;
-      return;
-    }
+  restoreMovie(_id) {
+    this.movieservice.restoreMovie(_id).pipe(finalize(() => {
+      this.deleteRestoreModalConfig.working = false;
+    })).subscribe((response) => {          
+      if (response.success) {
+        this.deleteRestoreModalConfig.show = false;
+        this.openSnackBar("Successfully restored movie");
+        this.getMovies();
+      }
+    });
   }
 }
