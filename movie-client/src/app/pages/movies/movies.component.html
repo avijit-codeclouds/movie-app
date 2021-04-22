@@ -76,7 +76,7 @@
             <th scope="row" class="pn">
             {{ movie.title }}
             </th>
-            <td>{{ movie.genre.name }}</td>
+            <td>{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
             <td>{{ movie.stock }}</td>
             <td>{{ movie.rate }}</td>
             <td style="cursor:pointer">

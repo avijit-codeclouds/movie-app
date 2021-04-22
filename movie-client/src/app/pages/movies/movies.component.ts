@@ -93,7 +93,11 @@ export class MoviesComponent implements OnInit {
 
   filterData(type, movieList) {
     return movieList.filter((object) => {
-      return object["genre"]["name"] == type;
+      try {
+        return object["genre"]["name"] == type;
+      } catch (e) {
+        return false;
+      }
     });
   }
 
