@@ -10,7 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { MatProgressSpinnerModule, MatProgressBarModule,
   MatSnackBarModule } from '@angular/material'
-  import { TooltipModule } from 'ng2-tooltip-directive';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [MoviesComponent],
@@ -22,7 +22,7 @@ import { MatProgressSpinnerModule, MatProgressBarModule,
     NgxPaginationModule,
     FontAwesomeModule,
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
-    TooltipModule
+    TooltipModule,
   ]
 })
 export class MoviesModule {

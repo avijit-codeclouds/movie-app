@@ -6,6 +6,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { JwtInterceptor } from './guards/jwt.interceptor'
 import { MatProgressSpinnerModule, MatProgressBarModule,
   MatSnackBarModule } from '@angular/material'
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -50,7 +52,8 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
-    TooltipModule
+    TooltipModule,
+    LoadingBarHttpClientModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
