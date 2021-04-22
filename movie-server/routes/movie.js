@@ -15,5 +15,9 @@ router
     .patch(movieValidator.validate('createMovie'),handle_validation_error,movieController.update_movie)
     .delete(movieController.delete_movie);
 
+router
+    .route('/restore/:movie_id')
+    .patch(movieController.restore_movie);
+
 
 module.exports = router;

@@ -135,7 +135,7 @@ exports.delete_movie = async (req, res) => {
 
 		const msg = "Movie Deleted";
 
-		handle_movie_delete(req.params.movie_id);
+		make_rented_movies_available(req.params.movie_id, false);
 
 		return res.status(status.NO_CONTENT).json(response(true));
 
@@ -146,14 +146,54 @@ exports.delete_movie = async (req, res) => {
 	}
 };
 
-const handle_movie_delete = async (id) => {
+exports.restore_movie = async (req, res) => {
+	try
+	{
+		let movie = await Movie.findById(req.params.movie_id);
 
-	const rent = await Rent.updateMany({ "movies.movie": id }, { "movies.$.available": false} , {
-		arrayFilters: [
-			{
-				'movies.$.movie': id
-			}]
-		});
+		if (!movie)
+		{
+			const invalidMsg = "Invalid Movie";
 
-	logger.info("MOVIE-DELETE event. rental made unavailable");
+			return res.status(status.NOT_FOUND).json(response(false, movie, invalidMsg));
+		}
+
+		const getMovie = await Movie.findById(req.params.movie_id);
+
+		getMovie.deletedAt = null;
+		getMovie.isDeleted = false;
+
+		await getMovie.save();
+
+		const msg = "Movie Restored";
+
+		make_rented_movies_available(req.params.movie_id, TextTrackCue);
+
+		return res.status(status.OK).json(response(true, null, "Movie restored"));
+
+	}
+	catch (err)
+	{
+		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+	}
+};
+
+const make_rented_movies_available = async (id, action) => {
+
+	try
+	{
+		const msg = action ? "RESTORE" : "DELETE";
+
+		const rent = await Rent.updateMany({ "movies.movie": id }, { "movies.$.available": action} , {
+			arrayFilters: [
+				{
+					'movies.$.movie': id
+				}]
+			});
+
+		logger.info("MOVIE-"+ msg +" event. changes in rental for Movie ID: "+id);
+	} catch( err )
+	{
+		logger.error(JSON.stringify(err) + " for movie ID: "+ id);
+	}
 };
