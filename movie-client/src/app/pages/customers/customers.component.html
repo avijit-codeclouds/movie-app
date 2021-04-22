@@ -21,7 +21,10 @@
                 <tbody>
                     <tr *ngIf="!loadingCustomers && customers.length == 0">
                         <td colspan="5" class="text-center">
-                            No Customers Available
+                            No Customers Available.
+                            <span *ngIf="paginationConfig.page > 1">
+                                Go to previous <a href="javascript:void(0)" (click)="previousPage()">page</a>.
+                            </span>
                         </td>
                     </tr>
                     <tr *ngFor="let customer of customers">
@@ -30,41 +33,62 @@
                         </th>
                         <td>{{ customer.user.email }}</td>
                         <td>{{ customer.user.formatedDate }}</td>
-                        <td>({{ customer.movies.length }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a></td>
+                        <td>({{ customer.movies.length }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a>
+                        </td>
                         <td style="cursor:pointer">
                             <ng-container *ngIf="authService.isAdmin">
-                                <i tooltip="Lock/UnLock Customer" class="fas mr-2" [ngClass]="{'fa-lock': customer.isLocked, 'fa-unlock': !customer.isLocked}" (click)="toggleLock(customer)"></i>
-                                <i tooltip="Delete Customer" class="fas fa-trash" (click)="deleteCustomer(customer)"></i>
+                                <i tooltip="Lock/UnLock Customer" class="fas mr-2"
+                                    [ngClass]="{'fa-lock': customer.isLocked, 'fa-unlock': !customer.isLocked}"
+                                    (click)="toggleLock(customer)"></i>
+                                <i tooltip="Delete Customer" class="fas fa-trash"
+                                    (click)="deleteCustomer(customer)"></i>
                             </ng-container>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <mat-progress-bar mode='indeterminate' *ngIf="loadingCustomers"></mat-progress-bar>
+            <nav aria-label="Page navigation example"
+                *ngIf="!loadingCustomers && customers.length >= paginationConfig.limit">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [ngClass]="{disabled: paginationConfig.page == 1}">
+                        <a class="page-link" href="javascript:void(0)" (click)="previousPage()">Previous</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{disabled: customers.length < paginationConfig.limit }">
+                        <a class="page-link" href="javascript:void(0)" (click)="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 
 <!-- lock/unlock customer -->
-<app-modal [title]="'Are you sure?'" [show]="lockUnlockModalConfig.show" (onHidden)="lockUnlockModalConfig.show = false" [config]="{
+<app-modal [title]="'Are you sure?'" [show]="lockUnlockModalConfig.show" (onHidden)="lockUnlockModalConfig.show = false"
+    [config]="{
     header: true,
     footer: true
 }">
     <div content-type="body">
         <p *ngIf="lockUnlockModalConfig.show">
-            Do you really want to <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">un-</span>lock this customer?
+            Do you really want to <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">un-</span>lock this
+            customer?
         </p>
     </div>
     <div content-type="footer" class="modal-footer">
-        <button [disabled]="lockUnlockModalConfig.working" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button *ngIf="lockUnlockModalConfig.show" [disabled]="lockUnlockModalConfig.working" type="button" class="btn btn-primary" (click)="toggleLock(lockUnlockModalConfig.data.customer, true)">
-            <i *ngIf="lockUnlockModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">Un-</span>Lock
+        <button [disabled]="lockUnlockModalConfig.working" type="button" class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
+        <button *ngIf="lockUnlockModalConfig.show" [disabled]="lockUnlockModalConfig.working" type="button"
+            class="btn btn-primary" (click)="toggleLock(lockUnlockModalConfig.data.customer, true)">
+            <i *ngIf="lockUnlockModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
+            Confirm <span *ngIf="lockUnlockModalConfig.data.customer.isLocked">Un-</span>Lock
         </button>
     </div>
 </app-modal>
 
 <!-- lock/unlock customer -->
-<app-modal [title]="'Are you sure?'" [show]="deleteModalConfig.show" (onHidden)="deleteModalConfig.show = false" [config]="{
+<app-modal [title]="'Are you sure?'" [show]="deleteModalConfig.show" (onHidden)="deleteModalConfig.show = false"
+    [config]="{
     header: true,
     footer: true
 }">
@@ -77,9 +101,12 @@
         </p>
     </div>
     <div content-type="footer" class="modal-footer">
-        <button [disabled]="deleteModalConfig.working" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button *ngIf="deleteModalConfig.show" [disabled]="deleteModalConfig.working" type="button" class="btn btn-danger" (click)="deleteCustomer(deleteModalConfig.data.customer, true)">
-            <i *ngIf="deleteModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm Delete
+        <button [disabled]="deleteModalConfig.working" type="button" class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
+        <button *ngIf="deleteModalConfig.show" [disabled]="deleteModalConfig.working" type="button"
+            class="btn btn-danger" (click)="deleteCustomer(deleteModalConfig.data.customer, true)">
+            <i *ngIf="deleteModalConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i> Confirm
+            Delete
         </button>
     </div>
 </app-modal>
