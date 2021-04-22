@@ -125,7 +125,7 @@
                     <ng-container *ngIf="userRentList">
                     <ng-container *ngFor="let movie of userRentList.movies">
 
-                        <tr *ngIf="movie.movie">
+                        <tr>
                             <ng-container *ngIf="movie.available">
                                 <td>{{ movie.movie.title }}</td>
                                 <td>{{ movie.startday }}</td>
