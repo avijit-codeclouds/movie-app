@@ -293,6 +293,228 @@
               }
             }
           }
+      },
+      "/api/v1/movie/restore/{movie_id}": {
+        "patch": {
+          "tags": [
+            "movie"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "restore movie by id",
+          "operationId": "restore movie by id",
+          "parameters": [
+            {
+                "name": "movie_id",
+                "in": "path",
+                "description": "A unique integer value identifying movie.",
+                "required": true,
+                "type": "string"
+            }
+          ],
+          "responses": {
+            "400": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/rent": {
+        "get": {
+          "tags": [
+            "rent"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "Get list of rent",
+          "operationId": "getUsers",
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of results to return per page.",
+              "required": false,
+              "type": "integer",
+              "items": {
+                "type": "integer"
+              },
+              "collectionFormat": "csv"
+            },
+            {
+                "name": "offset",
+                "in": "query",
+                "description": "The initial index from which to return the results.",
+                "required": false,
+                "type": "integer",
+                "items": {
+                  "type": "integer"
+                },
+                "collectionFormat": "csv"
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "description": "add any field.",
+              "required": false,
+              "type": "string",
+              "items": {
+                "type": "string"
+              },
+              "collectionFormat": "csv"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Succesful operation"
+            },
+            "400": {
+              "description": "Invalid Data  supplied"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "rent"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "Create a rent",
+          "operationId": "create rent",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/rentCreatePost"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "rent creation"
+            },
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/rent/delete": {
+        "patch": {
+          "tags": [
+            "rent"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "delete rent",
+          "operationId": "delete rent",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/rentCreatePost"
+              }
+            }
+          ],
+          "responses": {
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/rent/{user_id}": {
+        "get": {
+          "tags": [
+            "rent action"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "Get rent by id",
+          "operationId": "get rent by id",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "description": "A unique integer value identifying this movie.",
+              "required": true,
+              "type": "string"
+            }
+            
+          ],
+          "responses": {
+            "200": {
+              "description": "Succesful operation"
+            }
+          }
+        }
+      },
+      "/api/v1/rent/action": {
+        "patch": {
+          "tags": [
+            "rent action"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "rent action",
+          "operationId": "rent action",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/rentActionPost"
+              }
+            }
+          ],
+          "responses": {
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
       }
     },
     "responses":{
@@ -400,6 +622,34 @@
           },
           "rate": {
             "type": "integer"
+          }
+        }
+      },
+      "rentCreatePost": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string"
+          },
+          "movie": {
+            "type": "string"
+          }
+        }
+      },
+      "rentActionPost": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string"
+          },
+          "movie": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "action_value" : {
+            "type": "boolean"
           }
         }
       },

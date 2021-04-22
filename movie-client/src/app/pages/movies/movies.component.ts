@@ -14,6 +14,7 @@ export class MoviesComponent implements OnInit {
   movies: any;
   generes: [];
   p;
+  movie:any;
   storeMovies: [];
   wishList = [];
   showProgress: boolean = false;
@@ -85,6 +86,7 @@ export class MoviesComponent implements OnInit {
       this.loadingMovies = false;
     })).subscribe((data) => {
       this.movies = data["result"];
+      this.movie=this.movies.length;
       this.storeMovies = this.movies;
     });
   }

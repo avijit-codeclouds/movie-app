@@ -58,6 +58,7 @@
         *ngIf="loadingMovies"
       ></mat-progress-bar>
       <div><br><br>
+        <span *ngIf="fav!=0">
         <ul class="pagination"style="padding-left: 0%;margin-left:24%;">
           <li class="page-item active">
             <pagination-controls
@@ -65,6 +66,7 @@
             ></pagination-controls>
           </li>
         </ul>
+      </span>
       </div>
       <mat-progress-bar
         mode="indeterminate"
