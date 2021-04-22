@@ -11,6 +11,7 @@ import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { MatProgressSpinnerModule, MatProgressBarModule,
   MatSnackBarModule } from '@angular/material'
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
   declarations: [MoviesComponent],
@@ -23,6 +24,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     FontAwesomeModule,
     MatProgressSpinnerModule,MatProgressBarModule,MatSnackBarModule,
     TooltipModule,
+    LoadingBarHttpClientModule
   ]
 })
 export class MoviesModule {
