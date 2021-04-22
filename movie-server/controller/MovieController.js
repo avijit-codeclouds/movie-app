@@ -101,8 +101,7 @@ exports.movie_list = async (req, res) => {
 						.filter()
 						.sort()
 						.limitFields()
-						.paginate()
-						.withoutSoftDeletes();
+						.paginate();
 
 		const movie = await features.query;
 
@@ -168,7 +167,7 @@ exports.restore_movie = async (req, res) => {
 
 		const msg = "Movie Restored";
 
-		make_rented_movies_available(req.params.movie_id, TextTrackCue);
+		make_rented_movies_available(req.params.movie_id, true);
 
 		return res.status(status.OK).json(response(true, null, "Movie restored"));
 
