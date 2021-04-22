@@ -15,6 +15,7 @@ export class WishlistComponent implements OnInit {
   p;
   msg:any;
   wishList = [];
+  fav:any;
   loadingMovies: boolean = false;
   showProgress: boolean = false;
   jwtHelper = new JwtHelperService();
@@ -55,6 +56,7 @@ export class WishlistComponent implements OnInit {
       )
       .subscribe((data) => {
         this.wishList = data["result"];
+        this.fav=this.wishList[0].movies.length;
         if(this.wishList[0].movies.length==0){
           this.msg="No Wishlist Available"
         }
