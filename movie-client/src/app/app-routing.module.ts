@@ -10,12 +10,13 @@ import { UpdatemovieComponent } from './pages/updatemovie/updatemovie.component'
 import { LogoutComponent } from './pages/logout/logout.component'
 import { NotfoundComponent } from './pages/notfound/notfound.component'
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
+import { MoviesComponent } from './pages/movies/movies.component';
 
 const routes: Routes = [
-  // { path: '', component: HomeComponent },
   { 
     path: '', 
-    loadChildren: './pages/movies/movies.module#MoviesModule',
+    component: MoviesComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Movies ::Movie-App'
     }

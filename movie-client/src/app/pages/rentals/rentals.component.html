@@ -20,7 +20,10 @@
                     <ng-container *ngIf="!loadingRentals && rentals.length == 0">
                         <tr>
                             <td colspan="3" class="text-center">
-                                No Rentals Available
+                                No Rentals Available.
+                                <span *ngIf="paginationConfig.page > 1">
+                                    Go to previous <a href="javascript:void(0)" (click)="previousPage()">page</a>.
+                                </span>
                             </td>
                         </tr>
                     </ng-container>
@@ -171,6 +174,18 @@
                 </tbody>
             </table>
             <mat-progress-bar mode='indeterminate' *ngIf="loadingRentals"></mat-progress-bar>
+
+            <nav aria-label="Page navigation example"
+                *ngIf="!loadingRentals && rentals.length >= paginationConfig.limit">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [ngClass]="{disabled: paginationConfig.page == 1}">
+                        <a class="page-link" href="javascript:void(0)" (click)="previousPage()">Previous</a>
+                    </li>
+                    <li class="page-item" [ngClass]="{disabled: rentals.length < paginationConfig.limit }">
+                        <a class="page-link" href="javascript:void(0)" (click)="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
