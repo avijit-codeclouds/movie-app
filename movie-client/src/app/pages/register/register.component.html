@@ -39,8 +39,15 @@
                   <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
                 </div>
               </div>
-              <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar><br>
-              <button type="submit" class="btn btn-primary">Register</button>
+              <!-- <mat-progress-bar mode='indeterminate' *ngIf="showProgress"></mat-progress-bar><br> -->
+              
+              <p class="float-left mt-3 mb-0">
+                Existing user? <a routerLink="/login">Login</a>
+              </p>
+              <button type="submit" class="btn btn-primary float-right" [disabled]="showProgress">
+                <i *ngIf="showProgress" class="fas fa-spinner fa-spin"></i>
+                Register
+              </button>
             </fieldset>
           </form>
         </div>
