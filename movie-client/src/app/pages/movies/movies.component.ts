@@ -85,7 +85,10 @@ export class MoviesComponent implements OnInit {
     this.movieservice.movieList().pipe(finalize(() => {
       this.loadingMovies = false;
     })).subscribe((data) => {
-      this.movies = data["result"];
+      this.movies = data["result"].map((item) => {
+        item['renting'] = false;
+        return item;
+      });
       this.movie=this.movies.length;
       this.storeMovies = this.movies;
     });
@@ -129,9 +132,17 @@ export class MoviesComponent implements OnInit {
       movie: movie_id,
       user: this.authservice.me._id
     }
-    this.showProgress = true
-    this.movieservice.rentMovies(payload).subscribe(res => {
-      this.showProgress = false
+    // this.showProgress = true
+    let index = this.movies.findIndex(item => item._id == movie_id);
+    if (index > -1) {
+      this.movies[index].renting = true;
+    }
+    this.movieservice.rentMovies(payload).pipe(finalize(() => {
+      if (index > -1) {
+        this.movies[index].renting = false;
+      }
+    })).subscribe(res => {
+      // this.showProgress = false
       if (res.success == true) {
         this.openSnackBar('Successfully you have subscribed')
       } else {
