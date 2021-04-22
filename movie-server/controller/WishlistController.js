@@ -1,10 +1,10 @@
 require("dotenv").config();
-const express = require("express");
-const status = require("http-status");
-const Movie = require("../models/Movie");
-const Wishlist = require("../models/Wishlist");
-const User = require("../models/User");
-const Genere = require("../models/Genere");
+const express 		= require("express");
+const status 		= require("http-status");
+const Movie 		= require("../models/Movie");
+const Wishlist 		= require("../models/Wishlist");
+const User 			= require("../models/User");
+const Genere 		= require("../models/Genere");
 const { decode_jwt, response, first } = require("../helper/helper");
 
 exports.create_wishlist = async (req, res) => {
@@ -50,7 +50,11 @@ exports.get_wishlist = async (req, res) => {
 			path: "genre",
 			model: "Genere",
 			},
-		});
+		}).limit(1);
+
+		const movies 		   = first(wishlist).movies;
+		const filteredMovies   = movies.filter( (el) => el.isDeleted != true);
+		first(wishlist).movies = filteredMovies;
 
 		return res
 		.status(status.OK)
@@ -63,7 +67,7 @@ exports.get_wishlist = async (req, res) => {
 		);
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
 	}
 };
 
