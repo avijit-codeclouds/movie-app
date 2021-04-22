@@ -133,8 +133,8 @@
     mode="indeterminate"
     *ngIf="loadingMovies"
     ></mat-progress-bar>
-    <div>
-    <ul class="pagination" *ngIf="!loadingMovies">
+    <div><br><br>
+    <ul class="pagination" style="padding-left: 0%;margin-left:19%;"  *ngIf="!loadingMovies">
         <li class="page-item active">
         <pagination-controls
             (pageChange)="p = $event"
