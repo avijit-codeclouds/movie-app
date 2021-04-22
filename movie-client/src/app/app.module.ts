@@ -28,6 +28,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalComponent } from './shared/modal/modal.component'; 
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { MoviesComponent } from './pages/movies/movies.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    LoadingBarService,
     AuthService
   ],
   bootstrap: [AppComponent]
