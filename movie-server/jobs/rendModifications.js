@@ -22,7 +22,8 @@ exports.modifyExpire = async () => {
 
                     if (!isExpire)
                     {
-                        await results.fixExpired(movieId);
+                        // await results.fixExpired(movieId);
+                        fixExpired(movieId);
                     }
                 }
             }
@@ -32,3 +33,15 @@ exports.modifyExpire = async () => {
         logger.error(err);
     }
 };
+
+const fixExpired = async (id) => {
+    await Rent.updateMany({
+        "movies._id": id
+    }, {
+        "movies.$[el].expired": true
+    }, {
+        arrayFilters: [{
+            'el._id': id
+        }]
+    })
+}
