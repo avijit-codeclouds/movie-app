@@ -16,16 +16,13 @@
             <th scope="col">Stock</th>
             <th scope="col">Rate</th>
             <th scope="col">Action</th>
-            <th></th>
           </tr>
         </thead>
         <tbody *ngIf="wishList.length" class="pn">
           <ng-container>
-            <tr>
                 <td colspan="5" class="text-center">
                   {{msg}}
                 </td>
-            </tr>
         </ng-container>
           <ng-container *ngFor="let movie of wishList">
             <tr

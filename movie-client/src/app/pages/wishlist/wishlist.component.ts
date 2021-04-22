@@ -56,7 +56,7 @@ export class WishlistComponent implements OnInit {
       .subscribe((data) => {
         this.wishList = data["result"];
         if(this.wishList[0].movies.length==0){
-          this.msg="No Wishlist Found"
+          this.msg="No Wishlist Available"
         }
       });
 
