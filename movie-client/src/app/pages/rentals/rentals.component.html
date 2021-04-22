@@ -88,7 +88,9 @@
                                                     </td>
                                                 </ng-container>
                                                 <ng-container *ngIf="!movie.available">
-                                                    <td colspan="4" class="text-center">Please contact admin</td>
+                                                    <td class="text-center">--</td>
+                                                    <td colspan="2" class="text-center">Something went wrong. Please contact admin</td>
+                                                    <td class="text-center">--</td>
                                                 </ng-container>
                                             </tr>
                                         </ng-container>
@@ -159,7 +161,9 @@
                                 </td>
                             </ng-container>
                             <ng-container *ngIf="!movie.available">
-                                <td colspan="4" class="text-center">Please contact admin</td>
+                                <td class="text-center">--</td>
+                                <td colspan="2" class="text-center">Something went wrong. Please contact admin</td>
+                                <td class="text-center">--</td>
                             </ng-container>
                         </tr>
                     </ng-container>
