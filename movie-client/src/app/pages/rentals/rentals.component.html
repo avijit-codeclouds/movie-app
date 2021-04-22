@@ -68,7 +68,7 @@
                                             </tr>
                                         </ng-container>
                                         <ng-container *ngFor="let movie of rent.movies">
-                                            <tr *ngIf="movie.movie">
+                                            <tr>
                                                 <ng-container *ngIf="movie.available">
                                                     <td>{{ movie.movie.title }}</td>
                                                     <td>{{ movie.startday }}</td>
