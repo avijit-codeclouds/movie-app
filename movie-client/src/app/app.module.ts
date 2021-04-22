@@ -27,6 +27,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalComponent } from './shared/modal/modal.component'; 
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    LoadingBarService,
     AuthService
   ],
   bootstrap: [AppComponent]
