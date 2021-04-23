@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(
     public router: Router,public formBuilder: FormBuilder,
     public authService: AuthService,
+    private route: ActivatedRoute
   ) { 
     if(localStorage.getItem("user")!=null){
       this.router.navigate(['/']);
@@ -58,8 +59,11 @@ export class LoginComponent implements OnInit {
       }else{
         this.showProgress = false
         this.authService.saveToken(res.result)
-        // this.redirect.emit(this.loggedInText);//emits the data to the parent
-        this.router.navigateByUrl("/");
+        if (this.route.snapshot.queryParams.returnUrl) {
+          this.router.navigateByUrl(this.route.snapshot.queryParams.returnUrl);
+        } else {
+          this.router.navigateByUrl("/");
+        }
       }
     },err => {
       this.showProgress = false

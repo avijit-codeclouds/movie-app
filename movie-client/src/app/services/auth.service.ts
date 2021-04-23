@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { catchError, map, retry } from 'rxjs/operators';
+import { catchError, map, retry, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment'
 
@@ -44,7 +44,7 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  logout(): void {
+  logout(queryParams={}): void {
     this.token = "";
     // window.localStorage.removeItem("mean-token");
 
@@ -52,7 +52,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('user_id');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], queryParams);
     this.rawUser = null;
   }
 
@@ -82,12 +82,14 @@ export class AuthService {
   }
 
   loadCurrentUser() {
-    return this.httpClient.get<any>(`${this.API_URL}/users/me`).subscribe(r => {
-      if (r.success) {
-        this.rawUser = r.result;
-        this.rawUserSubject.next(this.rawUser);
-      }
-    })
+    return this.httpClient.get<any>(`${this.API_URL}/users/me`).pipe(
+      tap(r => {
+        if (r.success) {
+          this.rawUser = r.result;
+          this.rawUserSubject.next(this.rawUser);
+        }
+      })
+    )
   }
 
   get me() {
