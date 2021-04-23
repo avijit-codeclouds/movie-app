@@ -19,12 +19,10 @@ const RentSchema = new mongoose.Schema({
     startday: {
       type: String,
       required: true,
-      default: moment().format('MMMM Do YYYY, hh:mm A')
     },
     endday: {
       type: String,
       required: true,
-      default: moment().add(48, 'hours').format('MMMM Do YYYY, hh:mm A')
     },
     expired: {
       type: Boolean,
@@ -40,12 +38,12 @@ const RentSchema = new mongoose.Schema({
     },
     createdAt: {
       type: String,
-      default: moment().format("YYYY-MM-DD[T]HH:mm")
+      required: true,
     },
     expireAt: {
       type: String,
       index: true,
-      default: moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm")
+      required: true,
       // default: moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
     },
     available: {
