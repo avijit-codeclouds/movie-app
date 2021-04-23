@@ -34,7 +34,7 @@ export class RentalsComponent implements OnInit {
 
   paginationConfig = {
     page: 1,
-    limit:15
+    limit:1
   }
 
   constructor(

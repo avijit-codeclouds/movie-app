@@ -29,6 +29,7 @@ import { ModalComponent } from './shared/modal/modal.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { PreventPasteDirective } from './directives/only-number.directive';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
     NotfoundComponent,
     WishlistComponent,
     ModalComponent,
-    MoviesComponent
+    MoviesComponent,
+    PreventPasteDirective
   ],
   imports: [
     BrowserModule,
