@@ -62,10 +62,10 @@ export class WishlistComponent implements OnInit {
           })
           return item;
         });
-        this.fav=this.wishList[0].movies.length;
-        if(this.wishList[0].movies.length==0){
-          this.msg="No Wishlist Available"
-        }
+        // this.fav=this.wishList[0].movies.length;
+        // if(this.wishList[0].movies.length==0){
+        //   this.msg="No Wishlist Available"
+        // }
       });
 
     // this.movieservice.getMovieWishlist().subscribe((data) => {
