@@ -66,8 +66,8 @@
                                     </label>
                                     &nbsp;
                                     <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)" class="btn btn-primary">
-                                       <!-- <i *ngIf="movie.renting" class="fas fa-spinner fa-spin"></i>  -->
-                                       Rent
+                                       <span *ngIf="movie.renting" class=" pl-1 pr-1"><i class="fas fa-spinner fa-spin"></i></span> 
+                                       <span *ngIf="!movie.renting">Rent</span>
                                     </button>
                                 </ng-container>
                             </td>
