@@ -21,7 +21,7 @@ export class JwtInterceptor implements HttpInterceptor {
             if (!err.url.endsWith('/users/me')) {
                 this.notificationService.toast('Session Expired. Please login again..');
             }
-            let url = this.router.routerState.snapshot.url;
+            let url = this.router.routerState.snapshot.url || '/';
             if (url.startsWith('/login')) {
                 url = this.route.snapshot.queryParams.returnUrl || '/'
             }
