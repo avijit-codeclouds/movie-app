@@ -14,6 +14,7 @@ export class MoviesComponent implements OnInit {
   movies: any;
   generes: [];
   p;
+  query;
   movie:any;
   storeMovies: [];
   wishList = [];
