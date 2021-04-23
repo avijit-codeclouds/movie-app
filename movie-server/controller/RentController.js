@@ -175,6 +175,6 @@ generate_rent_payload = ( movie ) => {
         startday:   moment().format('MMMM Do YYYY, hh:mm A'),
         endday:     moment().add(48, 'hours').format('MMMM Do YYYY, hh:mm A'),
         createdAt:  moment().format("YYYY-MM-DD[T]HH:mm"),
-        expireAt:   moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm")
+        expireAt:   moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
     };
 };
