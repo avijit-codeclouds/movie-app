@@ -22,6 +22,7 @@ exports.modifyExpire = async () => {
 
                     if (!isExpire)
                     {
+                        // await results.fixExpired(movieId);
                         fixExpired(movieId);
                     }
                 }
