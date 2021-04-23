@@ -24,7 +24,7 @@
                   {{msg}}
                 </td>
         </ng-container>
-          <ng-container *ngFor="let movie of wishList">
+          <ng-container *ngFor="let movie of wishList; let index = index;">
             <tr
               scope="row"
               colspan="5"
@@ -43,10 +43,12 @@
                 &nbsp;
                 <button
                   type="button"
-                  (click)="rentMovie(Favorites._id)"
+                  (click)="rentMovie(Favorites._id, index)"
                   class="btn btn-primary"
+                  [disabled]="Favorites.renting"
                 >
-                  Rent
+                <span *ngIf="Favorites.renting" class=" pl-1 pr-1"><i class="fas fa-spinner fa-spin"></i></span> 
+                <span *ngIf="!Favorites.renting">Rent</span>
                 </button>
               </td>
             </tr>

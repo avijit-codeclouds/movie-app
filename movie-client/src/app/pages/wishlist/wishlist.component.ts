@@ -55,7 +55,13 @@ export class WishlistComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        this.wishList = data["result"];
+        this.wishList = data["result"].map(item => {
+          item.movies = item.movies.map(fav => {
+            fav['renting'] = false;
+            return fav;
+          })
+          return item;
+        });
         this.fav=this.wishList[0].movies.length;
         if(this.wishList[0].movies.length==0){
           this.msg="No Wishlist Available"
@@ -95,18 +101,24 @@ export class WishlistComponent implements OnInit {
         }
       });
   }
-  rentMovie(movie_id) {
-    console.log("clicked");
-    console.log(movie_id);
+  rentMovie(movie_id, loopIndex) {
     let payload = {
       movie: movie_id,
       user: this.getUserId,
     };
-    this.showProgress = true;
-    this.movieservice.rentMovies(payload).subscribe(
+    // this.showProgress = true;
+    let index = this.wishList[loopIndex].movies.findIndex(item => item._id == movie_id);
+    if (index > -1) {
+      this.wishList[loopIndex].movies[index].renting = true;
+    }
+    this.movieservice.rentMovies(payload).pipe(finalize(() => {
+      if (index > -1) {
+        this.wishList[loopIndex].movies[index].renting = false;
+      }
+    })).subscribe(
       (res) => {
-        console.log(res);
-        this.showProgress = false;
+        // console.log(res);
+        // this.showProgress = false;
         if (res.success == true) {
           this.openSnackBar("Successfully you have subscribed");
         } else {
