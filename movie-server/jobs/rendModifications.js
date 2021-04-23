@@ -5,42 +5,12 @@ const { logger } = require('../helper/logger');
 exports.modifyExpire = async () => {
     try {
         const now = moment().format("YYYY-MM-DD[T]HH:mm");
-
-        let rents = await Rent.find();
-
-        rents.forEach( async (results) =>
-        {
-            movieRentals = results.movies;
-            for (let movieRental of movieRentals)
-            {
-                endDay = moment(movieRental.expireAt).format("YYYY-MM-DD[T]HH:mm");
-
-                if (now > endDay)
-                {
-                    isExpire = movieRental.expired;
-                    movieId = movieRental._id;
-
-                    if (!isExpire)
-                    {
-                        fixExpired(movieId);
-                    }
-                }
-            }
-        });
-
+        let update = await Rent.updateMany({"movies.expireAt": {$lt:now }},{"movies.$[el].expired": true},{
+            arrayFilters: [{
+                "el.expireAt": {$lt:now }
+                }]
+        })
     } catch (err) {
         logger.error(err);
     }
 };
-
-const fixExpired = async (id) => {
-    await Rent.updateMany({
-        "movies._id": id
-    }, {
-        "movies.$[el].expired": true
-    }, {
-        arrayFilters: [{
-            'el._id': id
-        }]
-    })
-}
