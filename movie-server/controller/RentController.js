@@ -4,6 +4,7 @@ const Movie         = require('../models/Movie');
 const Rent          = require('../models/Rent');
 const APIFeatuers   = require('../utils/apiFeatures');
 const { response, first } = require('../helper/helper');
+const moment = require('moment');
 
 exports.view_rent = async( req,res ) => {
     try
