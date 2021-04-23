@@ -58,16 +58,4 @@ const RentSchema = new mongoose.Schema({
   timestamps: true
 });
 
-RentSchema.methods.fixExpired = async function (rentId) {
-  const RentMovieIndex = this.movies.findIndex(cp => {
-    return cp._id.toString() === rentId.toString();
-  });
-  if (RentMovieIndex >= 0) {
-    this.movies[RentMovieIndex].expired = true;
-  }
-  return new Promise((resolve, reject) => {
-    resolve(this.save());
-  });
-};
-
 module.exports = mongoose.model('Rent', RentSchema);
