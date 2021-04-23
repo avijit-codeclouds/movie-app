@@ -10,7 +10,7 @@ import { NotificationService } from '../services/notification.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
         return this.authService.loadCurrentUser().pipe(map(r => {
           return true;
         }), catchError(r => {
-          this.notificationService.toast('Session Expired. Please login again..');
           this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
           return of(false);
         }));

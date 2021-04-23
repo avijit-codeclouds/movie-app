@@ -61,7 +61,6 @@ export class AuthService {
     this.token = token;
     localStorage.setItem('user', JSON.stringify(token));
     this.userSubject.next(token);
-    this.loadCurrentUser();
   }
 
   currentUser(id){
@@ -81,7 +80,7 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  loadCurrentUser() {
+  loadCurrentUser(): Observable<any> {
     return this.httpClient.get<any>(`${this.API_URL}/users/me`).pipe(
       tap(r => {
         if (r.success) {

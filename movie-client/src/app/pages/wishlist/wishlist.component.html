@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody  class="pn">
-          <ng-container *ngIf="wishList.length==0 || wishList[0].movies.length==0">
+          <ng-container *ngIf="(wishList.length==0 || wishList[0].movies.length==0) && !loadingMovies">
             <tr>
                 <td colspan="5" class="text-center">
                     No Wishlist Available

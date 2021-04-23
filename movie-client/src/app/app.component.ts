@@ -37,7 +37,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.authService.loadCurrentUser();
+    // this.authService.loadCurrentUser();
   }
 
   ngOnDestroy() {

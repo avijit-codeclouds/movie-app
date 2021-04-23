@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, take } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -34,7 +34,7 @@ export class RentalsComponent implements OnInit {
 
   paginationConfig = {
     page: 1,
-    limit:1
+    limit:15
   }
 
   constructor(
@@ -46,13 +46,7 @@ export class RentalsComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.route.snapshot.params.user_id || null;
-    if (this.authService.isAuth) {
-      this.initRentals();    
-    } else {
-      this.authService.rawUserSubjectInstance.pipe(take(1)).subscribe((user) => {
-        this.initRentals();
-      })
-    }
+    this.initRentals();
   }
 
   initRentals() {
