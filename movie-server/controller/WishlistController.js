@@ -52,9 +52,12 @@ exports.get_wishlist = async (req, res) => {
 			},
 		}).limit(1);
 
-		const movies 		   = first(wishlist).movies;
-		const filteredMovies   = movies.filter( (el) => el.isDeleted != true);
-		first(wishlist).movies = filteredMovies;
+		if(first(wishlist))
+		{
+			const movies 		   = first(wishlist).movies;
+			const filteredMovies   = movies.filter( (el) => el.isDeleted != true);
+			first(wishlist).movies = filteredMovies;
+		}
 
 		return res
 		.status(status.OK)
