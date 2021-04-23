@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
+console.log(moment().format("YYYY-MM-DD[T]HH:mm"))
+console.log(moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm"))
 
 const RentSchema = new mongoose.Schema({
   user: {
@@ -43,7 +45,8 @@ const RentSchema = new mongoose.Schema({
     expireAt: {
       type: String,
       index: true,
-      default: moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
+      default: moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm")
+      // default: moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
     },
     available: {
       type: Boolean,
