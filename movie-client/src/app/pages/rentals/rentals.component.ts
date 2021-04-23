@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, take } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
