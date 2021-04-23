@@ -8,7 +8,7 @@ router
     .route('/')
     .get(wishlistController.get_wishlist)
     .post(validator.validate('wishList'), helper.handle_validation_error ,wishlistController.create_wishlist);
- 
+
     router
     .route('/:movie_id')
     .delete(wishlistController.delete_wishlist);
