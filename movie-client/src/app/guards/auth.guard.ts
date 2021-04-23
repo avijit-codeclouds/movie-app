@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthService } from "../services/auth.service";
+import { NotificationService } from '../services/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const getUser = localStorage.getItem('user');
-      if(getUser != null){
-          // authorised so return true
+    state: RouterStateSnapshot): Observable<boolean>|boolean {
+      if (this.authService.isAuth) {
+        return true;
+      } else {
+        return this.authService.loadCurrentUser().pipe(map(r => {
           return true;
+        }), catchError(r => {
+          this.notificationService.toast('Session Expired. Please login again..');
+          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+          return of(false);
+        }));
       }
-      // not logged in so redirect to login page with the return url
-      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-      return false;
   }
   
 }
