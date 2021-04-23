@@ -18,12 +18,14 @@
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody *ngIf="wishList.length" class="pn">
-          <ng-container>
+        <tbody  class="pn">
+          <ng-container *ngIf="wishList.length==0 || wishList[0].movies.length==0">
+            <tr>
                 <td colspan="5" class="text-center">
-                  {{msg}}
+                    No Wishlist Available
                 </td>
-        </ng-container>
+            </tr>
+        </ng-container> 
           <ng-container *ngFor="let movie of wishList; let index = index;">
             <tr
               scope="row"
@@ -60,7 +62,7 @@
         *ngIf="loadingMovies"
       ></mat-progress-bar>
       <div><br><br>
-        <span *ngIf="fav!=0">
+        <span *ngIf="wishList.length!==0 && wishList[0].movies.length!==0">
         <ul class="pagination"style="padding-left: 0%;margin-left:24%;">
           <li class="page-item active">
             <pagination-controls
