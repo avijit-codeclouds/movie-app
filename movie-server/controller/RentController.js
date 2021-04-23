@@ -37,14 +37,8 @@ exports.rent_movie = async( req,res ) => {
         const getUser = await Rent.findOne({ user });
 
         // moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
-        
-        const payload = {
-            movie,
-            startday : moment().format('MMMM Do YYYY, hh:mm A'),
-            endday : moment().add(48, 'hours').format('MMMM Do YYYY, hh:mm A'),
-            createdAt : moment().format("YYYY-MM-DD[T]HH:mm"),
-            expireAt : moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm")
-        };
+
+        const payload = generate_rent_payload( movie );
 
         if(!getUser)
         {
@@ -62,11 +56,10 @@ exports.rent_movie = async( req,res ) => {
 
         const movieContent = getUser.movies.find(e => e.movie.toString() === movie.toString());
 
-        //Return if movie is already on rent
+        //Return if movie is already on rent, This movie is expired / canceled
         if(movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true))
             return res.status(status.OK).json(response(false, null, 'Movie already on rent'));
 
-        //This movie is expired / canceled
         getUser.movies = getUser.movies.filter(movies => movies.movie.toString() !== movie.toString());
         getUser.movies.unshift(payload);
 
@@ -174,4 +167,14 @@ handle_action = async( req, res, action, action_value ) => {
     } catch (err) {
         return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
     }
+};
+
+generate_rent_payload = ( movie ) => {
+    return {
+        movie,
+        startday:   moment().format('MMMM Do YYYY, hh:mm A'),
+        endday:     moment().add(48, 'hours').format('MMMM Do YYYY, hh:mm A'),
+        createdAt:  moment().format("YYYY-MM-DD[T]HH:mm"),
+        expireAt:   moment().add(5, 'minutes').format("YYYY-MM-DD[T]HH:mm")
+    };
 };
