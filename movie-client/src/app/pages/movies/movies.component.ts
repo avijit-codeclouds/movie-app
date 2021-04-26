@@ -80,7 +80,7 @@ export class MoviesComponent implements OnInit {
     })).subscribe((data) => {
       this.movies = data["result"].map((item) => {
         item['renting'] = false;
-        item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY hh:mm a")
+        item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY, hh:mm a")
         return item;
       });
       this.movie=this.movies.length;
