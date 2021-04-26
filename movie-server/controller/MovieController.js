@@ -94,10 +94,7 @@ exports.movie_list = async (req, res) => {
 	{
 
 		const msg = "movie list";
-		const features = new APIFeatuers(
-							Movie.find().populate("genre"),
-							req.query
-						)
+		const features = new APIFeatuers(Movie.find().populate("genre"),req.query)
 						.filter()
 						.sort()
 						.limitFields()
