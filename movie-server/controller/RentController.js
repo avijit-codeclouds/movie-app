@@ -171,9 +171,9 @@ handle_action = async( req, res, action, action_value ) => {
 generate_rent_payload = ( movie ) => {
     return {
         movie,
-        startday:   moment().utcOffset("+05:30").format('MMMM Do YYYY, hh:mm A'),
-        endday:     moment().utcOffset("+05:30").add(48, 'hours').format('MMMM Do YYYY, hh:mm A'),
-        createdAt:  moment().utcOffset("+05:30").format("YYYY-MM-DD[T]HH:mm"),
-        expireAt:   moment().utcOffset("+05:30").add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
+        startday:   moment().utc().format('MMMM Do YYYY, hh:mm A'),
+        endday:     moment().utc().add(48, 'hours').format('MMMM Do YYYY, hh:mm A'),
+        createdAt:  moment().utc().format("YYYY-MM-DD[T]HH:mm"),
+        expireAt:   moment().utc().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
     };
 };
