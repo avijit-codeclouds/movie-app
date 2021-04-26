@@ -33,7 +33,6 @@ exports.rent_movie = async( req,res ) => {
         if(!getMovie)
             return res.status(status.OK).json(response(false, null, 'Invalid Movie'));
 
-        console.log(getMovie)
         if(getMovie.isDeleted === true)
             return res.status(status.OK).json(response(false, null, 'Movie is not available'));
 
