@@ -33,7 +33,7 @@
                                 'fa-sort-down':  sortKey == 'title',
                                 'fa-sort-up':  sortKey == '-title',
                                 'float-right': true
-                            }" (click)="sortBy('title')"></i>
+                            }" (click)="sortBy('title')" role="button"></i>
                         </th>
                         <th scope="col">Genere</th>
                         <th scope="col">
@@ -44,7 +44,7 @@
                                 'fa-sort-down':  sortKey == 'stock',
                                 'fa-sort-up':  sortKey == '-stock',
                                 'float-right': true
-                            }" (click)="sortBy('stock')"></i>
+                            }" (click)="sortBy('stock')" role="button"></i>
                         </th>
                         <th scope="col">
                             Rate 
@@ -54,7 +54,7 @@
                                 'fa-sort-down':  sortKey == 'rate',
                                 'fa-sort-up':  sortKey == '-rate',
                                 'float-right': true
-                            }" (click)="sortBy('rate')"></i>
+                            }" (click)="sortBy('rate')" role="button"></i>
                         </th>
                         <th *ngIf="authservice.isAdmin" scope="col">
                             Uploaded At 
@@ -64,7 +64,7 @@
                                 'fa-sort-down':  sortKey == 'createdAt',
                                 'fa-sort-up':  sortKey == '-createdAt',
                                 'float-right': true
-                            }" (click)="sortBy('createdAt')"></i>
+                            }" (click)="sortBy('createdAt')" role="button"></i>
                         </th>
                         <th scope="col">Action</th>
                     </tr>
