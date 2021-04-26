@@ -17,7 +17,7 @@ export class MovieService {
 
   movieList():Observable<Movie[]>{
     return this.httpClient.get<Movie[]>(`${this.API_URL}/movie`, {params: {
-      sort: 'createdAt',}
+      sort: '-createdAt',}
     },).pipe(retry(3), catchError(this.handleError));;
   }
 
