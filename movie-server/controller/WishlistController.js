@@ -12,6 +12,10 @@ exports.create_wishlist = async (req, res) => {
 	{
 		const user = decode_jwt(req);
 		const getUser = await Wishlist.find({ user: user.id }).limit(1);
+		let getMovie = await Movie.findById(req.body.movies);
+
+		if(!getMovie || getMovie.isDeleted === true)
+            return res.status(status.OK).json(response(false, null, 'Movie is not available'));
 
 		if (getUser.length === 0) {
 		const wishlist = await Wishlist.create({
