@@ -29,7 +29,7 @@ export class MoviesComponent implements OnInit {
     data: null,
     working: false
   };
-  sortKey: string = 'createdAt';
+  sortKey: string = '-createdAt';
 
   constructor(
     public movieservice: MovieService,
