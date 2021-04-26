@@ -46,7 +46,7 @@
                                 {{ rent.user.name }}
                             </td>
                             <td>{{ rent.user.email }}</td>
-                            <td>{{ rent.movies.length }}</td>
+                            <td>{{ findTotalRental(rent) }}</td>
                         </tr>
                         <tr *ngIf="rent.expanded">
                             <td colspan="3">
@@ -90,11 +90,11 @@
                                                         <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
                                                     </td>
                                                 </ng-container>
-                                                <ng-container *ngIf="!movie.available">
+                                                <!-- <ng-container *ngIf="!movie.available">
                                                     <td class="text-center">--</td>
                                                     <td colspan="2" class="text-center">Something went wrong. Please contact admin</td>
                                                     <td class="text-center">--</td>
-                                                </ng-container>
+                                                </ng-container> -->
                                             </tr>
                                         </ng-container>
                                     </tbody>
@@ -163,11 +163,11 @@
                                     </ng-container>
                                 </td>
                             </ng-container>
-                            <ng-container *ngIf="!movie.available">
+                            <!-- <ng-container *ngIf="!movie.available">
                                 <td class="text-center">--</td>
                                 <td colspan="2" class="text-center">Something went wrong. Please contact admin</td>
                                 <td class="text-center">--</td>
-                            </ng-container>
+                            </ng-container> -->
                         </tr>
                     </ng-container>
                     </ng-container>

@@ -33,7 +33,7 @@
                         </th>
                         <td>{{ customer.user.email }}</td>
                         <td>{{ customer.user.formatedDate }}</td>
-                        <td>({{ customer.movies.length }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a>
+                        <td>({{ findTotalRental(customer.movies) }}) <a [routerLink]="'/rentals/' + customer.user._id">View</a>
                         </td>
                         <td style="cursor:pointer">
                             <ng-container *ngIf="authService.isAdmin">

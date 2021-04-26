@@ -114,4 +114,8 @@ export class CustomersComponent implements OnInit {
     this.loadCustomers();
   }
 
+  findTotalRental(rent) {
+    return rent.filter(d => d.available).length;
+  }
+
 }
