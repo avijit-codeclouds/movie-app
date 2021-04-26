@@ -30,10 +30,7 @@ exports.rent_movie = async( req,res ) => {
         const { user, movie } = req.body;
         let getMovie = await Movie.findById(movie);
 
-        if(!getMovie)
-            return res.status(status.OK).json(response(false, null, 'Invalid Movie'));
-
-        if(getMovie.isDeleted === true)
+        if(!getMovie || getMovie.isDeleted === true)
             return res.status(status.OK).json(response(false, null, 'Movie is not available'));
 
         const getUser = await Rent.findOne({ user });
@@ -87,7 +84,7 @@ exports.rent_delete = async ( req, res ) => {
         const anyMovieExists = updateRentlist.movies.filter(e => e.movie.toString() === movie);
         if(anyMovieExists.length < 1)
         {
-            return res.status(status.OK).json(response(false, null ,'Invalid Movie'));
+            return res.status(status.OK).json(response(false, null ,'Movie is not available'));
         }
 
         updateRentlist.movies = updateRentlist.movies.filter(e => e.movie.toString() !== movie);
@@ -151,7 +148,7 @@ handle_action = async( req, res, action, action_value ) => {
         const anyMovieExists = updateRentlist.movies.filter(e => e.movie.toString() === movie);
 
         if(anyMovieExists.length < 1)
-            return res.status(status.OK).json(response(false, null, 'Invalid Movie'));
+            return res.status(status.OK).json(response(false, null, 'Movie is not available'));
 
         const newPayload = first(anyMovieExists);
 
