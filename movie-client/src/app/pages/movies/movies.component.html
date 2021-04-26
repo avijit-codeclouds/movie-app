@@ -70,7 +70,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngIf="movies">
+                    <ng-container *ngIf="movies && authservice.isAdmin">
                         <tr *ngFor="
                             let movie of movies
                                 | filter: query
@@ -82,9 +82,9 @@
                             <td>{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
                             <td>{{ movie.stock }}</td>
                             <td>{{ movie.rate }}</td>
-                            <td *ngIf="authservice.isAdmin">{{ movie.uploadedAt }}</td>
+                            <td>{{ movie.uploadedAt }}</td>
                             <td style="cursor:pointer">
-                                <ng-container *ngIf="authservice.isAdmin">
+                                <!-- <ng-container *ngIf="authservice.isAdmin"> -->
                                     <i tooltip="Edit" routerLink="/movies/{{ movie._id }}" class="fas fa-edit"
                                         style="font-size: 17px"></i>
                                     &nbsp;
@@ -92,8 +92,22 @@
                                         (click)="deleteOrRestoreMovie(movie)" class="fas "
                                         [ngClass]="{'fa-trash': !movie.isDeleted, 'fa-trash-restore': movie.isDeleted}"
                                         style="font-size: 17px"></i>
+                                        </td>
+                                        </tr>
                                 </ng-container>
-                                <ng-container *ngIf="authservice.isUser">
+                                <ng-container *ngIf="movies && authservice.isUser">
+                                        <tr *ngFor="
+                                            let movie of movies
+                                                | filter: query
+                                                | paginate: { itemsPerPage: 5, currentPage: p }
+                                            ">
+                                            <th *ngIf = "movie.isDeleted!=true" scope="row" class="pn">
+                                                {{ movie.title }}
+                                            </th>
+                                            <td *ngIf = "movie.isDeleted!=true">{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
+                                            <td *ngIf = "movie.isDeleted!=true">{{ movie.stock }}</td>
+                                            <td *ngIf = "movie.isDeleted!=true">{{ movie.rate }}</td>
+                                            <td *ngIf = "movie.isDeleted!=true" style="cursor:pointer">
                                     <label>
                                         <input type="checkbox" [checked]="
                                             wishList.length > 0 ? getStatus(movie._id) : false
@@ -106,11 +120,10 @@
                                     <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)" class="btn btn-primary">
                                        <span *ngIf="movie.renting" class=" pl-1 pr-1"><i class="fas fa-spinner fa-spin"></i></span> 
                                        <span *ngIf="!movie.renting">Rent</span>
-                                    </button>
+                                    </button>  
+                                </td>
+                                </tr>
                                 </ng-container>
-                            </td>
-                        </tr>
-                    </ng-container>
                 </tbody>
             </table>
             <mat-progress-bar mode="indeterminate" *ngIf="loadingMovies"></mat-progress-bar>
