@@ -5,6 +5,7 @@ import { AuthService } from "./../../services/auth.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from "rxjs/operators";
+import * as moment from 'moment';
 @Component({
   selector: "app-movies",
   templateUrl: "./movies.component.html",
@@ -28,6 +29,7 @@ export class MoviesComponent implements OnInit {
     data: null,
     working: false
   };
+  sortKey: string = 'createdAt';
 
   constructor(
     public movieservice: MovieService,
@@ -73,11 +75,12 @@ export class MoviesComponent implements OnInit {
 
   getMovies() {
     this.loadingMovies = true;
-    this.movieservice.movieList().pipe(finalize(() => {
+    this.movieservice.movieList(this.sortKey).pipe(finalize(() => {
       this.loadingMovies = false;
     })).subscribe((data) => {
       this.movies = data["result"].map((item) => {
         item['renting'] = false;
+        item['uploadedAt'] = moment(item.createdAt).format("MMM Do YYYY")
         return item;
       });
       this.movie=this.movies.length;
@@ -196,5 +199,19 @@ export class MoviesComponent implements OnInit {
         this.getMovies();
       }
     });
+  }
+
+  sortBy(key) {
+    if (this.sortKey.startsWith('-') && this.sortKey == ('-' + key)) {
+      this.sortKey = key;
+    } else {
+      if (this.sortKey == key) {
+        this.sortKey = '-' + key;
+      } else {
+        this.sortKey = '-' + key;
+      }
+    }
+
+    this.getMovies();
   }
 }
