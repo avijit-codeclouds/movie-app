@@ -33,10 +33,11 @@ exports.rent_movie = async( req,res ) => {
         if(!getMovie)
             return res.status(status.OK).json(response(false, null, 'Invalid Movie'));
 
+        console.log(getMovie)
+        if(getMovie.isDeleted === true)
+            return res.status(status.OK).json(response(false, null, 'Movie is not available'));
 
         const getUser = await Rent.findOne({ user });
-
-        // moment().add(48, 'hours').format("YYYY-MM-DD[T]HH:mm")
 
         const payload = generate_rent_payload( movie );
 
