@@ -10,11 +10,11 @@ const movieSchema = new mongoose.Schema({
     ref: 'Genere'
   },
   stock: {
-    type: String,
+    type: Number,
     required: true,
   },
   rate: {
-    type: String,
+    type: Number,
     required: true,
   },
   isDeleted: {
