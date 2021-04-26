@@ -51,4 +51,4 @@ Future Scope:
     3. Both customers (clients) and Admin will be stored in the USER collection.
     4. We can understand a user is Admin or Client, by /me endpoint.
 
-Project requirements: Node js & MongoDB
+Project requirements: Node js, MongoDB & Angluar
