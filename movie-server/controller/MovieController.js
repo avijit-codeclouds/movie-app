@@ -33,11 +33,9 @@ exports.view_movie = async (req, res) => {
 	try
 	{
 		let movie = await Movie.findById(req.params.movie_id);
-
-		const invalidMsg = "Invalid Movie";
 		if (!movie)
 		{
-			return res.status(status.OK).json(response(false, movie, invalidMsg));
+			return res.status(status.OK).json(response(false, movie, 'Movie is not available'));
 		}
 
 		const msg = "Here is your movie";
@@ -59,8 +57,7 @@ exports.update_movie = async (req, res) => {
 
 		if (!movie)
 		{
-			const invalidMsg = "Invalid Movie";
-			return res.status(status.NOT_FOUND).json(response(false, movie, invalidMsg));
+			return res.status(status.NOT_FOUND).json(response(false, movie,'Movie is not available'));
 		}
 
 		const payload = {
@@ -117,9 +114,7 @@ exports.delete_movie = async (req, res) => {
 
 		if (!movie)
 		{
-			const invalidMsg = "Invalid Movie";
-
-			return res.status(status.NOT_FOUND).json(response(false, movie, invalidMsg));
+			return res.status(status.NOT_FOUND).json(response(false, movie,'Movie is not available'));
 		}
 
 		const getMovie = await Movie.findById(req.params.movie_id);
@@ -150,9 +145,7 @@ exports.restore_movie = async (req, res) => {
 
 		if (!movie)
 		{
-			const invalidMsg = "Invalid Movie";
-
-			return res.status(status.NOT_FOUND).json(response(false, movie, invalidMsg));
+			return res.status(status.NOT_FOUND).json(response(false, movie,'Movie is not available'));
 		}
 
 		const getMovie = await Movie.findById(req.params.movie_id);
