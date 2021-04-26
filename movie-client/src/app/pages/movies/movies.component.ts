@@ -85,6 +85,7 @@ export class MoviesComponent implements OnInit {
       });
       this.movie=this.movies.length;
       this.storeMovies = this.movies;
+      this.getGenre(this.selectedGenre)
     });
   }
   
