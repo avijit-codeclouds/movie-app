@@ -184,4 +184,8 @@ export class RentalsComponent implements OnInit {
     this.paginationConfig.page +=1;
     this.loadRentals();
   }
+
+  findTotalRental(rent) {
+    return rent.movies.filter(d => d.available).length;
+  }
 }
