@@ -4,6 +4,7 @@ import { RentalService } from './../../services/rental.service';
 import { AuthService } from './../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from './../../services/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-rentals',
@@ -64,6 +65,11 @@ export class RentalsComponent implements OnInit {
     })).subscribe((response) => {
       if (response.success) {
         this.userRentList = response.result;
+        this.userRentList.movies = this.userRentList.movies.map(movie => {
+          movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a");
+          movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a")
+          return movie;
+        });
       } else {
         this.userRentList = null;
       }
@@ -83,6 +89,13 @@ export class RentalsComponent implements OnInit {
           } else {
             rent['expanded'] = false;
           }
+
+          rent.movies = rent.movies.map(movie => {
+            movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a");
+            movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a")
+            return movie;
+          });
+
           return rent;
         });
         this.rentals = rentals;
