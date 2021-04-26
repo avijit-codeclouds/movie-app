@@ -102,8 +102,7 @@ exports.rent_delete = async ( req, res ) => {
 exports.rent_list = async( req, res ) => {
     try {
 
-        const features = new APIFeatuers(Rent.find().populate(['movies.movie']).
-        populate({ path: 'user', select: '-password' }), req.query)
+        const features = new APIFeatuers(Rent.find().populate(['movies.movie']).populate({ path: 'user', select: '-password' }), req.query)
             .filter()
             .sort()
             .limitFields()
