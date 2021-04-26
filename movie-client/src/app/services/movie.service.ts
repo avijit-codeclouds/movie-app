@@ -15,9 +15,9 @@ export class MovieService {
   public user: Observable<any>;
   constructor(private httpClient: HttpClient,public router: Router) { }
 
-  movieList():Observable<Movie[]>{
+  movieList(sortBy: string = "createdAt"):Observable<Movie[]>{
     return this.httpClient.get<Movie[]>(`${this.API_URL}/movie`, {params: {
-      sort: '-createdAt',}
+      sort: sortBy,}
     },).pipe(retry(3), catchError(this.handleError));;
   }
 

@@ -25,10 +25,47 @@
             <table class="table table-hover">
                 <thead>
                     <tr class="table-primary">
-                        <th scope="col">Title</th>
+                        <th scope="col">
+                            Title 
+                            <i  [ngClass]="{
+                                'fas': true,  
+                                'fa-sort':  !(sortKey == 'title' || sortKey == '-title'),
+                                'fa-sort-down':  sortKey == 'title',
+                                'fa-sort-up':  sortKey == '-title',
+                                'float-right': true
+                            }" (click)="sortBy('title')" role="button"></i>
+                        </th>
                         <th scope="col">Genere</th>
-                        <th scope="col">Stock</th>
-                        <th scope="col">Rate</th>
+                        <th scope="col">
+                            Stock 
+                            <i  [ngClass]="{
+                                'fas': true,  
+                                'fa-sort':  !(sortKey == 'stock' || sortKey == '-stock'),
+                                'fa-sort-down':  sortKey == 'stock',
+                                'fa-sort-up':  sortKey == '-stock',
+                                'float-right': true
+                            }" (click)="sortBy('stock')" role="button"></i>
+                        </th>
+                        <th scope="col">
+                            Rate 
+                            <i [ngClass]="{
+                                'fas': true,  
+                                'fa-sort':  !(sortKey == 'rate' || sortKey == '-rate'),
+                                'fa-sort-down':  sortKey == 'rate',
+                                'fa-sort-up':  sortKey == '-rate',
+                                'float-right': true
+                            }" (click)="sortBy('rate')" role="button"></i>
+                        </th>
+                        <th *ngIf="authservice.isAdmin" scope="col">
+                            Uploaded At 
+                            <i  [ngClass]="{
+                                'fas': true,  
+                                'fa-sort':  !(sortKey == 'createdAt' || sortKey == '-createdAt'),
+                                'fa-sort-down':  sortKey == 'createdAt',
+                                'fa-sort-up':  sortKey == '-createdAt',
+                                'float-right': true
+                            }" (click)="sortBy('createdAt')" role="button"></i>
+                        </th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -45,6 +82,7 @@
                             <td>{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
                             <td>{{ movie.stock }}</td>
                             <td>{{ movie.rate }}</td>
+                            <td *ngIf="authservice.isAdmin">{{ movie.uploadedAt }}</td>
                             <td style="cursor:pointer">
                                 <ng-container *ngIf="authservice.isAdmin">
                                     <i tooltip="Edit" routerLink="/movies/{{ movie._id }}" class="fas fa-edit"
