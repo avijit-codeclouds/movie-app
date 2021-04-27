@@ -139,13 +139,26 @@
                                 </ng-container>
                             </span>
                             <div class="float-right">
+                                    <label>
+                                    <input type="checkbox" [checked]="
+                                        wishList.length > 0 ? getStatus(movie._id) : false
+                                        " data-md-icheck #checkdelet 
+                                        name="movie" value="{{ movie._id }}"
+                                        (click)="wishListClicked(movie._id, $event)" />
+                                        <i style="font-size: 21px;" [ngClass]="{
+                                            'far': !getStatus(movie._id),
+                                            'fas': getStatus(movie._id),
+                                            'fa-heart':true
+                                        }" role="button"></i>
+                                        <span></span>
+                                </label> 
                                 <!-- !(wishList.length > 0 ? getStatus(movie._id) : false) -->
                                 <!-- 'fas fa-heart': false -->
-                                <i style="font-size: 21px;" [ngClass]="{
+                                <!-- <i style="font-size: 21px;" [ngClass]="{
                                     'far': !getStatus(movie._id),
                                     'fas': getStatus(movie._id),
                                     'fa-heart': true
-                                }" role="button" (click)="wishListClicked(movie._id, $event)"></i>
+                                }" role="button" (click)="wishListClicked(movie._id, $event)"></i> -->
                                 <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)"
                                     class="btn btn-primary ml-2 btn-sm rounded">
                                     <span *ngIf="movie.renting" class="pl-1 pr-1"><i
