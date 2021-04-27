@@ -8,13 +8,15 @@ const { logger }    = require("../helper/logger");
 
 exports.create_movie = async (req, res) => {
 	try {
-		const { title, genre, stock, rate } = req.body;
+		const { title, genre, rating, rate, trailerUrl, description } = req.body;
 
 		movie = new Movie({
 			title,
 			genre,
-			stock,
 			rate,
+			rating,
+			trailerUrl,
+			description
 		});
 
 		const newMovie = await movie.save();
@@ -133,7 +135,6 @@ exports.delete_movie = async (req, res) => {
 	}
 	catch (err)
 	{
-		console.log(err)
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
 	}
 };

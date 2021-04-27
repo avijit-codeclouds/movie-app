@@ -9,9 +9,9 @@ const movieSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Genere'
   },
-  stock: {
+  rating: {
     type: Number,
-    required: true,
+    default: 4,
   },
   rate: {
     type: Number,
@@ -25,6 +25,14 @@ const movieSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  trailerUrl: {
+    type: String,
+    default: null
+  },
+  description: {
+    type: String,
+    default: null
+  }
 },
 {
     timestamps: true
