@@ -13,6 +13,10 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     default: 4,
   },
+  year: {
+    type: Number,
+    required: true
+  },
   rate: {
     type: Number,
     required: true,

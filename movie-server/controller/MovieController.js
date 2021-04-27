@@ -8,12 +8,22 @@ const { logger }    = require("../helper/logger");
 
 exports.create_movie = async (req, res) => {
 	try {
-		const { title, genre, rating, rate, trailerUrl, description } = req.body;
+		const
+			{
+				title,
+				genre,
+				rating,
+				year,
+				rate,
+				trailerUrl,
+				description
+			} = req.body;
 
 		movie = new Movie({
 			title,
 			genre,
 			rate,
+			year,
 			rating,
 			trailerUrl,
 			description
@@ -27,6 +37,7 @@ exports.create_movie = async (req, res) => {
 	}
 	catch (err)
 	{
+		console.log(err);
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
 	}
 };
