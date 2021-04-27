@@ -1,7 +1,9 @@
-<div class="container mt-4">
+<!-- Page Content -->
+<div class="container">
     <div class="row">
-        <div class="col-3">
-            <ul style="cursor:pointer" class="nav nav-pills flex-column">
+        <div class="col-lg-3">
+
+            <ul style="cursor:pointer" class="nav nav-pills flex-column my-4">
                 <li class="nav-item">
                     <a class="nav-link" [ngClass]="{ active: selectedGenre == 'all' }" (click)="getGenre('all')">All
                         Genres</a>
@@ -11,71 +13,77 @@
                         (click)="getGenre(gener.name)">{{ gener.name }}</a>
                 </li>
             </ul>
-            <mat-progress-bar mode="indeterminate" class="mt-3" *ngIf="loadingGenres"></mat-progress-bar>
+
+            <mat-progress-bar mode="indeterminate" class="my-4" *ngIf="loadingGenres"></mat-progress-bar>
+
         </div>
-        <div class="col">
-            <div *ngIf="authservice.isAdmin">
-                <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px">New Movie</a>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+            <div class="my-4">
+                <div *ngIf="authservice.isAdmin">
+                    <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px">New Movie</a>
+                </div>
+                <p *ngIf="movies">
+                    Showing {{ (movies | filter: query).length }} in the database.
+                </p>
+                <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query"
+                    value="" />
             </div>
-            <p *ngIf="movies">
-                Showing {{ (movies | filter: query).length }} in the database.
-            </p>
-            <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query"
-                value="" />
-            <table class="table table-hover">
+            <table class="table table-hover" *ngIf="authservice.isAdmin">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">
-                            Title 
-                            <i  [ngClass]="{
-                                'fas': true,  
-                                'fa-sort':  !(sortKey == 'title' || sortKey == '-title'),
-                                'fa-sort-down':  sortKey == 'title',
-                                'fa-sort-up':  sortKey == '-title',
-                                'float-right': true
-                            }" (click)="sortBy('title')" role="button"></i>
+                            Title
+                            <i [ngClass]="{
+                            'fas': true,  
+                            'fa-sort':  !(sortKey == 'title' || sortKey == '-title'),
+                            'fa-sort-down':  sortKey == 'title',
+                            'fa-sort-up':  sortKey == '-title',
+                            'float-right': true
+                        }" (click)="sortBy('title')" role="button"></i>
                         </th>
                         <th scope="col">Genere</th>
                         <th scope="col">
-                            Stock 
-                            <i  [ngClass]="{
-                                'fas': true,  
-                                'fa-sort':  !(sortKey == 'stock' || sortKey == '-stock'),
-                                'fa-sort-down':  sortKey == 'stock',
-                                'fa-sort-up':  sortKey == '-stock',
-                                'float-right': true
-                            }" (click)="sortBy('stock')" role="button"></i>
+                            Stock
+                            <i [ngClass]="{
+                            'fas': true,  
+                            'fa-sort':  !(sortKey == 'stock' || sortKey == '-stock'),
+                            'fa-sort-down':  sortKey == 'stock',
+                            'fa-sort-up':  sortKey == '-stock',
+                            'float-right': true
+                        }" (click)="sortBy('stock')" role="button"></i>
                         </th>
                         <th scope="col">
-                            Rate 
+                            Rate
                             <i [ngClass]="{
-                                'fas': true,  
-                                'fa-sort':  !(sortKey == 'rate' || sortKey == '-rate'),
-                                'fa-sort-down':  sortKey == 'rate',
-                                'fa-sort-up':  sortKey == '-rate',
-                                'float-right': true
-                            }" (click)="sortBy('rate')" role="button"></i>
+                            'fas': true,  
+                            'fa-sort':  !(sortKey == 'rate' || sortKey == '-rate'),
+                            'fa-sort-down':  sortKey == 'rate',
+                            'fa-sort-up':  sortKey == '-rate',
+                            'float-right': true
+                        }" (click)="sortBy('rate')" role="button"></i>
                         </th>
-                        <th *ngIf="authservice.isAdmin" scope="col">
-                            Uploaded At 
-                            <i  [ngClass]="{
-                                'fas': true,  
-                                'fa-sort':  !(sortKey == 'createdAt' || sortKey == '-createdAt'),
-                                'fa-sort-down':  sortKey == 'createdAt',
-                                'fa-sort-up':  sortKey == '-createdAt',
-                                'float-right': true
-                            }" (click)="sortBy('createdAt')" role="button"></i>
+                        <th scope="col">
+                            Uploaded At
+                            <i [ngClass]="{
+                            'fas': true,  
+                            'fa-sort':  !(sortKey == 'createdAt' || sortKey == '-createdAt'),
+                            'fa-sort-down':  sortKey == 'createdAt',
+                            'fa-sort-up':  sortKey == '-createdAt',
+                            'float-right': true
+                        }" (click)="sortBy('createdAt')" role="button"></i>
                         </th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngIf="movies && authservice.isAdmin">
+                    <ng-container *ngIf="movies">
                         <tr *ngFor="
-                            let movie of movies
-                                | filter: query
-                                | paginate: { itemsPerPage: 5, currentPage: p }
-                            ">
+                        let movie of movies
+                            | filter: query
+                            | paginate: { itemsPerPage: 15, currentPage: p }
+                        ">
                             <th scope="row" class="pn">
                                 {{ movie.title }}
                             </th>
@@ -85,49 +93,70 @@
                             <td>{{ movie.uploadedAt }}</td>
                             <td style="cursor:pointer">
                                 <!-- <ng-container *ngIf="authservice.isAdmin"> -->
-                                    <i tooltip="Edit" routerLink="/movies/{{ movie._id }}" class="fas fa-edit"
-                                        style="font-size: 17px"></i>
-                                    &nbsp;
-                                    <i [tooltip]="movie.isDeleted ? 'Restore': 'Delete'"
-                                        (click)="deleteOrRestoreMovie(movie)" class="fas "
-                                        [ngClass]="{'fa-trash': !movie.isDeleted, 'fa-trash-restore': movie.isDeleted}"
-                                        style="font-size: 17px"></i>
-                                        </td>
-                                        </tr>
-                                </ng-container>
-                                <ng-container *ngIf="movies && authservice.isUser">
-                                        <tr *ngFor="
-                                            let movie of movies
-                                                | filter: query
-                                                | paginate: { itemsPerPage: 5, currentPage: p }
-                                            ">
-                                            <th *ngIf = "movie.isDeleted!=true" scope="row" class="pn">
-                                                {{ movie.title }}
-                                            </th>
-                                            <td *ngIf = "movie.isDeleted!=true">{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
-                                            <td *ngIf = "movie.isDeleted!=true">{{ movie.stock }}</td>
-                                            <td *ngIf = "movie.isDeleted!=true">{{ movie.rate }}</td>
-                                            <td *ngIf = "movie.isDeleted!=true" style="cursor:pointer">
-                                    <label>
-                                        <input type="checkbox" [checked]="
-                                            wishList.length > 0 ? getStatus(movie._id) : false
-                                            " data-md-icheck #checkdelet 
-                                            id="{{ movie._id }}" name="movie" value="{{ movie._id }}"
-                                            (click)="wishListClicked(movie._id, $event)" />
-                                        <span>&nbsp;</span>Wishlist
-                                    </label>
-                                    &nbsp;
-                                    <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)" class="btn btn-primary">
-                                       <span *ngIf="movie.renting" class=" pl-1 pr-1"><i class="fas fa-spinner fa-spin"></i></span> 
-                                       <span *ngIf="!movie.renting">Rent</span>
-                                    </button>  
-                                </td>
-                                </tr>
-                                </ng-container>
+                                <i tooltip="Edit" routerLink="/movies/{{ movie._id }}" class="fas fa-edit"
+                                    style="font-size: 17px"></i>
+                                &nbsp;
+                                <i [tooltip]="movie.isDeleted ? 'Restore': 'Delete'"
+                                    (click)="deleteOrRestoreMovie(movie)" class="fas "
+                                    [ngClass]="{'fa-trash': !movie.isDeleted, 'fa-trash-restore': movie.isDeleted}"
+                                    style="font-size: 17px"></i>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
+
+            <div class="row" *ngIf="authservice.isUser">
+
+                <div class="col-lg-4 col-md-6 mb-4" *ngFor="
+                    let movie of movies
+                        | filter: query
+                        | paginate: { itemsPerPage: 5, currentPage: p }
+                    ">
+                    <div class="card h-100">
+                        <a href="javascript:void(0);" style="position: relative;">
+                            <img class="card-img-top" [src]="movie.thumbnail" alt="">
+                            <i class="fas fa-play play-trailer" tooltip="Play" (click)="openMovie(movie)"></i>
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="javascript:void(0)" (click)="openMovie(movie)">{{ movie.title }} ({{ movie.year }})</a>
+                            </h4>
+                            <!-- <h5>Rs. {{ movie.rate }}</h5> -->
+                            <p class="card-text">{{ movie.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="text-muted" style="font-size: 19px;">
+                                <ng-container *ngFor="let i of [].constructor(5); let index = index;">
+                                    <ng-container *ngIf="(index < movie.rating); else whiteStarTpl;">
+                                        &#9733;
+                                    </ng-container>
+                                    <ng-template #whiteStarTpl>&#9734;</ng-template>
+                                </ng-container>
+                            </span>
+                            <div class="float-right">
+                                <!-- !(wishList.length > 0 ? getStatus(movie._id) : false) -->
+                                <!-- 'fas fa-heart': false -->
+                                <i style="font-size: 21px;" [ngClass]="{
+                                    'far fa-heart': false,
+                                    'fas fa-heart': true
+                                }" role="button" (click)="wishListClicked(movie._id, $event)"></i>
+                                <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)"
+                                    class="btn btn-primary ml-2 btn-sm rounded">
+                                    <span *ngIf="movie.renting" class="pl-1 pr-1"><i
+                                            class="fas fa-spinner fa-spin"></i></span>
+                                    <span *ngIf="!movie.renting">Rent</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.row -->
+
             <mat-progress-bar mode="indeterminate" *ngIf="loadingMovies"></mat-progress-bar>
-            <div><br><br>
+            <div *ngIf="p > 1"><br><br>
                 <span *ngIf="movie!=0">
                     <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
                         <li class="page-item active">
@@ -137,11 +166,15 @@
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="showProgress"></mat-progress-bar>
             </div>
+
         </div>
+        <!-- /.col-lg-9 -->
+
     </div>
+    <!-- /.row -->
+
 </div>
-
-
+<!-- /.container -->
 <app-modal [title]="'Are you sure?'" [show]="deleteRestoreModalConfig.show"
     (onHidden)="deleteRestoreModalConfig.show = false" [config]="{
         header: true,

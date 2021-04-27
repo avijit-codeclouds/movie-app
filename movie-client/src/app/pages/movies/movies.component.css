@@ -54,3 +54,11 @@ label > input[type="checkbox"] + span {
 label > input[type="checkbox"]:checked + span {
     background-color: white;
 }
+
+.play-trailer {
+    top: 45%;
+    position: absolute;
+    left: 45%;
+    font-size: 38px;
+    color: darkred;
+}

@@ -25,8 +25,11 @@ export class NewmovieComponent implements OnInit {
       this.form = this.formBuilder.group({
         title: ['', Validators.required],
         genre : ['', Validators.required],
-        stock: ['',Validators.required],
+        year: [2020,Validators.required],
         rate:['',Validators.required],
+        rating: [0, [Validators.required]],
+        trailerUrl: ['', [Validators.required]],
+        description: ['', [Validators.required]]
       });
   }
 
