@@ -3,7 +3,7 @@ const status 		= require("http-status");
 const Movie 		= require("../models/Movie");
 const Rent			= require("../models/Rent");
 const APIFeatuers 	= require("../utils/apiFeatures");
-const { response } 	= require("../helper/helper");
+const { response, decode_jwt } 	= require("../helper/helper");
 const { logger }    = require("../helper/logger");
 
 exports.create_movie = async (req, res) => {
@@ -105,12 +105,49 @@ exports.update_movie = async (req, res) => {
 exports.movie_list = async (req, res) => {
 	try
 	{
-
 		const msg = "movie list";
-		const features = new APIFeatuers(Movie.find().populate("genre"),req.query)
-						.filter()
+		const user   = decode_jwt(req);
+		const isUser = user.role == 'user';
+
+		const features = new APIFeatuers( isUser ? Movie.aggregate([{
+			$lookup: {
+				from: "rents",
+				localField: "_id",
+				foreignField: "movies.movie",
+				as: "rentData"
+			}
+		},
+		{
+			$project: {
+				_id: 0,
+				rating: 1,
+				isDeleted: 1,
+				deletedAt: 1,
+				title: 1,
+				genre: 1,
+				stock: 1,
+				rate: 1,
+				createdAt: 1,
+				updatedAt: 1,
+				isRented: {
+					"$anyElementTrue": [{
+						'$ifNull': [{
+								"$map": {
+									"input": "$rentData",
+									"as": "rd",
+									"in": {
+										"$eq": ["$$rd.user", user.id]
+									}
+								}
+							},
+							[false]
+						]
+					}]
+				}
+			}
+		}
+		]) : Movie.find().populate("genre") ,req.query)
 						.sort()
-						.limitFields()
 						.paginate();
 
 		const movie = await features.query;
@@ -119,7 +156,7 @@ exports.movie_list = async (req, res) => {
 	}
 	catch (err)
 	{
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
 	}
 };
 
