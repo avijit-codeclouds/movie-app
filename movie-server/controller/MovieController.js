@@ -19,6 +19,8 @@ exports.create_movie = async (req, res) => {
 				description
 			} = req.body;
 
+		const thumbnail = get_thumbnail_from_trailer(trailerUrl);
+
 		movie = new Movie({
 			title,
 			genre,
@@ -26,7 +28,8 @@ exports.create_movie = async (req, res) => {
 			year,
 			rating,
 			trailerUrl,
-			description
+			description,
+			thumbnail
 		});
 
 		const newMovie = await movie.save();
@@ -198,4 +201,23 @@ const make_rented_movies_available = async (id, action) => {
 	{
 		logger.error(JSON.stringify(err) + " for movie ID: "+ id);
 	}
+};
+
+const get_thumbnail_from_trailer = (trailer) => {
+	try
+	{
+		trailer = trailer.split('.');
+
+		if(trailer[1] !== 'youtube')
+			return null;
+
+		const id = trailer[2].split('=')[1];
+
+		return 'https://img.youtube.com/vi/'+ id +'/0.jpg';
+	}
+	catch(e)
+	{
+		return null;
+	}
+
 };

@@ -36,6 +36,10 @@ const movieSchema = new mongoose.Schema({
   description: {
     type: String,
     default: null
+  },
+  thumbnail: {
+    type: String,
+    default: null
   }
 },
 {
