@@ -119,16 +119,20 @@ exports.movie_list = async (req, res) => {
 		},
 		{
 			$project: {
-				_id: 0,
-				rating: 1,
-				isDeleted: 1,
-				deletedAt: 1,
-				title: 1,
-				genre: 1,
-				stock: 1,
-				rate: 1,
-				createdAt: 1,
-				updatedAt: 1,
+				_id: true,
+				rating: true,
+				isDeleted: true,
+				deletedAt: true,
+				title: true,
+				genre: true,
+				stock: true,
+				rate: true,
+				createdAt: true,
+				updatedAt: true,
+				year: true,
+				trailerUrl: true,
+				description: true,
+				thumbnail: true,
 				isRented: {
 					"$anyElementTrue": [{
 						'$ifNull': [{
