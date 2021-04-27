@@ -11,6 +11,7 @@ import { LogoutComponent } from './pages/logout/logout.component'
 import { NotfoundComponent } from './pages/notfound/notfound.component'
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 
 const routes: Routes = [
   { 
@@ -19,6 +20,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       title: 'Movies ::Movie-App'
+    }
+  }, {
+    path: 'movie/:id',
+    component: MovieDetailsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Movie Details ::Movie-App'
     }
   }, { 
     path: 'register', 

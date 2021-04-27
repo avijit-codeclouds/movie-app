@@ -1,0 +1,67 @@
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+        <ul style="cursor:pointer" class="nav nav-pills flex-column my-4">
+            <li class="nav-item">
+                <a class="nav-link active">Details</a>
+            </li>
+        </ul>
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+        <mat-progress-bar mode="indeterminate" class="my-4" *ngIf="loadingMovie"></mat-progress-bar>
+        <ng-container *ngIf="!loadingMovie && movie != null">
+        <div class="card mt-4">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" [src]="movie.embed | safe" allowfullscreen></iframe>
+              </div>
+          <div class="card-body">
+            <h3 class="card-title">{{ movie.title }}</h3>
+            <!-- <h4>$24.99</h4> -->
+            <p class="card-text">{{ movie.description }}</p>
+            <span class="text-warning">
+                <ng-container *ngFor="let i of [].constructor(5); let index = index;">
+                    <ng-container *ngIf="(index < movie.rating); else whiteStarTpl;">
+                        &#9733;
+                    </ng-container>
+                    <ng-template #whiteStarTpl>&#9734;</ng-template>
+                </ng-container>
+            </span>
+            {{ movie.rating }}.0 stars
+          </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="card card-outline-secondary my-4">
+          <div class="card-header">
+            Movie Reviews
+          </div>
+          <div class="card-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+            <hr>
+            <a href="#" class="btn btn-success">Leave a Review</a>
+          </div>
+        </div>
+        <!-- /.card -->
+    </ng-container>
+    <ng-container *ngIf="!loadingMovie && movie == null">
+        <p>Movie does not exists</p>
+    </ng-container>
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+
+  </div>
+  <!-- /.container -->

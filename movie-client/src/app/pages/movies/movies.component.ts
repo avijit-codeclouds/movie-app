@@ -215,4 +215,10 @@ export class MoviesComponent implements OnInit {
 
     this.getMovies();
   }
+
+  openMovie(movie) {
+    this.router.navigate([
+      "movie", movie._id
+    ]);
+  }
 }
