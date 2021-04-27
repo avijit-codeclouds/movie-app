@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-      "title": "Movie Backend API",
-      "description": "This is Movie Backend API.",
+      "title": "Movie Backend APIs",
+      "description": "This is Movie Backend APIs.",
       "version": "1.0.0"
     },
     "basePath":"/",
@@ -157,8 +157,8 @@
                 "bearerAuth":[]
               }
             ],
-            "summary": "Create a franchisestype",
-            "operationId": "create franchisestype",
+            "summary": "Create a movie",
+            "operationId": "create movie",
             "parameters": [
               {
                 "name": "data",

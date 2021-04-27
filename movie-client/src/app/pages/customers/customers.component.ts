@@ -52,7 +52,7 @@ export class CustomersComponent implements OnInit {
     })).subscribe(response => {
       if (response.success) {
         this.customers = response.result.map((customer) => {
-          customer['user']['formatedDate'] = moment.utc(customer.user.createdAt).local().format("MMM Do YYYY hh:mm a");
+          customer['user']['formatedDate'] = moment.utc(customer.user.createdAt).local().format("MMM Do YYYY, hh:mm a");
           return customer;
         });
       }

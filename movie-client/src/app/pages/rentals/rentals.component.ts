@@ -66,8 +66,8 @@ export class RentalsComponent implements OnInit {
       if (response.success) {
         this.userRentList = response.result;
         this.userRentList.movies = this.userRentList.movies.map(movie => {
-          movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a");
-          movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a")
+          movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY, hh:mm a");
+          movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY, hh:mm a")
           return movie;
         });
       } else {
@@ -91,8 +91,8 @@ export class RentalsComponent implements OnInit {
           }
 
           rent.movies = rent.movies.map(movie => {
-            movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a");
-            movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY hh:mm a")
+            movie['startday'] = moment.utc(movie.startday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY, hh:mm a");
+            movie['endday'] = moment.utc(movie.endday, 'MMM Do YYYY, hh:mm a').local().format("MMM Do YYYY, hh:mm a")
             return movie;
           });
 
