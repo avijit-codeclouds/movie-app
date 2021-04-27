@@ -80,7 +80,14 @@ export class MoviesComponent implements OnInit {
     })).subscribe((data) => {
       this.movies = data["result"].map((item) => {
         item['renting'] = false;
-        item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY, hh:mm a")
+        item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY, hh:mm a");
+        // item['thumbnail'] = 
+        let tmp = this.getUrlParameter(item.trailerUrl, 'v');
+        if (tmp) {
+          item['thumbnail'] = 'https://www.youtube.com/embed/' + tmp;
+        } else {
+          item['thumbnail'] = "//placehold.it/200/200"
+        }
         return item;
       });
       this.movie=this.movies.length;
@@ -222,4 +229,11 @@ export class MoviesComponent implements OnInit {
       "movie", movie._id
     ]);
   }
+
+  getUrlParameter(url, name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(url);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 }

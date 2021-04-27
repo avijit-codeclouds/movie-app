@@ -23,11 +23,11 @@ export class UpdatemovieComponent implements OnInit {
   enableMessage: boolean = false
   showProgress : boolean = false
 
-  reactiveForm = new FormGroup({
-    title: new FormControl(),
-    stock: new FormControl(),
-    rate: new FormControl()
-  })
+  // reactiveForm = new FormGroup({
+  //   title: new FormControl(),
+  //   stock: new FormControl(),
+  //   rate: new FormControl()
+  // })
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -38,8 +38,11 @@ export class UpdatemovieComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       genre : ['', Validators.required],
-      stock: ['',Validators.required],
+      year: [2020,Validators.required],
       rate:['',Validators.required],
+      rating: [0, [Validators.required]],
+      trailerUrl: ['', [Validators.required]],
+      description: ['', [Validators.required]]
     });
   }
 
@@ -52,12 +55,15 @@ export class UpdatemovieComponent implements OnInit {
       if(res.success == false){
         this.router.navigateByUrl("/404");      
       }else{
-        const { title, genre, stock, rate } = res.result
+        const { title, genre, year, rate, description, rating, trailerUrl } = res.result
         let movieData = {
           title,
           genre,
-          stock,
-          rate
+          year,
+          rate,
+          rating,
+          trailerUrl,
+          description
         };
         this.form.patchValue(movieData)
         this.movieservice.genreList().subscribe(res => {
