@@ -106,6 +106,7 @@ export class MoviesComponent implements OnInit {
   }
 
   getStatus(_id) {
+    if (this.wishList.length == 0) return false;
     if (!_id) {
       return false;
     } else {

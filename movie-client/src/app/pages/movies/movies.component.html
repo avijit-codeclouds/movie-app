@@ -45,14 +45,14 @@
                         </th>
                         <th scope="col">Genere</th>
                         <th scope="col">
-                            Stock
+                            Rating
                             <i [ngClass]="{
                             'fas': true,  
-                            'fa-sort':  !(sortKey == 'stock' || sortKey == '-stock'),
-                            'fa-sort-down':  sortKey == 'stock',
-                            'fa-sort-up':  sortKey == '-stock',
+                            'fa-sort':  !(sortKey == 'rating' || sortKey == '-rating'),
+                            'fa-sort-down':  sortKey == 'rating',
+                            'fa-sort-up':  sortKey == '-rating',
                             'float-right': true
-                        }" (click)="sortBy('stock')" role="button"></i>
+                        }" (click)="sortBy('rating')" role="button"></i>
                         </th>
                         <th scope="col">
                             Rate
@@ -85,10 +85,10 @@
                             | paginate: { itemsPerPage: 15, currentPage: p }
                         ">
                             <th scope="row" class="pn">
-                                {{ movie.title }}
+                                <a href="javascript:void(0)" (click)="openMovie(movie)">{{ movie.title }}</a>
                             </th>
                             <td>{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
-                            <td>{{ movie.stock }}</td>
+                            <td>{{ movie.rating }}</td>
                             <td>{{ movie.rate }}</td>
                             <td>{{ movie.uploadedAt }}</td>
                             <td style="cursor:pointer">
@@ -114,19 +114,23 @@
                         | paginate: { itemsPerPage: 5, currentPage: p }
                     ">
                     <div class="card h-100">
-                        <a href="javascript:void(0);" style="position: relative;">
-                            <img class="card-img-top" [src]="movie.thumbnail" alt="">
-                            <i class="fas fa-play play-trailer" tooltip="Play" (click)="openMovie(movie)"></i>
+                        <a href="javascript:void(0);" style="position: relative;" (click)="openMovie(movie)">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <img class="embed-responsive-item"  [src]="movie.thumbnail | safe" alt="">
+                            </div>
+                            <i class="fas fa-play play-trailer" tooltip="Play"></i>
                         </a>
                         <div class="card-body">
                             <h4 class="card-title">
                                 <a href="javascript:void(0)" (click)="openMovie(movie)">{{ movie.title }} ({{ movie.year }})</a>
                             </h4>
                             <!-- <h5>Rs. {{ movie.rate }}</h5> -->
-                            <p class="card-text">{{ movie.description }}</p>
+                            <div class="card-text text-left" style="display: block;">
+                                <p class="text-truncate">{{ movie.description }}</p>
+                            </div>
                         </div>
                         <div class="card-footer">
-                            <span class="text-muted" style="font-size: 19px;">
+                            <span class="text-warning" style="font-size: 19px;">
                                 <ng-container *ngFor="let i of [].constructor(5); let index = index;">
                                     <ng-container *ngIf="(index < movie.rating); else whiteStarTpl;">
                                         &#9733;
@@ -138,8 +142,9 @@
                                 <!-- !(wishList.length > 0 ? getStatus(movie._id) : false) -->
                                 <!-- 'fas fa-heart': false -->
                                 <i style="font-size: 21px;" [ngClass]="{
-                                    'far fa-heart': false,
-                                    'fas fa-heart': true
+                                    'far': !getStatus(movie._id),
+                                    'fas': getStatus(movie._id),
+                                    'fa-heart': true
                                 }" role="button" (click)="wishListClicked(movie._id, $event)"></i>
                                 <button type="button" [disabled]="movie.renting" (click)="rentMovie(movie._id)"
                                     class="btn btn-primary ml-2 btn-sm rounded">
@@ -156,7 +161,7 @@
             <!-- /.row -->
 
             <mat-progress-bar mode="indeterminate" *ngIf="loadingMovies"></mat-progress-bar>
-            <div *ngIf="p > 1"><br><br>
+            <div *ngIf="p > 1" class="mt-2">
                 <span *ngIf="movie!=0">
                     <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
                         <li class="page-item active">
@@ -164,7 +169,6 @@
                         </li>
                     </ul>
                 </span>
-                <mat-progress-bar mode="indeterminate" *ngIf="showProgress"></mat-progress-bar>
             </div>
 
         </div>
