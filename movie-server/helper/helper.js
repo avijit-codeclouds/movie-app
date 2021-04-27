@@ -65,7 +65,7 @@ exports.is_admin_domain_name = (email) => {
     }
 };
 
-const decode_jwt = exports.decode_jwt = (req) => {
+exports.decode_jwt = (req) => {
 
     try
     {

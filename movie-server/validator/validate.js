@@ -60,5 +60,10 @@ exports.validate = (method) => {
             body('password', 'Password is required').notEmpty(),
          ];
       }
+      case 'review': {
+         return [
+            body('review', 'Review is required').notEmpty()
+         ];
+      }
    }
 };
