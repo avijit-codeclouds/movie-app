@@ -30,6 +30,8 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { OnlyNumberDirective } from './directives/only-number.directive';
+import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
+import { SafePipe } from './pipe/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { OnlyNumberDirective } from './directives/only-number.directive';
     WishlistComponent,
     ModalComponent,
     MoviesComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    MovieDetailsComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

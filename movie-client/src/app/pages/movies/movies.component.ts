@@ -106,6 +106,7 @@ export class MoviesComponent implements OnInit {
   }
 
   getStatus(_id) {
+    if (this.wishList.length == 0) return false;
     if (!_id) {
       return false;
     } else {
@@ -214,5 +215,11 @@ export class MoviesComponent implements OnInit {
     }
 
     this.getMovies();
+  }
+
+  openMovie(movie) {
+    this.router.navigate([
+      "movie", movie._id
+    ]);
   }
 }
