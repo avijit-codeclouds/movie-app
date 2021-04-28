@@ -222,4 +222,8 @@ export class MoviesComponent implements OnInit {
       "movie", movie._id
     ]);
   }
+
+  changeSort() {
+    this.getMovies();
+  }
 }

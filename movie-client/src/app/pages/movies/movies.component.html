@@ -16,6 +16,24 @@
 
             <mat-progress-bar mode="indeterminate" class="my-4" *ngIf="loadingGenres"></mat-progress-bar>
 
+            <div class="row" *ngIf="authservice.isUser">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="sortBy" class="text-muted"><strong>Sort By</strong></label>
+                        <select [(ngModel)]="sortKey" class="form-control" (change)="changeSort()">
+                            <option value="rate">Rate (ASC)</option>
+                            <option value="-rate">Rate (DESC)</option>
+                            <option value="rating">Ratings (ASC)</option>
+                            <option value="-rating">Ratings (DESC)</option>
+                            <option value="title">Title (ASC)</option>
+                            <option value="-title">Title (DESC)</option>
+                            <option value="createdAt">Creation Time (ASC)</option>
+                            <option value="-createdAt">Creation Time (DESC)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- /.col-lg-3 -->
 
@@ -30,6 +48,7 @@
                 <input type="text" name="query" class="form-control my-3" autocomplete="off" placeholder="Search..." [(ngModel)]="query"
                     value="" />
             </div>
+            <mat-progress-bar mode="indeterminate" *ngIf="loadingMovies" class="mb-2"></mat-progress-bar>
             <table class="table table-hover" *ngIf="authservice.isAdmin">
                 <thead>
                     <tr class="table-primary">
@@ -178,7 +197,6 @@
             </div>
             <!-- /.row -->
 
-            <mat-progress-bar mode="indeterminate" *ngIf="loadingMovies"></mat-progress-bar>
             <!-- <div *ngIf="p > 1" class="mt-2"> -->
                 <span *ngIf="movie!=0">
                     <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">

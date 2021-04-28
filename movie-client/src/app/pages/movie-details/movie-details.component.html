@@ -67,7 +67,7 @@
             </ng-container>
             <ng-container *ngFor="let r of reviews">
               <p>{{ r.review }}</p>
-              <small class="text-muted">Posted by {{ r.userID.name }}, {{ r.postedAgo }}</small>
+              <small class="text-muted">Posted by {{ (r.userID) ? r.userID.name : 'Unknown' }}, {{ r.postedAgo }}</small>
               <hr>
             </ng-container>
 

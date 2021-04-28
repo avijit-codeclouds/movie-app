@@ -13,7 +13,7 @@
           <tr class="table-primary">
             <th scope="col">Title</th>
             <th scope="col">Genere</th>
-            <th scope="col">Stock</th>
+            <th scope="col">Rating</th>
             <th scope="col">Rate</th>
             <th scope="col">Action</th>
           </tr>
@@ -36,9 +36,11 @@
                   | paginate: { itemsPerPage: 5, currentPage: p },
                   let i=index;"
             >
-              <td  scope="row">{{ Favorites.title }}</td>
+              <td  scope="row">
+                <a [routerLink]="'/movie/' + Favorites._id">{{ Favorites.title }}</a>
+              </td>
               <td scope="row">{{ Favorites.genre.name }}</td>
-              <td scope="row">{{ Favorites.stock }}</td>
+              <td scope="row">{{ Favorites.rating }}</td>
               <td scope="row">{{ Favorites.rate }}</td>
               <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
                 <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
