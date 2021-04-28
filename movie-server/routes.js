@@ -24,9 +24,6 @@ module.exports = router.use('/swagger', swaggerUi.serve, swaggerUi.setup(swagger
 /* User Routes */
 module.exports = router.use(ROUTE_PREFIX+'/users', usersRouter);
 
-/*Review Routes */
-module.exports = router.use(ROUTE_PREFIX+'/reviews' ,reviewRoute);
-
 /**
  * Routes with JWT required:
  */
@@ -47,4 +44,7 @@ module.exports = verifiedRoute.use(ROUTE_PREFIX+'/rent', rentRoute);
 
 /*Customer Routes */
 module.exports = verifiedRoute.use(ROUTE_PREFIX+'/customer' , admin_section ,customerRoute);
+
+/*Review Routes */
+module.exports = verifiedRoute.use(ROUTE_PREFIX+'/reviews' , reviewRoute);
 

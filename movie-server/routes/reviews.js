@@ -6,6 +6,7 @@ const helper                = require('../helper/helper');
 
 router
     .route('/:movieID')
-    .post(validator.validate('review'), helper.handle_validation_error, reviewController.addReview);
+    .get(reviewController.view_review)
+    .post(validator.validate('review'), helper.handle_validation_error, reviewController.add_review);
 
 module.exports=router;

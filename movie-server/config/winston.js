@@ -23,8 +23,7 @@ const options = {
 // instantiate a new Winston Logger with the settings defined above
 const logger = new winston.createLogger({
   transports: [
-    new winston.transports.File(options.file),
-    new winston.transports.Console(options.console)
+    new winston.transports.File(options.file)
   ],
   exceptionHandlers: [
     new winston.transports.File({ filename: `${appRoot}/logs/exception.log` })

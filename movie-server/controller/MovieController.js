@@ -1,4 +1,5 @@
 require("dotenv").config();
+const mongoose = require('mongoose');
 const status 		= require("http-status");
 const Movie 		= require("../models/Movie");
 const Rent			= require("../models/Rent");
@@ -140,7 +141,7 @@ exports.movie_list = async (req, res) => {
 									"input": "$rentData",
 									"as": "rd",
 									"in": {
-										"$eq": ["$$rd.user", user.id]
+										"$eq": ["$$rd.user", mongoose.Types.ObjectId(user.id)]
 									}
 								}
 							},
