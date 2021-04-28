@@ -1,4 +1,5 @@
 require("dotenv").config();
+const mongoose = require('mongoose');
 const status 		= require("http-status");
 const Movie 		= require("../models/Movie");
 const Rent			= require("../models/Rent");
@@ -110,7 +111,7 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user   = decode_jwt(req);
 		const isUser = user.role == 'user';
-			
+
 		const isRented = Movie.aggregate([
 		{
 			$lookup: {
@@ -143,7 +144,7 @@ exports.movie_list = async (req, res) => {
 									"input": "$rentData",
 									"as": "rd",
 									"in": {
-										"$eq": ["$$rd.user", user.id]
+										"$eq": ["$$rd.user", mongoose.Types.ObjectId(user.id)]
 									}
 								}
 							},
@@ -153,7 +154,7 @@ exports.movie_list = async (req, res) => {
 				}
 			}
 		}
-		])
+		]);
 
 		const features = new APIFeatuers( isUser ? isRented : Movie.find().populate("genre") ,req.query)
 						.sort()

@@ -4,7 +4,7 @@ const constants            = require('../constant');
 const status               = require('http-status');
 const { logger }           = require('./logger');
 
-exports.response = (success = null, result = null, message = null) => {
+const response = exports.response = (success = null, result = null, message = null) => {
     return {
         success,
         result,
@@ -65,7 +65,7 @@ exports.is_admin_domain_name = (email) => {
     }
 };
 
-exports.decode_jwt = (req) => {
+const decode_jwt = exports.decode_jwt = (req) => {
 
     try
     {
