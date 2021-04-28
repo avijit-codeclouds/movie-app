@@ -117,7 +117,7 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
-
+		console.log(user.id);
 		const isRented = Movie.aggregate([
 			{
                 $lookup: {
@@ -135,14 +135,17 @@ exports.movie_list = async (req, res) => {
 					as: "rentData"
 				}
 			},
+			{ "$unwind": { path: "$rentData", preserveNullAndEmptyArrays: true } },
 			{
 				$project: {
 					_id: true,
 					rating: true,
+					rentData:1,
 					isDeleted: true,
 					deletedAt: true,
 					title: true,
 					genre: true,
+					genreData:1,
 					stock: true,
 					rate: true,
 					createdAt: true,
@@ -174,7 +177,8 @@ exports.movie_list = async (req, res) => {
 			.sort()
 			.paginate();
 
-		// const movie = await features.query;
+		const movie = await features.query;
+
 		// await Promise.all(_.map(movie, async (x) => {
 		// 	return _.assign(x, {
 		// 		genre: await Genere.findById(x.genre)
