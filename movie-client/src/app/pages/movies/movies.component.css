@@ -22,10 +22,7 @@ background: rgb(204, 165, 209);
 label {
     display: inline-block;
     position: relative; /* needed for checkbox absolute positioning */
-    background-color:#593196;
-    color: white;
     padding: .5rem;
-    border: 1px solid rgb(0, 0, 0);
     border-radius: .375rem;
     font-family: "Roboto";
     font-size: 1rem;
