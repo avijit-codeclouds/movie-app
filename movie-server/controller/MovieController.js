@@ -70,7 +70,16 @@ exports.view_movie = async (req, res) => {
 exports.update_movie = async (req, res) => {
 	try
 	{
-		const { title, genre, stock, rate } = req.body;
+		const {
+			title,
+			genre,
+			rate,
+			year,
+			rating,
+			trailerUrl,
+			description,
+			thumbnail
+		} = req.body;
 
 		let movie = await Movie.findById(req.params.movie_id);
 
@@ -82,8 +91,12 @@ exports.update_movie = async (req, res) => {
 		const payload = {
 			title,
 			genre,
-			stock,
 			rate,
+			year,
+			rating,
+			trailerUrl,
+			description,
+			thumbnail
 		};
 
 		const updateMovie = await Movie.findByIdAndUpdate(
