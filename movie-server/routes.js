@@ -6,6 +6,7 @@ const customerRoute = require('./routes/customers');
 const movieRoute    = require('./routes/movie');
 const wishlistRoute = require('./routes/wishlist');
 const rentRoute     = require('./routes/rent');
+const reviewRoute     = require('./routes/reviews');
 const checkauth     = require('./config/checkauth');
 const router        = express.Router();
 const constants     = require('./constant');
@@ -22,6 +23,9 @@ module.exports = router.use('/swagger', swaggerUi.serve, swaggerUi.setup(swagger
 
 /* User Routes */
 module.exports = router.use(ROUTE_PREFIX+'/users', usersRouter);
+
+/*Review Routes */
+module.exports = router.use(ROUTE_PREFIX+'/reviews' ,reviewRoute);
 
 /**
  * Routes with JWT required:

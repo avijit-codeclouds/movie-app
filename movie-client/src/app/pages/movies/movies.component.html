@@ -24,9 +24,9 @@
                 <div *ngIf="authservice.isAdmin">
                     <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px">New Movie</a>
                 </div>
-                <p *ngIf="movies">
+                <!-- <p *ngIf="movies">
                     Showing {{ (movies | filter: query).length }} in the database.
-                </p>
+                </p> -->
                 <input type="text" name="query" class="form-control my-3" placeholder="Search..." [(ngModel)]="query"
                     value="" />
             </div>
