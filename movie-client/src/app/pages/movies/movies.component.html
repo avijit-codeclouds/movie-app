@@ -198,13 +198,13 @@
             <!-- /.row -->
 
             <!-- <div *ngIf="p > 1" class="mt-2"> -->
-                <span *ngIf="movie!=0">
-                    <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
-                        <li class="page-item active">
+                <div *ngIf="movie!=0 && !loadingMovies" class="text-center">
+                    <!-- <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
+                        <li class="page-item active"> -->
                             <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                        </li>
-                    </ul>
-                </span>
+                        <!-- </li> -->
+                    <!-- </ul> -->
+                </div>
             <!-- </div> -->
 
         </div>
