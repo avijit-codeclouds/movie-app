@@ -81,15 +81,15 @@
               </div>
               <div class="form-group">
                 <label for="trailerUrl">Trailer URL</label>
-                <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && fc.trailerUrl.errors }"
+                <input placeholder="https://youtube.com/watch?v=-----" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && fc.trailerUrl.errors }"
                   formControlName="trailerUrl">
                 <div *ngIf="submitted && fc.trailerUrl.errors" class="alert alert-dismissible alert-danger">
-                  <div *ngIf="fc.trailerUrl.errors.required">Movie description is required</div>
+                  <div *ngIf="fc.trailerUrl.errors.required">Trailer URL is required</div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" [ngClass]="{ 'is-invalid': submitted && fc.description.errors }"
+                <textarea rows="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && fc.description.errors }"
                   formControlName="description"></textarea>
                 <div *ngIf="submitted && fc.description.errors" class="alert alert-dismissible alert-danger">
                   <div *ngIf="fc.description.errors.required">Movie description is required</div>
