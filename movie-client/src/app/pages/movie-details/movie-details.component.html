@@ -33,8 +33,18 @@
             </span>
             {{ movie.rating }}.0 stars
             <div class="float-right">
-              <i role="button" class="fas fa-heart mr-2" style="font-size: 30px;"></i>
-              <button type="button" class="btn btn-primary">Rent</button>
+              <i role="button" [ngClass]="{
+                  'fas': isInWishlist || togglingFav,
+                  'far': !isInWishlist && !togglingFav,
+                  'fa-heart': !togglingFav,
+                  'mr-2': true,
+                  'fa-spinner': togglingFav,
+                  'fa-spin': togglingFav
+              }" style="font-size: 24px;" (click)="toggleFav()"></i>
+              <button type="button" class="btn btn-primary" (click)="rentMovie()">
+                <i *ngIf="rentModal.working" class="fas fa-spinner fa-spin"></i>
+                <span *ngIf="!rentModal.working">Rent</span>
+              </button>
             </div>
           </div>
         </div>
@@ -91,3 +101,34 @@
 
 </div>
 <!-- /.container -->
+
+<app-modal [title]="'Confirm Rent Movie'" [show]="rentModal.show"
+    (onHidden)="rentModal.show = false" [config]="{
+        header: true,
+        footer: true
+    }">
+    <div content-type="body">
+        <table class="bordered" *ngIf="rentModal.show">
+          <tbody>
+            <tr>
+              <th>Movie Name</th>
+              <td>{{ movie.title }}</td>
+            </tr>
+            <tr>
+              <th>Movie Rate</th>
+              <td>{{ movie.rate }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div content-type="footer" class="modal-footer" *ngIf="rentModal.show">
+        <button [disabled]="rentModal.working" type="button" class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
+        <button [disabled]="rentModal.working" type="button" class="btn" [ngClass]="{
+                'btn-primary': true
+            }" (click)="rentMovie(true)">
+            <i *ngIf="rentModal.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
+            Confirm Rent
+        </button>
+    </div>
+</app-modal>

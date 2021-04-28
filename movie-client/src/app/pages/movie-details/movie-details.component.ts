@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { ReviewService } from './../../services/review.service';
 import { NotificationService } from './../../services/notification.service';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -22,6 +23,13 @@ export class MovieDetailsComponent implements OnInit {
   reviewConfig = {
     showForm: false,
   };
+  isInWishlist: boolean = false;
+  togglingFav: boolean = false;
+
+  rentModal = {
+    working: false,
+    show: false
+  }
 
   constructor(
     private movieService: MovieService,
@@ -29,7 +37,8 @@ export class MovieDetailsComponent implements OnInit {
     private router: Router,
     private reviewService: ReviewService,
     private notificationService: NotificationService,
-    private titleService: Title
+    private titleService: Title,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -37,6 +46,7 @@ export class MovieDetailsComponent implements OnInit {
 
     this.loadMovie(this.movieId);
     this.loadReviews(this.movieId);
+    this.getWishlist();
   }
 
   loadMovie(movieId) {
@@ -97,4 +107,48 @@ export class MovieDetailsComponent implements OnInit {
     })
   }
 
+  rentMovie(confirmed: boolean = false) {
+    if (!confirmed) {
+      this.rentModal.show = true;
+      return;
+    }
+
+    this.rentModal.show = true;
+    this.rentModal.working = true;
+    this.movieService.rentMovies({
+      movie: this.movieId,
+      user: this.authService.me._id
+    }).pipe(finalize(() => {
+      this.rentModal.working = false;
+      this.rentModal.show = false;
+    })).subscribe(res => {
+      if (res.success == true) {
+        this.notificationService.toast('Successfully you have subscribed')
+      } else {
+        this.notificationService.toast(res.message)
+      }
+    })
+  }
+
+  toggleFav() {
+    this.togglingFav = true;
+    this.movieService.fetchData({
+      movies: this.movieId,
+      checked: !this.isInWishlist,
+    }).finally(() => this.getWishlist());
+  }
+
+  getWishlist() {
+    this.movieService.getMovieWishlist().pipe(finalize(() => {
+      this.togglingFav = false;
+    })).subscribe((response) => {
+      if (response.success) {
+        for (let wl of response.result) {
+          if (wl.user == this.authService.me._id) {
+            this.isInWishlist = wl.movies.some(movie => movie._id == this.movieId);
+          }
+        }
+      }
+    });
+  }
 }
