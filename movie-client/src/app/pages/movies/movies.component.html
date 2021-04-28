@@ -40,7 +40,7 @@
         <div class="col-lg-9">
             <div class="my-4">
                 <div *ngIf="authservice.isAdmin">
-                    <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 20px">New Movie</a>
+                    <a class="btn btn-primary" routerLink="/movies/new" style="margin-bottom: 4px">New Movie</a>
                 </div>
                 <!-- <p *ngIf="movies">
                     Showing {{ (movies | filter: query).length }} in the database.
@@ -196,7 +196,9 @@
 
             </div>
             <!-- /.row -->
-
+            <div *ngIf="movie == 0 && !loadingMovies" class="alert alert-info">
+                No movies available
+            </div>
             <!-- <div *ngIf="p > 1" class="mt-2"> -->
                 <div *ngIf="movie!=0 && !loadingMovies" class="text-center">
                     <!-- <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
