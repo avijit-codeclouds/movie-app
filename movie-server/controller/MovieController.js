@@ -5,6 +5,7 @@ const Rent			= require("../models/Rent");
 const APIFeatuers 	= require("../utils/apiFeatures");
 const { response, decode_jwt } 	= require("../helper/helper");
 const { logger }    = require("../helper/logger");
+const Genere 		= require('../models/Genere')
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -109,7 +110,7 @@ exports.movie_list = async (req, res) => {
 		const user   = decode_jwt(req);
 		const isUser = user.role == 'user';
 
-		const features = new APIFeatuers( isUser ? Movie.aggregate([{
+		const isRented = Movie.aggregate([{
 			$lookup: {
 				from: "rents",
 				localField: "_id",
@@ -150,7 +151,11 @@ exports.movie_list = async (req, res) => {
 				}
 			}
 		}
-		]) : Movie.find().populate("genre") ,req.query)
+		])
+
+		await Genere.populate(isRented, {path: "genre"});
+
+		const features = new APIFeatuers( isUser ? isRented : Movie.find().populate("genre") ,req.query)
 						.sort()
 						.paginate();
 
