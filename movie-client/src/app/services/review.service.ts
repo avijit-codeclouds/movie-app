@@ -10,8 +10,8 @@ export class ReviewService {
 
   constructor(private http: HttpClient) { }
 
-  getReviews(movieId): Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/reviews/${movieId}`);
+  getReviews(movieId, sortBy): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/reviews/${movieId}?sort=${sortBy}`);
   }
 
   saveReviews(movieId, data): Observable<any> {

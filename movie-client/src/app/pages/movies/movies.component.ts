@@ -137,6 +137,7 @@ export class MoviesComponent implements OnInit {
       if (index > -1) {
         this.movies[index].renting = false;
       }
+      this.getMovies();
     })).subscribe(res => {
       // this.showProgress = false
       if (res.success == true) {
@@ -221,5 +222,9 @@ export class MoviesComponent implements OnInit {
     this.router.navigate([
       "movie", movie._id
     ]);
+  }
+
+  changeSort() {
+    this.getMovies();
   }
 }
