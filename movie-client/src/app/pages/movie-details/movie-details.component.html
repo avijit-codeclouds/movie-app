@@ -53,6 +53,11 @@
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
             Movie Reviews
+            <select [(ngModel)]="sortBy" class="form-control float-right" style="width:130px;" (change)="changeSort()">
+              <option disabled>Sort</option>
+              <option value="createdAt">Latest First</option>
+              <option value="-createdAt">Latest Last</option>
+            </select>
           </div>
           <div class="card-body">
             <ng-container *ngIf="(reviews.length == 0)">
@@ -61,10 +66,8 @@
               </div>
             </ng-container>
             <ng-container *ngFor="let r of reviews">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique
-                necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia,
-                necessitatibus quae sint natus.</p>
-              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+              <p>{{ r.review }}</p>
+              <small class="text-muted">Posted by {{ r.userID.name }}, {{ r.postedAgo }}</small>
               <hr>
             </ng-container>
 
@@ -76,6 +79,11 @@
                 <div class="form-group">
                   <label for="review">Write a Review</label>
                   <textarea [(ngModel)]="reviewText" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>
+                    <input [(ngModel)]="isReviewAnonymous" type="checkbox" class="checkbox"> Stay Anonymous
+                  </label>
                 </div>
                 <div class="form-group">
                   <div class="float-right">
@@ -108,7 +116,7 @@
         footer: true
     }">
     <div content-type="body">
-        <table class="bordered" *ngIf="rentModal.show">
+        <table class="table table-bordered" *ngIf="rentModal.show">
           <tbody>
             <tr>
               <th>Movie Name</th>

@@ -6,6 +6,7 @@ import { ReviewService } from './../../services/review.service';
 import { NotificationService } from './../../services/notification.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../services/auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-movie-details',
@@ -18,7 +19,9 @@ export class MovieDetailsComponent implements OnInit {
   loadingMovie: boolean = false;
   movie = null;
   reviewText: string = "";
+  isReviewAnonymous: boolean = false;
   reviews: Array<any> = [];
+  sortBy: string = '-createdAt';
 
   reviewConfig = {
     showForm: false,
@@ -72,11 +75,14 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   loadReviews(movieId) {
-    this.reviewService.getReviews(movieId).pipe(finalize(() => {
+    this.reviewService.getReviews(movieId, this.sortBy).pipe(finalize(() => {
 
     })).subscribe((response) => {
       if (response.success) {
-        this.reviews = response.result;
+        this.reviews = response.result.map((r) => {
+          r['postedAgo'] = moment.utc(r.createdAt).local().fromNow();
+          return r;
+        });
       }
     })
   }
@@ -90,13 +96,14 @@ export class MovieDetailsComponent implements OnInit {
     let data = {
       review: this.reviewText,
       // movieId: this.movieId,
-      isAnonymous: true
+      isAnonymous: this.isReviewAnonymous
     }
     this.reviewService.saveReviews(this.movieId, data).pipe(finalize(() => {
 
     })).subscribe((response) => {
       if (response.success) {
         this.reviewText = '';
+        this.isReviewAnonymous = false;
         this.toggleReviewForm();
         this.loadReviews(this.movieId);
       } else {
@@ -150,5 +157,9 @@ export class MovieDetailsComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeSort() {
+    this.loadReviews(this.movieId);
   }
 }
