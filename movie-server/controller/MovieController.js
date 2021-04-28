@@ -140,12 +140,11 @@ exports.movie_list = async (req, res) => {
 				$project: {
 					_id: true,
 					rating: true,
-					rentData:1,
 					isDeleted: true,
 					deletedAt: true,
 					title: true,
 					genre: true,
-					genreData:1,
+					genreData: true,
 					stock: true,
 					rate: true,
 					createdAt: true,
