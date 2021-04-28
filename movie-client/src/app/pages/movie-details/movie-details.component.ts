@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from './../../services/movie.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -16,7 +16,8 @@ export class MovieDetailsComponent implements OnInit {
 
   constructor(
     private movieService: MovieService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,7 +35,9 @@ export class MovieDetailsComponent implements OnInit {
         this.movie = response.result;
         this.movie.embed = 'https://www.youtube.com/embed/' + this.getUrlParameter(this.movie.trailerUrl, 'v')
       }
-    })
+    }, (error) => {
+      this.router.navigate(['404']);
+    });
   }
 
   getUrlParameter(url, name) {
