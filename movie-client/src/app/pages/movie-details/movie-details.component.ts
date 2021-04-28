@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from './../../services/movie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { ReviewService } from './../../services/review.service';
+import { NotificationService } from './../../services/notification.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-movie-details',
@@ -13,17 +16,27 @@ export class MovieDetailsComponent implements OnInit {
   movieId = null;
   loadingMovie: boolean = false;
   movie = null;
+  reviewText: string = "";
+  reviews: Array<any> = [];
+
+  reviewConfig = {
+    showForm: false,
+  };
 
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private reviewService: ReviewService,
+    private notificationService: NotificationService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
     this.movieId = this.route.snapshot.params.id || null;
 
     this.loadMovie(this.movieId);
+    this.loadReviews(this.movieId);
   }
 
   loadMovie(movieId) {
@@ -33,7 +46,8 @@ export class MovieDetailsComponent implements OnInit {
     })).subscribe((response) => {
       if (response.success) {
         this.movie = response.result;
-        this.movie.embed = 'https://www.youtube.com/embed/' + this.getUrlParameter(this.movie.trailerUrl, 'v')
+        this.movie.embed = 'https://www.youtube.com/embed/' + this.getUrlParameter(this.movie.trailerUrl, 'v');
+        this.titleService.setTitle(this.movie.title + ' ::Movie-App');
       }
     }, (error) => {
       this.router.navigate(['404']);
@@ -45,6 +59,42 @@ export class MovieDetailsComponent implements OnInit {
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(url);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+
+  loadReviews(movieId) {
+    this.reviewService.getReviews(movieId).pipe(finalize(() => {
+
+    })).subscribe((response) => {
+      if (response.success) {
+        this.reviews = response.result;
+      }
+    })
+  }
+
+  toggleReviewForm() {
+    this.reviewConfig.showForm = !this.reviewConfig.showForm;
+  }
+
+  saveReview() {
+    console.log(this.reviewText);
+    let data = {
+      review: this.reviewText,
+      // movieId: this.movieId,
+      isAnonymous: true
+    }
+    this.reviewService.saveReviews(this.movieId, data).pipe(finalize(() => {
+
+    })).subscribe((response) => {
+      if (response.success) {
+        this.reviewText = '';
+        this.toggleReviewForm();
+        this.loadReviews(this.movieId);
+      } else {
+        this.notificationService.toast('An Error Occured');
+      }
+    }, (error) => {
+      this.notificationService.toast(error.message);
+    })
   }
 
 }
