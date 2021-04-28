@@ -32,7 +32,7 @@
               </ng-container>
             </span>
             {{ movie.rating }}.0 stars
-            <div class="float-right">
+            <div class="float-right" *ngIf="authService.isUser">
               <i role="button" [ngClass]="{
                   'fas': isInWishlist || togglingFav,
                   'far': !isInWishlist && !togglingFav,
@@ -62,7 +62,7 @@
           <div class="card-body">
             <ng-container *ngIf="(reviews.length == 0)">
               <div class="alert alert-info">
-                No reviews yet!, be the first. <a href="javascript:void(0)" (click)="toggleReviewForm()">Review now</a>
+                No reviews yet!<span *ngIf="authService.isUser">, be the first. <a href="javascript:void(0)" (click)="toggleReviewForm()">Review now</a></span>
               </div>
             </ng-container>
             <ng-container *ngFor="let r of reviews">
@@ -71,7 +71,7 @@
               <hr>
             </ng-container>
 
-            <a href="javascript:void(0)" *ngIf="!reviewConfig.showForm" (click)="toggleReviewForm()"
+            <a href="javascript:void(0)" *ngIf="!reviewConfig.showForm && authService.isUser" (click)="toggleReviewForm()"
               class="btn btn-success">Leave a Review</a>
 
             <div class="row mt-2" *ngIf="reviewConfig.showForm">

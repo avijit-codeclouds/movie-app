@@ -41,7 +41,7 @@ export class MovieDetailsComponent implements OnInit {
     private reviewService: ReviewService,
     private notificationService: NotificationService,
     private titleService: Title,
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
