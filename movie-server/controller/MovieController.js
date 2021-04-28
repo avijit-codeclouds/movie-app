@@ -118,7 +118,16 @@ exports.movie_list = async (req, res) => {
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
 
-		const isRented = Movie.aggregate([{
+		const isRented = Movie.aggregate([
+			{
+                $lookup: {
+                    from: "generes",
+                    localField: "genre",
+                    foreignField: "_id",
+                    as: "genreData"
+                }
+            },
+			{
 				$lookup: {
 					from: "rents",
 					localField: "_id",
@@ -165,12 +174,12 @@ exports.movie_list = async (req, res) => {
 			.sort()
 			.paginate();
 
-		const movie = await features.query;
-		await Promise.all(_.map(movie, async (x) => {
-			return _.assign(x, {
-				genre: await Genere.findById(x.genre)
-			});
-		}))
+		// const movie = await features.query;
+		// await Promise.all(_.map(movie, async (x) => {
+		// 	return _.assign(x, {
+		// 		genre: await Genere.findById(x.genre)
+		// 	});
+		// }))
 		return res.status(status.OK).json(response(true, movie, msg));
 	} catch (err) {
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
