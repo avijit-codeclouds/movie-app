@@ -12,12 +12,12 @@ import * as moment from 'moment';
   styleUrls: ["./movies.component.css"],
 })
 export class MoviesComponent implements OnInit {
-  movies: any;
+  movies: Array<any> = [];
   generes: [];
   p;
   query;
-  movie:any;
-  storeMovies: [];
+  movie:any = 0;
+  storeMovies: Array<any> = [];
   wishList = [];
   showProgress: boolean = false;
   selectedGenre: string = 'all';
