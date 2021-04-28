@@ -45,10 +45,8 @@ exports.view_review = async ( req, res) => {
         let demo = [...reviews];
 
         demo.forEach( (item, index)=> {
-            name = item.isAnonymous ? 'Anon' : item.userID.name;
-            demo[index]["userID"] = name;
-
-            console.log(demo[index]["userID"]);
+            name = item.isAnonymous ? 'Anonymous' : item.userID.name;
+            demo[index].userID = {name};
         });
 
         return res.status(status.OK).json(response(true, demo, demo ? 'Reviews has been fetched' : 'No Review found' ));

@@ -111,7 +111,7 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user   = decode_jwt(req);
 		const isUser = user.role == 'user';
-			
+
 		const isRented = Movie.aggregate([
 		{
 			$lookup: {
@@ -154,7 +154,7 @@ exports.movie_list = async (req, res) => {
 				}
 			}
 		}
-		])
+		]);
 
 		const features = new APIFeatuers( isUser ? isRented : Movie.find().populate("genre") ,req.query)
 						.sort()
