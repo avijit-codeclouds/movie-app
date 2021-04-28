@@ -3,6 +3,8 @@ import { MovieService } from './../../services/movie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { ReviewService } from './../../services/review.service';
+import { NotificationService } from './../../services/notification.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-movie-details',
@@ -25,7 +27,9 @@ export class MovieDetailsComponent implements OnInit {
     private movieService: MovieService,
     private route: ActivatedRoute,
     private router: Router,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private notificationService: NotificationService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
@@ -42,7 +46,8 @@ export class MovieDetailsComponent implements OnInit {
     })).subscribe((response) => {
       if (response.success) {
         this.movie = response.result;
-        this.movie.embed = 'https://www.youtube.com/embed/' + this.getUrlParameter(this.movie.trailerUrl, 'v')
+        this.movie.embed = 'https://www.youtube.com/embed/' + this.getUrlParameter(this.movie.trailerUrl, 'v');
+        this.titleService.setTitle(this.movie.title + ' ::Movie-App');
       }
     }, (error) => {
       this.router.navigate(['404']);
@@ -84,7 +89,11 @@ export class MovieDetailsComponent implements OnInit {
         this.reviewText = '';
         this.toggleReviewForm();
         this.loadReviews(this.movieId);
+      } else {
+        this.notificationService.toast('An Error Occured');
       }
+    }, (error) => {
+      this.notificationService.toast(error.message);
     })
   }
 
