@@ -73,12 +73,11 @@ exports.update_movie = async (req, res) => {
 		const {
 			title,
 			genre,
-			rate,
-			year,
 			rating,
+			year,
+			rate,
 			trailerUrl,
-			description,
-			thumbnail
+			description
 		} = req.body;
 
 		let movie = await Movie.findById(req.params.movie_id);
@@ -87,6 +86,8 @@ exports.update_movie = async (req, res) => {
 		{
 			return res.status(status.NOT_FOUND).json(response(false, movie,'Movie is not available'));
 		}
+
+		const thumbnail = get_thumbnail_from_trailer(trailerUrl);
 
 		const payload = {
 			title,
