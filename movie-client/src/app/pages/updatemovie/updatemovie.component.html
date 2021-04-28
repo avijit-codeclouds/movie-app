@@ -44,6 +44,10 @@
                   [ngClass]="{ 'is-invalid': submitted && fc.year.errors }">
                   <option value="2021">2021</option>
                   <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
                 </select>
                 <div *ngIf="submitted && fc.year.errors" class="alert alert-dismissible alert-danger">
                   <div *ngIf="fc.year.errors.required">Release Year is required</div>

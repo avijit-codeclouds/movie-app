@@ -1,37 +1,41 @@
 <!-- Page Content -->
 <div class="container">
 
-    <div class="row">
+  <div class="row">
 
-      <div class="col-lg-3">
-        <ul style="cursor:pointer" class="nav nav-pills flex-column my-4">
-            <li class="nav-item">
-                <a class="nav-link active">Details</a>
-            </li>
-        </ul>
-      </div>
-      <!-- /.col-lg-3 -->
+    <div class="col-lg-3">
+      <ul style="cursor:pointer" class="nav nav-pills flex-column my-4">
+        <li class="nav-item">
+          <a class="nav-link active">Details</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.col-lg-3 -->
 
-      <div class="col-lg-9">
-        <mat-progress-bar mode="indeterminate" class="my-4" *ngIf="loadingMovie"></mat-progress-bar>
-        <ng-container *ngIf="!loadingMovie && movie != null">
+    <div class="col-lg-9">
+      <mat-progress-bar mode="indeterminate" class="my-4" *ngIf="loadingMovie"></mat-progress-bar>
+      <ng-container *ngIf="!loadingMovie && movie != null">
         <div class="card mt-4">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" [src]="movie.embed | safe" allowfullscreen></iframe>
-              </div>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" [src]="movie.embed | safe" allowfullscreen></iframe>
+          </div>
           <div class="card-body">
             <h3 class="card-title">{{ movie.title }}</h3>
             <!-- <h4>$24.99</h4> -->
             <p class="card-text">{{ movie.description }}</p>
             <span class="text-warning">
-                <ng-container *ngFor="let i of [].constructor(5); let index = index;">
-                    <ng-container *ngIf="(index < movie.rating); else whiteStarTpl;">
-                        &#9733;
-                    </ng-container>
-                    <ng-template #whiteStarTpl>&#9734;</ng-template>
+              <ng-container *ngFor="let i of [].constructor(5); let index = index;">
+                <ng-container *ngIf="(index < movie.rating); else whiteStarTpl;">
+                  &#9733;
                 </ng-container>
+                <ng-template #whiteStarTpl>&#9734;</ng-template>
+              </ng-container>
             </span>
             {{ movie.rating }}.0 stars
+            <div class="float-right">
+              <i role="button" class="fas fa-heart mr-2" style="font-size: 30px;"></i>
+              <button type="button" class="btn btn-primary">Rent</button>
+            </div>
           </div>
         </div>
         <!-- /.card -->
@@ -41,27 +45,49 @@
             Movie Reviews
           </div>
           <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success">Leave a Review</a>
+            <ng-container *ngIf="(reviews.length == 0)">
+              <div class="alert alert-info">
+                No reviews yet!, be the first. <a href="javascript:void(0)" (click)="toggleReviewForm()">Review now</a>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let r of reviews">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique
+                necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia,
+                necessitatibus quae sint natus.</p>
+              <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+              <hr>
+            </ng-container>
+
+            <a href="javascript:void(0)" *ngIf="!reviewConfig.showForm" (click)="toggleReviewForm()"
+              class="btn btn-success">Leave a Review</a>
+
+            <div class="row mt-2" *ngIf="reviewConfig.showForm">
+              <div class="col">
+                <div class="form-group">
+                  <label for="review">Write a Review</label>
+                  <textarea [(ngModel)]="reviewText" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <div class="float-right">
+                    <button type="button" class="btn btn-secondary mr-2" (click)="toggleReviewForm()">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="saveReview()">Save Review</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- /.card -->
-    </ng-container>
-    <ng-container *ngIf="!loadingMovie && movie == null">
-        <p>Movie does not exists</p>
-    </ng-container>
-      </div>
-      <!-- /.col-lg-9 -->
-
+      </ng-container>
+      <ng-container *ngIf="!loadingMovie && movie == null">
+        <div class="alert alert-info my-4">
+          Movie does not exists
+        </div>
+      </ng-container>
     </div>
+    <!-- /.col-lg-9 -->
 
   </div>
-  <!-- /.container -->
+
+</div>
+<!-- /.container -->

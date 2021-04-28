@@ -40,7 +40,7 @@ export class UpdatemovieComponent implements OnInit {
       genre : ['', Validators.required],
       year: [2020,Validators.required],
       rate:['',Validators.required],
-      rating: [0, [Validators.required]],
+      rating: [4, [Validators.required]],
       trailerUrl: ['', [Validators.required]],
       description: ['', [Validators.required]]
     });
