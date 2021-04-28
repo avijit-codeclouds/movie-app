@@ -66,7 +66,8 @@ export class MoviesComponent implements OnInit {
   filterData(type, movieList) {
     return movieList.filter((object) => {
       try {
-        return object["genre"]["name"] == type;
+        return object.genreData.some(g => g.name == type);
+        // return object["genre"]["name"] == type;
       } catch (e) {
         return false;
       }
