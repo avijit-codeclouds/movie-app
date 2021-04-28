@@ -6,6 +6,7 @@ const APIFeatuers 	= require("../utils/apiFeatures");
 const { response, decode_jwt } 	= require("../helper/helper");
 const { logger }    = require("../helper/logger");
 const Genere 		= require('../models/Genere')
+const _ 			= require('lodash');
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -110,7 +111,42 @@ exports.movie_list = async (req, res) => {
 		const user   = decode_jwt(req);
 		const isUser = user.role == 'user';
 
-		const isRented = Movie.aggregate([{
+		// Project.aggregate([
+		// 	{ "$match": condition },
+		// 	{ "$group": { "_id": "$_id" }},
+		// 	{ "$lookup": {
+		// 	  "from": "worksheets",
+		// 	  "let": { "projectId": "$_id" },
+		// 	  "pipeline": [
+		// 		{ "$match": { "$expr": { "$eq": ["$projectId", "$$projectId"] } } },
+		// 		{ "$group": { "_id": "$projectId", "totalHours": { "$sum": "$hours" } }},
+		// 		{ "$lookup": {
+		// 		  "from": "projects",
+		// 		  "let": { "projectId": "$_id" },
+		// 		  "pipeline": [
+		// 			{ "$match": { "$expr": { "$eq": ["$_id", "$$projectId"] } } },
+		// 			{ "$lookup": {
+		// 			  "from": "developers",
+		// 			  "let": { "developers": "$developers" },
+		// 			  "pipeline": [
+		// 				{ "$match": { "$expr": { "$in": ["$_id", "$$developers"] } } },
+		// 			  ],
+		// 			  "as": "developers"
+		// 			}},
+		// 			{ "$project": { 
+		// 			  "projectName": 1, "upworkdId": 1, "status": 1, "developers": 1,  "hoursApproved": 1
+		// 			}}
+		// 		  ],
+		// 		  "as": "project"
+		// 		}}
+		// 	  ],
+		// 	  "as": "projects"
+		// 	}}
+		//   ])
+		  
+			
+		const isRented = Movie.aggregate([
+		{
 			$lookup: {
 				from: "rents",
 				localField: "_id",
@@ -153,18 +189,20 @@ exports.movie_list = async (req, res) => {
 		}
 		])
 
-		await Genere.populate(isRented, {path: "genre"});
-
 		const features = new APIFeatuers( isUser ? isRented : Movie.find().populate("genre") ,req.query)
 						.sort()
 						.paginate();
 
 		const movie = await features.query;
-
+		await Promise.all(_.map(movie, async(x) => {
+			return _.assign(x, {
+				genre: await Genere.findById(x.genre)
+			});
+		}))
 		return res.status(status.OK).json(response(true, movie, msg));
 	}
 	catch (err)
-	{
+	{console.log(err)
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
 	}
 };
