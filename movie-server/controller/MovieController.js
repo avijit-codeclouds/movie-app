@@ -112,7 +112,6 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
-		console.log(user.id);
 		const isRented = Movie.aggregate([
 			{
                 $lookup: {

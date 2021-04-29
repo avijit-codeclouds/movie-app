@@ -148,7 +148,11 @@
                                 <p class="text-truncate">{{ movie.description }}</p>
                             </div>
                             <div class="card-text text-left" style="display: block;">
-                                <p class="left text-truncate"><span style= "padding: .375rem .75rem; line-height: 1.5; font-size:14px; background-color:#7f50c7;color: white;">{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</span></p>
+                                <p class="left text-truncate">
+                                    <span *ngFor="let g of movie.genreData" class="mr-1" style= "padding: .375rem .75rem; line-height: 1.5; font-size:14px; background-color:#7f50c7;color: white;">
+                                        {{ g.name }}
+                                    </span>
+                                </p>
                             </div>
                         </div>
                         <div class="card-footer">

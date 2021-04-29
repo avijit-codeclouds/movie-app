@@ -66,7 +66,11 @@ export class MoviesComponent implements OnInit {
   filterData(type, movieList) {
     return movieList.filter((object) => {
       try {
-        return object["genre"]["name"] == type;
+        if (this.authservice.isUser) {
+          return object.genreData.some(g => g.name == type);
+        } else {
+          return object["genre"]["name"] == type;
+        }
       } catch (e) {
         return false;
       }
