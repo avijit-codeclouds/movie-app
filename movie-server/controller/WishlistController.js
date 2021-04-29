@@ -36,7 +36,6 @@ exports.create_wishlist = async (req, res) => {
 		else{
 			existingMovies.splice(index, 1)
 		}
-		// req.body.checked ? existingMovies.push(req.body.movies) : index > 0 ? existingMovies.splice(index, 1) : null;
 
 		const updatedWishlist = await Wishlist.findByIdAndUpdate(getUser[0]._id, { movies: existingMovies });
 
