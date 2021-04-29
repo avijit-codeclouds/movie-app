@@ -111,59 +111,82 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
-		const isRented = Movie.aggregate([
-			{
-                $lookup: {
-                    from: "generes",
-                    localField: "genre",
-                    foreignField: "_id",
-                    as: "genreData"
-                }
-            },
-			{
-				$lookup: {
-					from: "rents",
-					localField: "_id",
-					foreignField: "movies.movie",
-					as: "rentData"
-				}
-			},
-			{ "$unwind": { path: "$rentData", preserveNullAndEmptyArrays: true } },
-			{
-				$project: {
-					_id: true,
-					rating: true,
-					isDeleted: true,
-					deletedAt: true,
-					title: true,
-					genre: true,
-					genreData: true,
-					stock: true,
-					rate: true,
-					createdAt: true,
-					updatedAt: true,
-					year: true,
-					trailerUrl: true,
-					description: true,
-					thumbnail: true,
-					"isRented": {
-						$cond: {
-							if: {
-								$and: [{
-									$eq: [{
-										$arrayElemAt: ["$rentData.movies.canceled", 0]
-									}, false]
-								}, {
-									$eq: ["$rentData.user", mongoose.Types.ObjectId(user.id)]
-								}]
-							},
-							then: true,
-							else: false
-						}
+		const isRented = Movie.aggregate([{
+			$lookup: {
+				from: "generes",
+				localField: "genre",
+				foreignField: "_id",
+				as: "genreData"
+			}
+		},
+		{
+			$lookup: {
+				from: "rents",
+				localField: "_id",
+				foreignField: "movies.movie",
+				as: "rentData"
+			}
+		},
+		{
+			$project:{
+				_id: 1,
+				rating: 1,
+				isDeleted: 1,
+				deletedAt: 1,
+				title: 1,
+				genre: 1,
+				genreData: 1,
+				stock: 1,
+				rate: 1,
+				createdAt: 1,
+				updatedAt: 1,
+				rentData: 1,
+				"modRentData": {$filter: {
+					input: '$rentData',
+					as: 'rd',
+					cond: {$eq: ['$$rd.user', mongoose.Types.ObjectId(user.id)]}
+				}},
+
+			}
+		},
+		{
+			"$unwind": {
+				path: "$modRentData",
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$project: {
+				_id: 1,
+				rating: 1,
+				isDeleted: 1,
+				deletedAt: 1,
+				title: 1,
+				genre: 1,
+				genreData: 1,
+				stock: 1,
+				rate: 1,
+				createdAt: 1,
+				updatedAt: 1,
+				modRentData:1,
+				"isRented": {
+					$cond: {
+						if: {
+							$and: [{
+								$eq: [{
+									$arrayElemAt: ["$modRentData.movies.canceled", 0]
+								}, false]
+							}, {
+								$eq: ["$modRentData.user", mongoose.Types.ObjectId(user.id)]
+							}]
+						},
+						then: true,
+						else: false
 					}
 				}
 			}
-		]);
+		}
+	]);
 
 		const features = new APIFeatuers(isUser ? isRented : Movie.find().populate("genre"), req.query)
 			.sort()
