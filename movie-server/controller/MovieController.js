@@ -52,14 +52,23 @@ exports.create_movie = async (req, res) => {
 
 exports.view_movie = async (req, res) => {
 	try {
-		let movie = await Movie.findById(req.params.movie_id);
-		if (!movie) {
+		const movieId      = req.params.movie_id;
+		let	movie 		   = await Movie.findById(movieId);
+
+		const user 		   = decode_jwt(req).id;
+		const getUser 	   = await Rent.findOne({ user });
+		const movieContent = getUser.movies.find(e => e.movie.toString() === movieId.toString());
+		const isRented 	   = (movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true));
+
+		if (!movie)
+		{
 			return res.status(status.OK).json(response(false, movie, 'Movie is not available'));
 		}
 
 		const msg = "Here is your movie";
 
-		return res.status(status.OK).json(response(true, movie, msg));
+		return res.status(status.OK).json(response(true, { ...movie.toObject(), isRented } , msg));
+
 	} catch (err) {
 		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
