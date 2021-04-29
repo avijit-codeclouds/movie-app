@@ -1,10 +1,11 @@
 require("dotenv").config();
-const mongoose = require('mongoose');
-const status = require("http-status");
-const Movie = require("../models/Movie");
-const Rent = require("../models/Rent");
-const APIFeatuers = require("../utils/apiFeatures");
-const _ = require('lodash');
+const mongoose 		= require('mongoose');
+const status 		= require("http-status");
+const Movie 		= require("../models/Movie");
+const Rent 			= require("../models/Rent");
+const APIFeatuers 	= require("../utils/apiFeatures");
+const _ 			= require('lodash');
+const constants     = require('../constant');
 
 const {
 	logger
@@ -149,6 +150,11 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
+<<<<<<< HEAD
+=======
+					rentData:1,
+					description: 1,
+>>>>>>> origin/main
 					"modRentData": {
 						$filter: {
 							input: '$rentData',
@@ -183,6 +189,7 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
+<<<<<<< HEAD
 					"modRentData.user": 1,
 					"modRentFinal": {
 						$filter: {
@@ -212,6 +219,10 @@ exports.movie_list = async (req, res) => {
 					createdAt: 1,
 					updatedAt: 1,
 					"modRentData.user": 1,
+=======
+					modRentData: 1,
+					description: 1,
+>>>>>>> origin/main
 					"isRented": {
 						$cond: {
 							if: {
@@ -322,13 +333,13 @@ const get_thumbnail_from_trailer = (trailer) => {
 		trailer = trailer.split('.');
 
 		if (trailer[1] !== 'youtube')
-			return null;
+			return constants.DEFAULT_MOVIE_THUMBNAIL;
 
 		const id = trailer[2].split('=')[1];
 
 		return 'https://img.youtube.com/vi/' + id + '/0.jpg';
 	} catch (e) {
-		return null;
+		return constants.DEFAULT_MOVIE_THUMBNAIL;
 	}
 
 };
