@@ -149,6 +149,7 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
+					description: 1,
 					"modRentData": {
 						$filter: {
 							input: '$rentData',
@@ -183,6 +184,7 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
+					description: 1,
 					"modRentData.user": 1,
 					"modRentFinal": {
 						$filter: {
@@ -211,6 +213,7 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
+					description: 1,
 					"modRentData.user": 1,
 					"isRented": {
 						$cond: {
