@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,11 @@ export class AuthService {
   private rawUserSubject: Subject<any> = new Subject<any>();
 
 
-  constructor(private httpClient: HttpClient,public router: Router) { 
+  constructor(
+    private httpClient: HttpClient,
+    public router: Router,
+    private cookieService: CookieService
+  ) { 
     this.userSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
   }
@@ -51,6 +56,9 @@ export class AuthService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
     localStorage.removeItem('user_id');
+    this.cookieService.delete('movie-page');
+    this.cookieService.delete('movie-selected-genre');
+    this.cookieService.delete('movie-current-sort');
     this.userSubject.next(null);
     this.router.navigate(['/login'], queryParams);
     this.rawUser = null;

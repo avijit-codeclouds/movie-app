@@ -104,10 +104,12 @@ export class MoviesComponent implements OnInit {
       this.movies = data["result"].map((item) => {
         item['renting'] = false;
         item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY, hh:mm a");
-        if (item.description.length > 45) {
+        if (item.description && item.description.length > 45) {
+          item['showReadMore'] = true;
           item['displayDescription'] = item.description.substr(0, 45) + '...'
         } else {
           item['displayDescription'] = item.description;
+          item['showReadMore'] = false;
         }
         return item;
       });

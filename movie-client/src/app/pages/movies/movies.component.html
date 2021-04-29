@@ -147,7 +147,7 @@
                             <div class="card-text text-left" style="display: block;">
                                 <p>
                                     {{ movie.displayDescription}}
-                                    <a href="javascript:void(0)" (click)="openMovie(movie)">read more.</a>
+                                    <a href="javascript:void(0)" *ngIf="showReadMore" (click)="openMovie(movie)">read more.</a>
                                 </p>
                             </div>
                             <div class="card-text text-left" style="display: block;">
