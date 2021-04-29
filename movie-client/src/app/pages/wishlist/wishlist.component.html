@@ -41,15 +41,16 @@
               </td>
               <td scope="row">{{ Favorites.genre.name }}</td>
               <td scope="row">{{ Favorites.rating }}</td>
-              <td scope="row">{{ Favorites.rate }}</td>
+              <td scope="row">₹{{ Favorites.rate }}</td>
               <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
                 <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
                 &nbsp;
                 <button
                   type="button"
-                  (click)="rentMovie(Favorites._id, index)"
+                  (click)="rentMovie(Favorites, index)"
                   class="btn btn-primary"
-                  [disabled]="Favorites.renting"
+                  [ngClass]="{disabled: (Favorites.renting || Favorites.isRented)}"
+                  [disabled]="(Favorites.renting || Favorites.isRented)"
                 >
                 <span *ngIf="Favorites.renting" class=" pl-1 pr-1"><i class="fas fa-spinner fa-spin"></i></span> 
                 <span *ngIf="!Favorites.renting">Rent</span>
@@ -107,7 +108,7 @@
       <button
         [disabled]="isCanceling"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-danger"
         (click)="deleteFav(cancelModalConfig.data._id, true)"
       >
         <i
@@ -120,3 +121,37 @@
     </div>
   </app-modal>
 </div>
+
+
+
+<!-- rent movie model -->
+<app-modal [title]="'Confirm Rent Movie'" [show]="rentMovieConfig.show"
+    (onHidden)="rentMovieConfig.show = false" [config]="{
+        header: true,
+        footer: true
+    }">
+    <div content-type="body">
+        <table class="table table-bordered" *ngIf="rentMovieConfig.show">
+          <tbody>
+            <tr>
+              <th>Movie Name</th>
+              <td>{{ rentMovieConfig.movie.title }}</td>
+            </tr>
+            <tr>
+              <th>Movie Rate</th>
+              <td>₹{{ rentMovieConfig.movie.rate }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div content-type="footer" class="modal-footer" *ngIf="rentMovieConfig.show">
+        <button [disabled]="rentMovieConfig.working" type="button" class="btn btn-secondary"
+            data-dismiss="modal">Cancel</button>
+        <button [disabled]="rentMovieConfig.working" type="button" class="btn" [ngClass]="{
+                'btn-primary': true
+            }" (click)="rentMovie(rentMovieConfig.movie, rentMovieConfig.index, true)">
+            <i *ngIf="rentMovieConfig.working" class="fas fa-spinner fa-spin" style="font-size: 17px;"></i>
+            Confirm Rent
+        </button>
+    </div>
+</app-modal>

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { finalize } from "rxjs/operators";
+import { RentalService } from '../../services/rental.service';
 @Component({
   selector: "app-wishlist",
   templateUrl: "./wishlist.component.html",
@@ -26,11 +27,20 @@ export class WishlistComponent implements OnInit {
     data: null,
   };
   isCanceling: boolean = false;
+
+  rentMovieConfig = {
+    show: false,
+    movie: null,
+    working: false,
+    index: null
+  };
+
   constructor(
     public movieservice: MovieService,
     public authservice: AuthService,
     public router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private rentalService: RentalService
   ) {
     this.authservice.user.subscribe((x) => (this.user = x));
     const decode = this.jwtHelper.decodeToken(this.user);
@@ -58,8 +68,10 @@ export class WishlistComponent implements OnInit {
         this.wishList = data["result"].map(item => {
           item.movies = item.movies.map(fav => {
             fav['renting'] = false;
+            fav['isRented'] = false;
             return fav;
           })
+          this.loadRental(item.user);
           return item;
         });
         // this.fav=this.wishList[0].movies.length;
@@ -74,8 +86,25 @@ export class WishlistComponent implements OnInit {
     //   //  console.log( this.wishList);
     // });
   }
+
+  loadRental(userId) {
+    this.rentalService.userMovies(userId).subscribe(response => {
+      if (response.success) {
+        let uIndex = this.wishList.findIndex(u => u.user == userId);
+        if (uIndex < 0) return;
+        for (let movie of response.result.movies) {
+          if (!movie.expired && !movie.canceled) {
+            let mIndex = this.wishList[uIndex].movies.findIndex(m => m._id == movie.movie._id);
+            if (mIndex > -1) {
+              this.wishList[uIndex].movies[mIndex].isRented = true;
+            }
+          }
+        }
+      }
+    })
+  }
+
   deleteFav(_id, confirm = false) {
-    console.log(_id)
     if (!confirm) {
       this.cancelModalConfig.data = {
         _id,
@@ -101,20 +130,30 @@ export class WishlistComponent implements OnInit {
         }
       });
   }
-  rentMovie(movie_id, loopIndex) {
+
+  rentMovie(movie, loopIndex, confirm: boolean = false) {
+    if (!confirm) {
+      this.rentMovieConfig.index = loopIndex;
+      this.rentMovieConfig.movie = movie;
+      this.rentMovieConfig.show = true;
+      return;
+    }
+
     let payload = {
-      movie: movie_id,
+      movie: movie._id,
       user: this.getUserId,
     };
     // this.showProgress = true;
-    let index = this.wishList[loopIndex].movies.findIndex(item => item._id == movie_id);
+    let index = this.wishList[loopIndex].movies.findIndex(item => item._id == movie._id);
     if (index > -1) {
       this.wishList[loopIndex].movies[index].renting = true;
     }
+    this.rentMovieConfig.working = true;
     this.movieservice.rentMovies(payload).pipe(finalize(() => {
       if (index > -1) {
         this.wishList[loopIndex].movies[index].renting = false;
       }
+      this.rentMovieConfig.working = false;
     })).subscribe(
       (res) => {
         // console.log(res);
@@ -124,6 +163,8 @@ export class WishlistComponent implements OnInit {
         } else {
           this.openSnackBar(res.message);
         }
+        this.rentMovieConfig.show = false;
+        this.getWishlist();
       },
       (err) => {
         console.log(err);
