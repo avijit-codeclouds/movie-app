@@ -6,6 +6,8 @@ import { Router } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from "rxjs/operators";
 import * as moment from 'moment';
+import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: "app-movies",
   templateUrl: "./movies.component.html",
@@ -14,7 +16,7 @@ import * as moment from 'moment';
 export class MoviesComponent implements OnInit {
   movies: Array<any> = [];
   generes: [];
-  p;
+  p:any = 1;
   query;
   movie:any = 0;
   storeMovies: Array<any> = [];
@@ -37,13 +39,27 @@ export class MoviesComponent implements OnInit {
     public authservice: AuthService,
     public router: Router,
     private _snackBar: MatSnackBar,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit() {
+    this.initDefaults();
     this.getGenere();
     this.getMovies();
     if (this.authservice.isUser) {
       this.getWishlist();
+    }
+  }
+
+  initDefaults() {
+    if (this.cookieService.check('movie-selected-genre')) {
+      this.selectedGenre = this.cookieService.get('movie-selected-genre');
+    }
+    if (this.cookieService.check('movie-current-sort')) {
+      this.sortKey = this.cookieService.get('movie-current-sort');
+    }
+    if (this.cookieService.check('movie-page')) {
+      this.p = parseInt(this.cookieService.get('movie-page')) || 1;
     }
   }
 
@@ -53,14 +69,17 @@ export class MoviesComponent implements OnInit {
     });
   }
 
-  getGenre(genreType) {
+  getGenre(genreType, page=1) {
     if (genreType == "all") {
       this.movies = this.storeMovies;
     } else {
-      this.p = 1;
+      this.p = page;
       this.movies = this.filterData(genreType, this.storeMovies);
     }
     this.selectedGenre = genreType;
+    this.cookieService.set('movie-selected-genre', this.selectedGenre);
+    this.p = page;
+    this.cookieService.set('movie-page', this.p);
   }
 
   filterData(type, movieList) {
@@ -85,11 +104,18 @@ export class MoviesComponent implements OnInit {
       this.movies = data["result"].map((item) => {
         item['renting'] = false;
         item['uploadedAt'] = moment.utc(item.createdAt).local().format("MMM Do YYYY, hh:mm a");
+        if (item.description && item.description.length > 45) {
+          item['showReadMore'] = true;
+          item['displayDescription'] = item.description.substr(0, 45) + '...'
+        } else {
+          item['displayDescription'] = item.description;
+          item['showReadMore'] = false;
+        }
         return item;
       });
       this.movie=this.movies.length;
       this.storeMovies = this.movies;
-      this.getGenre(this.selectedGenre)
+      this.getGenre(this.selectedGenre, this.p)
     });
   }
   
@@ -218,7 +244,7 @@ export class MoviesComponent implements OnInit {
         this.sortKey = '-' + key;
       }
     }
-
+    this.cookieService.set('movie-current-sort', this.sortKey);
     this.getMovies();
   }
 
@@ -229,6 +255,12 @@ export class MoviesComponent implements OnInit {
   }
 
   changeSort() {
+    this.cookieService.set('movie-current-sort', this.sortKey);
     this.getMovies();
+  }
+
+  pageChanged(page) {
+    this.p = page;
+    this.cookieService.set('movie-page', page);
   }
 }

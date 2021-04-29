@@ -7,7 +7,7 @@ import { JwtInterceptor } from './guards/jwt.interceptor'
 import { MatProgressSpinnerModule, MatProgressBarModule,
   MatSnackBarModule } from '@angular/material'
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-
+import { CookieService } from 'ngx-cookie-service';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -70,7 +70,8 @@ import { SafePipe } from './pipe/safe.pipe';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     LoadingBarService,
-    AuthService
+    AuthService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

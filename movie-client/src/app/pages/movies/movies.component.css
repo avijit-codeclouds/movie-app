@@ -59,3 +59,10 @@ label > input[type="checkbox"]:checked + span {
     font-size: 38px;
     color: darkred;
 }
+
+.movie-card {
+    border: 1px solid #593196;
+}
+.movie-card a {
+    text-decoration: none;
+}
