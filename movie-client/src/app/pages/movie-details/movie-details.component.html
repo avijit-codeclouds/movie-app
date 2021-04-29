@@ -41,7 +41,7 @@
                   'fa-spinner': togglingFav,
                   'fa-spin': togglingFav
               }" style="font-size: 24px;" (click)="toggleFav()"></i>
-              <button type="button" class="btn btn-primary" (click)="rentMovie()">
+              <button type="button" [disabled]="movie.isRented" [ngClass]="{disabled: movie.isRented }" class="btn btn-primary" (click)="rentMovie()">
                 <i *ngIf="rentModal.working" class="fas fa-spinner fa-spin"></i>
                 <span *ngIf="!rentModal.working">Rent</span>
               </button>

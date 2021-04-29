@@ -85,7 +85,7 @@
                                                             <i tooltip="Cancel" (click)="cancelRental(movie, rent.user._id)" class="fas fa-times" style="font-size: 17px;"></i>
                                                         </ng-container>
                                                         <ng-container *ngIf="movie.canceled">
-                                                            Cancled
+                                                            Cancelled
                                                         </ng-container>
                                                         <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, rent.user._id)"></i>
                                                     </td>
@@ -142,7 +142,7 @@
                                             <i tooltip="Cancel" *ngIf="!isCanceling" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
                                         </ng-container>
                                         <ng-container *ngIf="movie.canceled">
-                                            Cancled
+                                            Cancelled
                                         </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="authService.isAdmin">
@@ -157,7 +157,7 @@
                                             <i tooltip="Cancel" (click)="cancelRental(movie, userRentList.user)" class="fas fa-times" style="font-size: 17px;"></i>
                                         </ng-container>
                                         <ng-container *ngIf="movie.canceled">
-                                            Cancled
+                                            Cancelled
                                         </ng-container>
                                         <i tooltip="Delete" class="fas fa-trash ml-2" (click)="deleteRental(movie, userRentList.user)"></i>
                                     </ng-container>

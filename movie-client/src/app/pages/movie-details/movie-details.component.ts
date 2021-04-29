@@ -53,7 +53,9 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   loadMovie(movieId) {
-    this.loadingMovie = true;
+    if (this.movie == null) {
+      this.loadingMovie = true;
+    }
     this.movieService.getSingleMovie(movieId).pipe(finalize(() => {
       this.loadingMovie = false;
     })).subscribe((response) => {
@@ -130,6 +132,7 @@ export class MovieDetailsComponent implements OnInit {
       this.rentModal.show = false;
     })).subscribe(res => {
       if (res.success == true) {
+        this.loadMovie(this.movieId);
         this.notificationService.toast('Successfully you have subscribed')
       } else {
         this.notificationService.toast(res.message)

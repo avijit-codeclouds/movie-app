@@ -33,6 +33,12 @@ export class MoviesComponent implements OnInit {
   };
   sortKey: string = '-createdAt';
 
+  rentMovieConfig = {
+    show: false,
+    movie: null,
+    working: false
+  }
+
   constructor(
     public movieservice: MovieService,
     public genereservice: GenerService,
@@ -153,28 +159,37 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  rentMovie(movie_id) {
+  rentMovie(movie, confirm:boolean = false) {
+    if (!confirm) {
+      this.rentMovieConfig.movie = movie;
+      this.rentMovieConfig.show = true;
+      return;
+    }
+
     let payload = {
-      movie: movie_id,
+      movie: movie._id,
       user: this.authservice.me._id
     }
     // this.showProgress = true
-    let index = this.movies.findIndex(item => item._id == movie_id);
+    let index = this.movies.findIndex(item => item._id == movie._id);
     if (index > -1) {
       this.movies[index].renting = true;
     }
+    this.rentMovieConfig.working = true;
     this.movieservice.rentMovies(payload).pipe(finalize(() => {
       if (index > -1) {
         this.movies[index].renting = false;
       }
       this.getMovies();
+      this.rentMovieConfig.working = false;
     })).subscribe(res => {
       // this.showProgress = false
       if (res.success == true) {
-        this.openSnackBar('Successfully you have subscribed')
+        this.openSnackBar('Successfully you have subscribed');
       } else {
         this.openSnackBar(res.message)
       }
+      this.rentMovieConfig.show = false;
     }, err => {
       console.log(err)
     })
