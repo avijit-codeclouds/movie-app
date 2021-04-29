@@ -6,8 +6,8 @@ const Rent 	      = require("../models/Rent");
 const APIFeatuers = require("../utils/apiFeatures");
 const _ 		  = require('lodash');
 
-const { response, decode_jwt } = require("../helper/helper");
-const { logger } 			   = require("../helper/logger");
+const { logger } 			   				   = require("../helper/logger");
+const { response, decode_jwt, error_response } = require("../helper/helper");
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -40,8 +40,7 @@ exports.create_movie = async (req, res) => {
 		return res.status(status.CREATED).json(response(true, newMovie, msg));
 
 	} catch (err) {
-		console.log(err);
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -56,7 +55,7 @@ exports.view_movie = async (req, res) => {
 
 		return res.status(status.OK).json(response(true, movie, msg));
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -103,7 +102,7 @@ exports.update_movie = async (req, res) => {
 		return res.status(status.OK).json(response(true, updateMovie, msg));
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -174,7 +173,7 @@ exports.movie_list = async (req, res) => {
 
 		return res.status(status.OK).json(response(true, movie, msg));
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -201,7 +200,7 @@ exports.delete_movie = async (req, res) => {
 		return res.status(status.OK).json(response(true, null, 'movie deleted'));
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -227,7 +226,7 @@ exports.restore_movie = async (req, res) => {
 		return res.status(status.OK).json(response(true, null, "Movie restored"));
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 

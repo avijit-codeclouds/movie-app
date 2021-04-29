@@ -3,7 +3,7 @@ const status        = require('http-status');
 const Movie         = require('../models/Movie');
 const Rent          = require('../models/Rent');
 const APIFeatuers   = require('../utils/apiFeatures');
-const { response, first } = require('../helper/helper');
+const { response, first, error_response } = require('../helper/helper');
 const moment = require('moment');
 
 exports.view_rent = async( req,res ) => {
@@ -20,7 +20,7 @@ exports.view_rent = async( req,res ) => {
         return res.status(status.OK).json(response(true,getUser,'listed movies with this user'));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json( response(false, err) );
+        return res.status(status.INTERNAL_SERVER_ERROR).json( error_response(err) );
     }
 };
 
@@ -65,7 +65,7 @@ exports.rent_movie = async( req,res ) => {
         return res.status(status.OK).json(response(true, movieList, 'Rent saved successfully'));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -92,7 +92,7 @@ exports.rent_delete = async ( req, res ) => {
         return res.status(status.OK).json(response(true,updateRentlist,'Rent List updated'));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err))
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 }
 
@@ -109,7 +109,7 @@ exports.rent_list = async( req, res ) => {
         return res.status(status.OK).json(response(true,rent));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false,err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -129,8 +129,7 @@ exports.handle_rent_action = async( req, res ) => {
         return res.status(status.FORBIDDEN).json(response(false, null, "Invalid Action!"));
 
     } catch(err) {
-        console.log(err);
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -161,7 +160,7 @@ handle_action = async( req, res, action, action_value ) => {
         return res.status(status.OK).json(response(true, updateRentlist, 'Rent Cancelled'));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 

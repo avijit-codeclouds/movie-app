@@ -5,7 +5,7 @@ const Movie 		= require("../models/Movie");
 const Wishlist 		= require("../models/Wishlist");
 const User 			= require("../models/User");
 const Genere 		= require("../models/Genere");
-const { decode_jwt, response, first } = require("../helper/helper");
+const { decode_jwt, response, first, error_response} = require("../helper/helper");
 
 exports.create_wishlist = async (req, res) => {
 	try
@@ -31,7 +31,7 @@ exports.create_wishlist = async (req, res) => {
 		let existingMovies = first(getUser).movies;
 		const index 	   = existingMovies.indexOf(req.body.movies);
 		if(req.body.checked==true){
-			existingMovies.push(req.body.movies) 
+			existingMovies.push(req.body.movies)
 		}
 		else{
 			existingMovies.splice(index, 1)
@@ -43,7 +43,7 @@ exports.create_wishlist = async (req, res) => {
 		return res.status(status.OK).json(response(true, getUser, "Wishlist Updated"));
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -79,7 +79,7 @@ exports.get_wishlist = async (req, res) => {
 		);
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };
 
@@ -110,6 +110,6 @@ exports.delete_wishlist = async (req, res) => {
 		return res.status(status.OK).json(response(true, updatedWishlist, msg));
 
 	} catch (err) {
-		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
 	}
 };

@@ -1,19 +1,19 @@
 const express       = require('express');
 const Genre         = require('../models/Genere');
 const status        = require('http-status');
-const helper        = require('../helper/helper');
 const APIFeatuers   = require('../utils/apiFeatures');
+const { response, error_response }        = require('../helper/helper');
 
 exports.create_genere = async (req, res) => {
     try
     {
         const genre = await Genre.create(req.body);
 
-        res.status(status.CREATED).json(helper.response(true, genre));
+        res.status(status.CREATED).json(response(true, genre));
 
     } catch (err) {
 
-        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -29,9 +29,9 @@ exports.get_all_genere = async (req, res) => {
 
         const message = genre.length > 0 ? "All generes" : "No genere found";
 
-        res.status(status.OK).json(helper.response(true, genre, message));
+        res.status(status.OK).json(response(true, genre, message));
 
     } catch (err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(helper.response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };

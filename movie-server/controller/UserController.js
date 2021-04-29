@@ -10,7 +10,8 @@ const {
         jwt_sign_in,
         first,
         is_admin_domain_name,
-        decode_jwt
+        decode_jwt,
+        error_response
         }           = require('../helper/helper');
 
 exports.register_user = async (req, res ) => {
@@ -38,7 +39,7 @@ exports.register_user = async (req, res ) => {
         });
 
     } catch(err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -71,7 +72,7 @@ exports.login_user = async (req, res) => {
         });
 
     } catch(err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -87,6 +88,6 @@ exports.me = async (req, res) => {
     }
     catch(err)
     {
-        res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };

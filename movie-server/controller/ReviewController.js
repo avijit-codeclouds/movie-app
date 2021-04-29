@@ -1,6 +1,7 @@
-const status = require("http-status");
-const mongoose = require('mongoose');
-const Review = require("../models/Reviews");
+const status        = require("http-status");
+const mongoose      = require('mongoose');
+const Review        = require("../models/Reviews");
+const APIFeatuers   = require("../utils/apiFeatures");
 const {decode_jwt, response, error_response} = require("../helper/helper");
 
 exports.add_review = async (req, res) => {
@@ -26,7 +27,7 @@ exports.add_review = async (req, res) => {
         return res.status(status.OK).json(response(true, newReview, 'Review successfully saved'));
 
     } catch (err) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -37,10 +38,13 @@ exports.view_review = async ( req, res) => {
         const movieID = req.params.movieID;
         let name;
 
-        let reviews = await Review.find({ movieID }).populate({
-                                    path: 'userID',
-                                    select: 'name'
-                                });
+        const features = new APIFeatuers(Review.find({ movieID }).populate({ path: 'userID', select: 'name' }), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+
+        let reviews = await features.query;
 
         let demo = [...reviews];
 
