@@ -35,11 +35,11 @@ exports.register_user = async (req, res ) => {
                 role: is_admin_domain_name(req.body.email) ? 'admin' : 'user'
             });
 
-            res.status(status.OK).json(response(true, newUser.id, 'Registered Successfully'));
+            return res.status(status.OK).json(response(true, newUser.id, 'Registered Successfully'));
         });
 
     } catch(err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -52,7 +52,7 @@ exports.login_user = async (req, res) => {
         let user = await User.find({ email: req.body.email }).limit(1);
 
         if (user.length < 1)
-            res.status(status.OK).json(response(false, null , "User doesn't exists!"));
+            return res.status(status.OK).json(response(false, null , "User doesn't exists!"));
 
         user = first(user);
 
@@ -72,7 +72,7 @@ exports.login_user = async (req, res) => {
         });
 
     } catch(err) {
-        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
 
@@ -88,6 +88,6 @@ exports.me = async (req, res) => {
     }
     catch(err)
     {
-        res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 };
