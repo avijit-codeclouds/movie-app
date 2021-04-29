@@ -149,7 +149,6 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
-					rentData:1,
 					"modRentData": {
 						$filter: {
 							input: '$rentData',
@@ -184,13 +183,41 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
-					modRentData: 1,
+					"modRentData.user": 1,
+					"modRentFinal": {
+						$filter: {
+							input: '$modRentData.movies',
+							as: 'rd',
+							cond: {
+								$eq: ['$$rd.movie', "$_id"]
+							}
+						}
+					}
+				}
+			},
+			{
+				$project: {
+					_id: 1,
+					rating: 1,
+					isDeleted: 1,
+					deletedAt: 1,
+					title: 1,
+					trailerUrl: 1,
+					thumbnail: 1,
+					year: 1,
+					genre: 1,
+					genreData: 1,
+					stock: 1,
+					rate: 1,
+					createdAt: 1,
+					updatedAt: 1,
+					"modRentData.user": 1,
 					"isRented": {
 						$cond: {
 							if: {
 								$and: [{
 									$eq: [{
-										$arrayElemAt: ["$modRentData.movies.canceled", 0]
+										$arrayElemAt: ["$modRentFinal.canceled", 0]
 									}, false]
 								}, {
 									$eq: ["$modRentData.user", mongoose.Types.ObjectId(user.id)]
