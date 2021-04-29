@@ -117,14 +117,14 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
-		console.log(user.id);
+		// console.log(user.id);
 		const isRented = Movie.aggregate([
 			{
                 $lookup: {
                     from: "generes",
                     localField: "genre",
                     foreignField: "_id",
-                    as: "genreData"
+                    as: "genre"
                 }
             },
 			{
@@ -144,7 +144,7 @@ exports.movie_list = async (req, res) => {
 					deletedAt: true,
 					title: true,
 					genre: true,
-					genreData: true,
+					// genreData: true,
 					stock: true,
 					rate: true,
 					createdAt: true,
