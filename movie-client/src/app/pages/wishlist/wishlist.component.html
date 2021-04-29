@@ -33,7 +33,7 @@
               class="pn"
               *ngFor="
                 let Favorites of movie.movies.slice().reverse() 
-                  | paginate: { itemsPerPage: 5, currentPage: p },
+                  | paginate: { itemsPerPage: 6, currentPage: p },
                   let i=index;"
             >
               <td  scope="row">
@@ -63,15 +63,17 @@
         mode="indeterminate"
         *ngIf="loadingMovies"
       ></mat-progress-bar>
-      <div><br><br>
+      <div class="text-center mt-2">
         <span *ngIf="wishList.length!==0 && wishList[0].movies.length!==0">
-        <ul class="pagination"style="padding-left: 0%;margin-left:24%;">
-          <li class="page-item active">
+        <!-- <ul class="pagination"style="padding-left: 0%;margin-left:24%;">
+          <li class="page-item active"> -->
             <pagination-controls
+              [autoHide]="true"
+              (pageBoundsCorrection)="p=1"
               (pageChange)="p = $event"
             ></pagination-controls>
-          </li>
-        </ul>
+          <!-- </li>
+        </ul> -->
       </span>
       </div>
       <mat-progress-bar

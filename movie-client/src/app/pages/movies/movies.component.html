@@ -210,7 +210,12 @@
                 <div *ngIf="movie!=0 && !loadingMovies" class="text-center">
                     <!-- <ul class="pagination" style="padding-left: 0%;margin-left:19%;" *ngIf="!loadingMovies">
                         <li class="page-item active"> -->
-                            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                            <pagination-controls 
+                                [responsive]="true" 
+                                [autoHide]="true" 
+                                (pageChange)="pageChanged($event)" 
+                                (pageBoundsCorrection)="pageChanged(1)"
+                            ></pagination-controls>
                         <!-- </li> -->
                     <!-- </ul> -->
                 </div>
