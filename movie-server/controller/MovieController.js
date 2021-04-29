@@ -52,7 +52,7 @@ exports.create_movie = async (req, res) => {
 
 exports.view_movie = async (req, res) => {
 	try {
-		let isRented, result;
+		let isRented, result, movieContent;
 
 		const movieId      = req.params.movie_id;
 		let	movie 		   = await Movie.findById(movieId);
@@ -62,7 +62,12 @@ exports.view_movie = async (req, res) => {
 		{
 			const user		   = decoded.id;
 			const getUser 	   = await Rent.findOne({ user });
-			const movieContent = getUser.movies.find(e => e.movie.toString() === movieId.toString());
+
+			if(getUser)
+			{
+				movieContent = getUser.movies.find(e => e.movie.toString() === movieId.toString());
+			}
+
 			isRented 	       = (movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true));
 			result			   = { ...movie.toObject(), isRented };
 		} else {
