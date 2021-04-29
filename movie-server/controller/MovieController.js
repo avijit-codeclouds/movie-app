@@ -1,11 +1,10 @@
 require("dotenv").config();
-const mongoose 		= require('mongoose');
-const status 		= require("http-status");
-const Movie 		= require("../models/Movie");
-const Rent 			= require("../models/Rent");
-const APIFeatuers 	= require("../utils/apiFeatures");
-const _ 			= require('lodash');
-const constants     = require('../constant');
+const mongoose = require('mongoose');
+const status = require("http-status");
+const Movie = require("../models/Movie");
+const Rent = require("../models/Rent");
+const APIFeatuers = require("../utils/apiFeatures");
+const _ = require('lodash');
 
 const {
 	logger
@@ -150,8 +149,6 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
-					rentData:1,
-					description: 1,
 					"modRentData": {
 						$filter: {
 							input: '$rentData',
@@ -186,14 +183,41 @@ exports.movie_list = async (req, res) => {
 					rate: 1,
 					createdAt: 1,
 					updatedAt: 1,
-					modRentData: 1,
-					description: 1,
+					"modRentData.user": 1,
+					"modRentFinal": {
+						$filter: {
+							input: '$modRentData.movies',
+							as: 'rd',
+							cond: {
+								$eq: ['$$rd.movie', "$_id"]
+							}
+						}
+					}
+				}
+			},
+			{
+				$project: {
+					_id: 1,
+					rating: 1,
+					isDeleted: 1,
+					deletedAt: 1,
+					title: 1,
+					trailerUrl: 1,
+					thumbnail: 1,
+					year: 1,
+					genre: 1,
+					genreData: 1,
+					stock: 1,
+					rate: 1,
+					createdAt: 1,
+					updatedAt: 1,
+					"modRentData.user": 1,
 					"isRented": {
 						$cond: {
 							if: {
 								$and: [{
 									$eq: [{
-										$arrayElemAt: ["$modRentData.movies.canceled", 0]
+										$arrayElemAt: ["$modRentFinal.canceled", 0]
 									}, false]
 								}, {
 									$eq: ["$modRentData.user", mongoose.Types.ObjectId(user.id)]
@@ -298,13 +322,13 @@ const get_thumbnail_from_trailer = (trailer) => {
 		trailer = trailer.split('.');
 
 		if (trailer[1] !== 'youtube')
-			return constants.DEFAULT_MOVIE_THUMBNAIL;
+			return null;
 
 		const id = trailer[2].split('=')[1];
 
 		return 'https://img.youtube.com/vi/' + id + '/0.jpg';
 	} catch (e) {
-		return constants.DEFAULT_MOVIE_THUMBNAIL;
+		return null;
 	}
 
 };
