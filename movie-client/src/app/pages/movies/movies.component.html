@@ -108,7 +108,7 @@
                             </th>
                             <td>{{ (movie.genre != null) ? movie.genre.name : ' - ' }}</td>
                             <td>{{ movie.rating }}</td>
-                            <td>{{ movie.rate }}</td>
+                            <td>₹{{ movie.rate }}</td>
                             <td>{{ movie.uploadedAt }}</td>
                             <td style="cursor:pointer">
                                 <!-- <ng-container *ngIf="authservice.isAdmin"> -->
@@ -272,7 +272,7 @@
             </tr>
             <tr>
               <th>Movie Rate</th>
-              <td>{{ rentMovieConfig.movie.rate }}</td>
+              <td>₹{{ rentMovieConfig.movie.rate }}</td>
             </tr>
           </tbody>
         </table>

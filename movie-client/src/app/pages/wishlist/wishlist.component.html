@@ -41,7 +41,7 @@
               </td>
               <td scope="row">{{ Favorites.genre.name }}</td>
               <td scope="row">{{ Favorites.rating }}</td>
-              <td scope="row">{{ Favorites.rate }}</td>
+              <td scope="row">₹{{ Favorites.rate }}</td>
               <td style="cursor:pointer" scope="row" *ngIf="!isCanceling">
                 <i tooltip="Delete" (click)="deleteFav(Favorites._id)" class="fas fa-trash" style="font-size: 17px;"></i>
                 &nbsp;
@@ -139,7 +139,7 @@
             </tr>
             <tr>
               <th>Movie Rate</th>
-              <td>{{ rentMovieConfig.movie.rate }}</td>
+              <td>₹{{ rentMovieConfig.movie.rate }}</td>
             </tr>
           </tbody>
         </table>
