@@ -1,13 +1,19 @@
 require("dotenv").config();
-const mongoose    = require('mongoose');
-const status 	  = require("http-status");
-const Movie 	  = require("../models/Movie");
-const Rent 	      = require("../models/Rent");
+const mongoose = require('mongoose');
+const status = require("http-status");
+const Movie = require("../models/Movie");
+const Rent = require("../models/Rent");
 const APIFeatuers = require("../utils/apiFeatures");
-const _ 		  = require('lodash');
+const _ = require('lodash');
 
-const { logger } 			   				   = require("../helper/logger");
-const { response, decode_jwt, error_response } = require("../helper/helper");
+const {
+	logger
+} = require("../helper/logger");
+const {
+	response,
+	decode_jwt,
+	error_response
+} = require("../helper/helper");
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -112,81 +118,91 @@ exports.movie_list = async (req, res) => {
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
 		const isRented = Movie.aggregate([{
-			$lookup: {
-				from: "generes",
-				localField: "genre",
-				foreignField: "_id",
-				as: "genreData"
-			}
-		},
-		{
-			$lookup: {
-				from: "rents",
-				localField: "_id",
-				foreignField: "movies.movie",
-				as: "rentData"
-			}
-		},
-		{
-			$project:{
-				_id: 1,
-				rating: 1,
-				isDeleted: 1,
-				deletedAt: 1,
-				title: 1,
-				genre: 1,
-				genreData: 1,
-				stock: 1,
-				rate: 1,
-				createdAt: 1,
-				updatedAt: 1,
-				rentData: 1,
-				"modRentData": {$filter: {
-					input: '$rentData',
-					as: 'rd',
-					cond: {$eq: ['$$rd.user', mongoose.Types.ObjectId(user.id)]}
-				}},
+				$lookup: {
+					from: "generes",
+					localField: "genre",
+					foreignField: "_id",
+					as: "genreData"
+				}
+			},
+			{
+				$lookup: {
+					from: "rents",
+					localField: "_id",
+					foreignField: "movies.movie",
+					as: "rentData"
+				}
+			},
+			{
+				$project: {
+					_id: 1,
+					rating: 1,
+					trailerUrl: 1,
+					thumbnail: 1,
+					year: 1,
+					isDeleted: 1,
+					deletedAt: 1,
+					title: 1,
+					genre: 1,
+					genreData: 1,
+					stock: 1,
+					rate: 1,
+					createdAt: 1,
+					updatedAt: 1,
+					rentData:1,
+					"modRentData": {
+						$filter: {
+							input: '$rentData',
+							as: 'rd',
+							cond: {
+								$eq: ['$$rd.user', mongoose.Types.ObjectId(user.id)]
+							}
+						}
+					},
 
-			}
-		},
-		{
-			"$unwind": {
-				path: "$modRentData",
-				preserveNullAndEmptyArrays: true
-			}
-		},
-		{
-			$project: {
-				_id: 1,
-				rating: 1,
-				isDeleted: 1,
-				deletedAt: 1,
-				title: 1,
-				genre: 1,
-				genreData: 1,
-				stock: 1,
-				rate: 1,
-				createdAt: 1,
-				updatedAt: 1,
-				modRentData:1,
-				"isRented": {
-					$cond: {
-						if: {
-							$and: [{
-								$eq: [{
-									$arrayElemAt: ["$modRentData.movies.canceled", 0]
-								}, false]
-							}, {
-								$eq: ["$modRentData.user", mongoose.Types.ObjectId(user.id)]
-							}]
-						},
-						then: true,
-						else: false
+				}
+			},
+			{
+				"$unwind": {
+					path: "$modRentData",
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$project: {
+					_id: 1,
+					rating: 1,
+					isDeleted: 1,
+					deletedAt: 1,
+					title: 1,
+					trailerUrl: 1,
+					thumbnail: 1,
+					year: 1,
+					genre: 1,
+					genreData: 1,
+					stock: 1,
+					rate: 1,
+					createdAt: 1,
+					updatedAt: 1,
+					modRentData: 1,
+					"isRented": {
+						$cond: {
+							if: {
+								$and: [{
+									$eq: [{
+										$arrayElemAt: ["$modRentData.movies.canceled", 0]
+									}, false]
+								}, {
+									$eq: ["$modRentData.user", mongoose.Types.ObjectId(user.id)]
+								}]
+							},
+							then: true,
+							else: false
+						}
 					}
 				}
 			}
-		}
-	]);
+		]);
 
 		const features = new APIFeatuers(isUser ? isRented : Movie.find().populate("genre"), req.query)
 			.sort()
