@@ -52,22 +52,32 @@ exports.create_movie = async (req, res) => {
 
 exports.view_movie = async (req, res) => {
 	try {
+		let isRented, result;
+
 		const movieId      = req.params.movie_id;
 		let	movie 		   = await Movie.findById(movieId);
+		const decoded      = decode_jwt(req);
 
-		const user 		   = decode_jwt(req).id;
-		const getUser 	   = await Rent.findOne({ user });
-		const movieContent = getUser.movies.find(e => e.movie.toString() === movieId.toString());
-		const isRented 	   = (movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true));
+		if( decoded.role == 'user')
+		{
+			const user		   = decoded.id;
+			const getUser 	   = await Rent.findOne({ user });
+			const movieContent = getUser.movies.find(e => e.movie.toString() === movieId.toString());
+			isRented 	       = (movieContent != undefined && !(movieContent.expired === true || movieContent.canceled === true));
+			result			   = { ...movie.toObject(), isRented };
+		} else {
+			result = movie;
+		}
+
 
 		if (!movie)
 		{
-			return res.status(status.OK).json(response(false, movie, 'Movie is not available'));
+			return res.status(status.OK).json(response(false, result, 'Movie is not available'));
 		}
 
 		const msg = "Here is your movie";
 
-		return res.status(status.OK).json(response(true, { ...movie.toObject(), isRented } , msg));
+		return res.status(status.OK).json(response(true, result , msg));
 
 	} catch (err) {
 		return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
