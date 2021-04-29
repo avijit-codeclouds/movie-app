@@ -12,6 +12,17 @@ const response = exports.response = (success = null, result = null, message = nu
     };
 };
 
+exports.error_response = ( error ) => {
+
+    logger.error("Type: "+error.name+", Message: "+error.message+", Stack: "+ error.stack);
+
+    return {
+        success: false,
+        result: {},
+        message: error.message
+    };
+};
+
 exports.handle_validation_error = (req, res, next) => {
     const errors = validationResult(req);
 

@@ -1,7 +1,7 @@
 const status = require("http-status");
 const mongoose = require('mongoose');
 const Review = require("../models/Reviews");
-const {decode_jwt, response} = require("../helper/helper");
+const {decode_jwt, response, error_response} = require("../helper/helper");
 
 exports.add_review = async (req, res) => {
     try {
@@ -52,8 +52,7 @@ exports.view_review = async ( req, res) => {
         return res.status(status.OK).json(response(true, demo, demo ? 'Reviews has been fetched' : 'No Review found' ));
 
     } catch(err) {
-        console.log(err);
-        return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
+        return res.status(status.INTERNAL_SERVER_ERROR).json(error_response(err));
     }
 
 

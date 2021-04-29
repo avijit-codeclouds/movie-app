@@ -1,18 +1,13 @@
 require("dotenv").config();
-const mongoose = require('mongoose');
-const status = require("http-status");
-const Movie = require("../models/Movie");
-const Rent = require("../models/Rent");
+const mongoose    = require('mongoose');
+const status 	  = require("http-status");
+const Movie 	  = require("../models/Movie");
+const Rent 	      = require("../models/Rent");
 const APIFeatuers = require("../utils/apiFeatures");
-const {
-	response,
-	decode_jwt
-} = require("../helper/helper");
-const {
-	logger
-} = require("../helper/logger");
-const Genere = require('../models/Genere')
-const _ = require('lodash');
+const _ 		  = require('lodash');
+
+const { response, decode_jwt } = require("../helper/helper");
+const { logger } 			   = require("../helper/logger");
 
 exports.create_movie = async (req, res) => {
 	try {
@@ -178,11 +173,6 @@ exports.movie_list = async (req, res) => {
 
 		const movie = await features.query;
 
-		// await Promise.all(_.map(movie, async (x) => {
-		// 	return _.assign(x, {
-		// 		genre: await Genere.findById(x.genre)
-		// 	});
-		// }))
 		return res.status(status.OK).json(response(true, movie, msg));
 	} catch (err) {
 		return res.status(status.INTERNAL_SERVER_ERROR).json(response(false, err.message));
@@ -190,6 +180,7 @@ exports.movie_list = async (req, res) => {
 };
 
 exports.delete_movie = async (req, res) => {
+
 	try {
 		let movie = await Movie.findById(req.params.movie_id);
 
