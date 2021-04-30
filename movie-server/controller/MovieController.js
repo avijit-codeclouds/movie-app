@@ -141,7 +141,9 @@ exports.movie_list = async (req, res) => {
 		const msg = "movie list";
 		const user = decode_jwt(req);
 		const isUser = user.role == 'user';
-		const isRented = Movie.aggregate([{
+		const isRented = Movie.aggregate([
+			{ $match : { isDeleted : false } },
+			{
 				$lookup: {
 					from: "generes",
 					localField: "genre",
