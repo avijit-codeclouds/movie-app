@@ -515,6 +515,159 @@
             }
           }
         }
+      },
+      "/api/v1/reviews/{movie_id}": {
+        "get": {
+          "tags": [
+            "reviews"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "Get reviews by movie_id",
+          "operationId": "get reviews by movie_id",
+          "parameters": [
+            {
+              "name": "movie_id",
+              "in": "path",
+              "description": "A unique integer value identifying the reviews of a movie.",
+              "required": true,
+              "type": "string"
+            }
+            
+          ],
+          "responses": {
+            "200": {
+              "description": "Succesful operation"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "reviews"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "create a new review",
+          "operationId": "create a new review",
+          "parameters": [
+            {
+              "name": "movie_id",
+              "in": "path",
+              "description": "A unique integer value identifying movie.",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/reviewPost"
+              }
+            }
+          ],
+          "responses": {
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/wishlist": {
+        "get": {
+          "tags": [
+            "wishlist"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "Get wish list",
+          "operationId": "get wish list",
+          "responses": {
+            "200": {
+              "description": "Succesful operation"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "wishlist"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "create a new wishlist",
+          "operationId": "create a new wishlist",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/wishlistPost"
+              }
+            }
+          ],
+          "responses": {
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/wishlist/{movie_id}": {
+        "delete": {
+          "tags": [
+            "wishlist"
+          ],
+          "consumes":"application/json",
+          "produces":"application/json",
+          "security":[
+            {
+              "bearerAuth":[]
+            }
+          ],
+          "summary": "delete wishlist data by id",
+          "operationId": "delete wishlist data by id",
+          "parameters": [
+            {
+                "name": "movie_id",
+                "in": "path",
+                "description": "A unique integer value identifying this movie.",
+                "required": true,
+                "type": "string"
+            }
+          ],
+          "responses": {
+            "500": {
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
       }
     },
     "responses":{
@@ -570,6 +723,20 @@
           }
         }
       },
+      "wishlistPost": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string"
+          },
+          "movies": {
+            "type": "string"
+          },
+          "checked": {
+            "type": "boolean"
+          }
+        }
+      },
       "rentCreatePost": {
         "type": "object",
         "properties": {
@@ -578,6 +745,17 @@
           },
           "movie": {
             "type": "string"
+          }
+        }
+      },
+      "reviewPost":{
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "string"
+          },
+          "isAnonymous" : {
+            "type": "boolean"
           }
         }
       },
